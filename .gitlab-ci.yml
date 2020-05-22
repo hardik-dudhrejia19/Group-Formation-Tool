@@ -22,6 +22,19 @@ test:
     tags:
         - grad
 
+develop:
+    stage: deploy
+    image: ruby:latest
+    script:
+        - apt-get update -qy
+        - apt-get install -y ruby-dev 
+        - gem install dpl
+        - dpl --provider=heroku --app=$HEROKU_APPNAME_DEVELOP --api-key=$HEROKU_APIKEY
+    only:
+        - develop
+    tags:
+        - dalfcs_gitlab_docker_ci
+
 deploy:
     stage: deploy
     image: ruby:latest
@@ -29,8 +42,7 @@ deploy:
         - apt-get update -qy
         - apt-get install -y ruby-dev 
         - gem install dpl
-        - echo $HEROKU_APPNAME
-        - dpl --provider=heroku --app=$HEROKU_APPNAME --api-key=$HEROKU_APIKEY
+        - dpl --provider=heroku --app=$HEROKU_APPNAME_DEPLOY --api-key=$HEROKU_APIKEY
     only:
         - master
     tags:
