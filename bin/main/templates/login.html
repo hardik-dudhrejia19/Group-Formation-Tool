@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{/login}" th:object="${user}" method="post">
+		<div>
+			<label>Banner ID</label>
+			<input type="text" id="bannerid" name="bannerID"/>
+		</div>
+		<br/>
+		<div>
+			<label>Password</label>
+			<input type="password" id="password" name="password"/>
+		</div>
+		<p th:if="${invalidcred}" class="danger"> Wrong Banner ID or Password </p>	
+		
+		<br/>
+		<input type="submit" value="Log In"> &nbsp;&nbsp;
+		<input type="button" value="Sign Up">
+		<br/><br/>
+		<a href="@{/forgotPassword}">Forgot your password? Click here</a>
+	</form>
+</body>
+</html>
