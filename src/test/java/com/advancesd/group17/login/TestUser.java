@@ -8,10 +8,13 @@ import com.advancesd.group17.login.model.User;
 
 class TestUser {
 	
+	User u = new User();
+	
+	IDaoLogin dl = new MockDaoLogin();
+	
 	@Test
 	public void testgetBannerID()
 	{
-		User u = new User();
 		u.setBannerID("1234");
 		
 		assertEquals("1234",u.getBannerID());
@@ -20,7 +23,6 @@ class TestUser {
 	@Test
 	public void testsetBannerID()
 	{
-		User u = new User();
 		u.setBannerID("1234");
 		
 		assertEquals("1234", u.getBannerID());
@@ -29,7 +31,6 @@ class TestUser {
 	@Test
 	public void testgetPassword()
 	{
-		User u = new User();
 		u.setPassword("aaaa");
 		
 		assertEquals("aaaa",u.getPassword());
@@ -38,23 +39,22 @@ class TestUser {
 	@Test
 	public void testsetPassword()
 	{
-		User u = new User();
 		u.setPassword("aaaa");
 		
 		assertEquals("aaaa",u.getPassword());
 	}
 	
+	@Test
 	public void testservicelogin()
-	{
-		User u = new User();
+	{		
+		String page = u.serviceLogin("B00836202", "poojan", dl);
+		assertEquals("Home",page);
 		
-		String expectedpage = u.serviceLogin("admin", "admin");
+		page = u.serviceLogin("B0081355", "poojadan", dl);
+		assertEquals("login",page);
 		
-		assertEquals("Home",expectedpage);
-		
-		expectedpage = u.serviceLogin("admin","asfafs");
-		
-		assertEquals("login",expectedpage);
+		page = u.serviceLogin("admin", "admin", dl);
+		assertEquals("Admin",page);
 	}
 
 }

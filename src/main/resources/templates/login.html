@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link href="webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Login</title>
 </head>
 <body>
 	<form th:action="@{/login}" th:object="${user}" method="post">
@@ -18,10 +19,11 @@
 		<p th:if="${invalidcred}" class="danger"> Wrong Banner ID or Password </p>	
 		
 		<br/>
-		<input type="submit" value="Log In"> &nbsp;&nbsp;
-		<input type="button" value="Sign Up">
+		<input type="submit" value="Log In" class="btn btn-normal btn-primary"> &nbsp;&nbsp;
+		<input type="button" value="Sign Up" class="btn btn-normal btn-success">
 		<br/><br/>
-		<a href="@{/forgotPassword}">Forgot your password? Click here</a>
+		<a th:href="@{/forgotPassword}">Forgot your password? Click here</a>
 	</form>
+	<script src="webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>

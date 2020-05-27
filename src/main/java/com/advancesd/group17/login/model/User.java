@@ -1,7 +1,6 @@
 package com.advancesd.group17.login.model;
 
-import com.advancesd.group17.login.DaoLogin;
-import com.advancesd.group17.login.Ilogin;
+import com.advancesd.group17.login.IDaoLogin;
 
 public class User {
 
@@ -22,11 +21,9 @@ public class User {
 		this.password = password;
 	}
 	
-	Ilogin dl = new DaoLogin();
-	
-	public String serviceLogin(String bannerID, String password)
+	public String serviceLogin(String bannerID, String password, IDaoLogin dl)
 	{
-		return dl.loginAuthentication(bannerID,password).toString();
+		return dl.loginAuthentication(bannerID,password);
 	}
 	
 }
