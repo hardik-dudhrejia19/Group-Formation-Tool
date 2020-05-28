@@ -9,9 +9,7 @@ import com.advancesd.group17.login.model.User;
 class TestUser {
 	
 	User u = new User();
-	
-	IDaoLogin dl = new MockDaoLogin();
-	
+		
 	@Test
 	public void testgetBannerID()
 	{
@@ -42,19 +40,6 @@ class TestUser {
 		u.setPassword("aaaa");
 		
 		assertEquals("aaaa",u.getPassword());
-	}
-	
-	@Test
-	public void testservicelogin()
-	{		
-		String page = u.serviceLogin("B00836202", "poojan", dl);
-		assertEquals("Home",page);
-		
-		page = u.serviceLogin("B0081355", "poojadan", dl);
-		assertEquals("login",page);
-		
-		page = u.serviceLogin("admin", "admin", dl);
-		assertEquals("Admin",page);
 	}
 
 }
