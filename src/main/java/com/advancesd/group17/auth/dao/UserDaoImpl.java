@@ -5,7 +5,6 @@ import com.advancesd.group17.database.DatabaseConfig;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDao {
@@ -15,7 +14,7 @@ public class UserDaoImpl implements UserDao {
 
         try (
                 Connection con = DatabaseConfig.getInstance().getConnection();
-                CallableStatement statement = con.prepareCall("{ call createuser(?, ?, ?, ?, ?, ?) }")
+                CallableStatement statement = con.prepareCall("{ call createuser(?, ?, ?, ?, ?) }")
         ) {
             statement.setString(1, user.getBannerId());
             statement.setString(2, user.getFirstName());
