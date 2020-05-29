@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Sign Up</title>
+</head>
+<body>
+	<form th:action="@{/signup}" method="post">
+		<div th:style="|margin-left:30px;margin-top:30px|">
+			<label>Banner ID</label>
+			<input type="text" id="bannerid" name="bannerid"/>
+		<br/>
+			<label>First Name</label>
+			<input type="text" id="firstname" name="firstname"/>
+		<br/>
+			<label>Last Name</label>
+			<input type="text" id="lastname" name="lastname"/>
+		<br/>
+			<label>Email</label>
+			<input type="text" id="email" name="email"/>
+		<br/>
+			<label>Password</label>
+			<input type="password" id="password" name="password"/>
+		<br/>
+			<label>Confirm Password</label>
+			<input type="text" id="confirmpassowrd" name="confirmpassowrd"/>
+		<br/>
+		<p th:if="${errorMsg}" class="danger">  </p>
+		
+		<br/>
+		<input type="submit" value="Sign Up" class="btn btn-small btn-success"> &nbsp;&nbsp;
+		<br/><br/>
+		<a th:href="@{/login}">Login Here</a>
+		</div>
+	</form>
+	<script src="webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
