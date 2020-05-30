@@ -1,20 +1,29 @@
 package com.advancesd.group17.course.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import com.advancesd.group17.course.dao.CourseDao;
+import com.advancesd.group17.course.models.Course;
 
-import com.advancesd.group17.course.model.Course;
-
-@Service
-public interface CourseService {
+public class CourseService {
 	
-	public List<Course> addCourse(String courseName);
-	
-	public List<Course> deleteCourse(String courseName);
-	
-	public Course updateCourse(String courseName, String updatedCourseName);
-	
-	public List<Course> listOfCourses();
+	public List<Course> listcourses(String bannerid,CourseDao dc)
+	{
+		String userrole = dc.getuserrolebybannerid(bannerid);
+		
+		List<Course> crs = new ArrayList<>();
+		
+		if("Guest".equals(userrole))
+		{
+			crs = dc.getallcourses();
+		}
+		else
+		{
+			crs = dc.getcoursesbybannerid(bannerid);
+		}
+		
+		return crs;
+	}
 
 }

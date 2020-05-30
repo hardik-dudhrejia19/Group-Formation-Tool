@@ -1,32 +1,103 @@
 package com.advancesd.group17.auth.dao;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.database.DatabaseConfig;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
+public class UserDaoImpl implements UserDao{
+	
+	@Override
+	public boolean loginAuthentication(User usr)
+	{
+		try
+		(
+			Connection conn = DatabaseConfig.getInstance().getConnection();
+		    CallableStatement st = conn.prepareCall("{CALL userauthentication(?,?)}");	
+		)
+		{
+			st.setString(1, usr.getBannerId());
+		    st.setString(2, usr.getPassword());
+		    
+		    ResultSet rs = st.executeQuery();
+		    		    
+		    if(rs.next())
+		    {
+			    st.close();
+		    	return true;
+		    }
+		    else
+		    {
+			    st.close();
+		    	return false;
+		    }
+		}
+		catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }	
+	}
 
-public class UserDaoImpl implements UserDao {
+	@Override
+	public boolean isalreadyuser(User u) 
+	{	
+		try
+		(	
+			Connection conn = DatabaseConfig.getInstance().getConnection();
+		    CallableStatement st = conn.prepareCall("{CALL isalreadyuser(?)}");
+		)    
+		{
+			st.setString(1, u.getBannerId());
+		    
+		    ResultSet rs = st.executeQuery();
+		    		    
+		    if(rs.next())
+		    {
+			    st.close();
+		    	return true;
+		    }
+		    else
+		    {
+			    st.close();
+		    	return false;
+		    }
 
-    @Override
-    public boolean createUser(User user) {
+		}
+		catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }			
+	}
 
-        try (
-                Connection con = DatabaseConfig.getInstance().getConnection();
-                CallableStatement statement = con.prepareCall("{ call createuser(?, ?, ?, ?, ?) }")
-        ) {
-            statement.setString(1, user.getBannerId());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getLastName());
-            statement.setString(4, user.getEmail());
-            statement.setString(5, user.getPassword());
-            statement.execute();
-        } catch (SQLException ex) {
+	@Override
+	public boolean registeruser(User u) 
+	{
+		try
+		(
+			Connection conn = DatabaseConfig.getInstance().getConnection();
+		    CallableStatement st = conn.prepareCall("{CALL createuser(?,?,?,?,?)}");
+		)
+		{    
+		    st.setString(1, u.getBannerId());
+		    st.setString(2, u.getFirstName());
+		    st.setString(3, u.getLastName());
+		    st.setString(4, u.getEmail());
+		    st.setString(5, u.getPassword());
+		    
+		    st.executeQuery();
+		    
+			st.close();
+		 
+		}
+		catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         }
-        return true;
-    }
+		
+		return true;
+	}
 
 }
