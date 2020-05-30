@@ -24,7 +24,8 @@
 			</div>
 			
 			<div th:style="|position: absolute; left: 0px; top: 230px;|">
-				<p th:if="${invalidcred}" class="text-danger"> Wrong Banner ID or Password </p>	
+				<p th:if="${invalidcred}" class="text-danger"> Wrong Banner ID or Password </p>
+				<p th:if="${invalidData}" class="text-danger">Data Invalid</p>	
 			</div>
 			
 			<br/>

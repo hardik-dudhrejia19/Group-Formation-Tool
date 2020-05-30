@@ -53,8 +53,6 @@ public class MockCourseDao implements CourseDao {
 			l.add(c);
 			c.setCoursename("Adv Cloud");
 			l.add(c);
-			c.setCoursename("SC");
-			l.add(c);
 			
 			return l;
 		}

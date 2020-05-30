@@ -29,7 +29,7 @@ public class MockUserDao implements UserDao{
 			return true;
 		}
 		
-		if("krutarth".equals(u.getBannerId()))
+		if("abcd".equals(u.getBannerId()))
 		{
 			return false;
 		}
@@ -37,10 +37,19 @@ public class MockUserDao implements UserDao{
 		return false;
 	}
 
-//	@Override
-//	public boolean registeruser(User u) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
+	@Override
+	public boolean registeruser(User u) {
+		
+		if("B00000000".equals(u.getBannerId()) && 
+		   "abc.xyz@mail.com".equals(u.getEmail()) &&
+		   "abc".equals(u.getFirstName()) &&
+		   "xyz".equals(u.getLastName()) && 
+		   "abcxyz".equals(u.getPassword()))
+		{
+			return true;
+		}
+		else
+			return false;
+	}
 
 }

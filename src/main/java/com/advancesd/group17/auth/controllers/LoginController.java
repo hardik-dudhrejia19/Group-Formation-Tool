@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.advancesd.group17.auth.dao.UserDao;
 import com.advancesd.group17.auth.dao.UserDaoImpl;
 import com.advancesd.group17.auth.models.User;
-import com.advancesd.group17.auth.services.LoginService;
+import com.advancesd.group17.auth.services.LoginServiceImpl;
 
 @Controller
 public class LoginController {
@@ -23,10 +23,17 @@ public class LoginController {
 	public String submitLogin(User usr, Model model)
 	{
 		UserDao dl = new UserDaoImpl();
-		LoginService s = new LoginService();
+		LoginServiceImpl s = new LoginServiceImpl();
+				
+		if(usr.getBannerId() == null || usr.getBannerId().isEmpty() || "".equals(usr.getBannerId()) ||
+           usr.getPassword() == null || usr.getPassword().isEmpty() || "".equals(usr.getPassword()) )
+		{
+			model.addAttribute("invalidData", true);
+			return "login";
+		}
 		
 		boolean authentication = s.userauthentication(usr,dl);
-		
+
 		if(!authentication)
 		{
 			model.addAttribute("invalidcred",true);

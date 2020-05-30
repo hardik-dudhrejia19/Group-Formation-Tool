@@ -6,9 +6,9 @@ import com.advancesd.group17.course.models.Course;
 
 public interface CourseDao {
 
-	String getuserrolebybannerid(String bannerid);
+	public String getuserrolebybannerid(String bannerid);
 	
-	List<Course> getallcourses();
+	public List<Course> getallcourses();
 	
-	List<Course> getcoursesbybannerid(String bannerid);
+	public List<Course> getcoursesbybannerid(String bannerid);
 }

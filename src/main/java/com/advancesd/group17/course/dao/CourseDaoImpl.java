@@ -3,6 +3,7 @@ package com.advancesd.group17.course.dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,12 @@ public class CourseDaoImpl implements CourseDao {
 		String rolename = null;
 
 		try
-		{
+		(
 			Connection conn = DatabaseConfig.getInstance().getConnection();
-			
-	    	String query = "{CALL getuserrolebybannerid(?)}";
-	    	
-		    CallableStatement st = conn.prepareCall(query);
-		    
-	    	st.setString(1, bannerid);
+		    CallableStatement st = conn.prepareCall("{CALL getuserrolebybannerid(?)}");
+		)
+		{
+			st.setString(1, bannerid);
 	    	ResultSet rs = st.executeQuery();
 	    	
 	    	if(rs.next())
@@ -34,13 +33,11 @@ public class CourseDaoImpl implements CourseDao {
 		    	return rolename;
 			}
 		}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
-		
+		catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
 		return rolename;
-		
 	}
 
 	@Override
@@ -49,13 +46,11 @@ public class CourseDaoImpl implements CourseDao {
 	    List<Course> crs = new ArrayList<>(); 
 
 		try
-		{
+		(
 			Connection conn = DatabaseConfig.getInstance().getConnection();
-		   
-		    String query = "{CALL getallcourses()}";
-		    
-		    CallableStatement st = conn.prepareCall(query);
-		    
+		    CallableStatement st = conn.prepareCall("{CALL getallcourses()}");
+		)
+		{
 		    ResultSet rs = st.executeQuery();
 		    		    		    
 		    while(rs.next())
@@ -69,11 +64,10 @@ public class CourseDaoImpl implements CourseDao {
 		    return crs;
 		   
 		}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-			
-		}
+		catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
 		return crs;
 	}
 
@@ -83,13 +77,11 @@ public class CourseDaoImpl implements CourseDao {
 		List<Course> crs = new ArrayList<>(); 
 
 		try
-		{
+		(
 			Connection conn = DatabaseConfig.getInstance().getConnection();
-		   
-		    String query = "{CALL getcoursesbybannerid(?)}";
-		    
-		    CallableStatement st = conn.prepareCall(query);
-		    
+		    CallableStatement st = conn.prepareCall("{CALL getcoursesbybannerid(?)}");
+		)
+		{
 		    st.setString(1, bannerid);
 		    
 		    ResultSet rs = st.executeQuery();
@@ -106,10 +98,9 @@ public class CourseDaoImpl implements CourseDao {
 		    return crs;
 		   
 		}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
+		catch (SQLException ex) {
+            ex.printStackTrace();
+        }
 		
 		return crs;
 	}
