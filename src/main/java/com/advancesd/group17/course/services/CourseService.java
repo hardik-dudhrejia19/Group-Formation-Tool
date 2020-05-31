@@ -5,25 +5,19 @@ import java.util.List;
 
 import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
 
 public class CourseService {
 	
-	public List<Course> listcourses(String bannerid,CourseDao dc)
+	public List<String> getuserrolebybannerid(String bannerid,CourseDao cd)
 	{
-		String userrole = dc.getuserrolebybannerid(bannerid);
-		
-		List<Course> crs = new ArrayList<>();
-		
-		if("Guest".equals(userrole))
-		{
-			crs = dc.getallcourses();
-		}
-		else
-		{
-			crs = dc.getcoursesbybannerid(bannerid);
-		}
-		
-		return crs;
+			return cd.getuserrolebybannerid(bannerid);
+	}
+
+
+	public List<CourseAndRole> getcoursesandrolesbybannerid(String bannerid,CourseDao cd)
+	{
+		return cd.getcoursesandrolesbybannerid(bannerid);
 	}
 
 }
