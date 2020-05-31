@@ -20,6 +20,7 @@ public class CourseController {
 	{
 		CourseDao dc = new CourseDaoImpl();
 		CourseService lc = new CourseService();
+
 		
 		List<Course> listofcourses = lc.listcourses(bannerid, dc);
 		
