@@ -3,7 +3,7 @@ package com.advancesd.group17.auth;
 import com.advancesd.group17.auth.dao.UserDao;
 import com.advancesd.group17.auth.models.User;
 
-public class MockUserDao implements UserDao{
+public class MockUserDaoImpl implements UserDao{
 
 	@Override
 	public boolean loginAuthentication(User u) {
@@ -12,13 +12,10 @@ public class MockUserDao implements UserDao{
 		{
 			return true;
 		}
-		
-		if("poojan".equals(u.getBannerId()) && "admin".equals(u.getPassword()))
+		else
 		{
-			return false;
-		}
-		
-		return false;
+			return false;	
+		}	
 	}
 
 	@Override
@@ -28,13 +25,10 @@ public class MockUserDao implements UserDao{
 		{
 			return true;
 		}
-		
-		if("abcd".equals(u.getBannerId()))
+		else
 		{
 			return false;
 		}
-		
-		return false;
 	}
 
 	@Override
@@ -50,6 +44,38 @@ public class MockUserDao implements UserDao{
 		}
 		else
 			return false;
+	}
+
+	@Override
+	public boolean checkuserbyemail(User u) {
+		
+		if("abc.xyz@gmail.com".equals(u.getEmail()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	@Override
+	public User getusercred(String banner) {
+		
+		User u = new User();
+		
+		if("B00836202".equals(banner))
+		{
+			u.setEmail("patelpoojan602@gmail.com");
+			u.setPassword("poojan");
+			return u;
+		}
+		else
+		{
+			u.setEmail("krutarth");
+			u.setPassword("krutarth");
+			return u;
+		}
 	}
 
 }

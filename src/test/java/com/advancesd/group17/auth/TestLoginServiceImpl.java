@@ -9,9 +9,9 @@ import com.advancesd.group17.auth.dao.UserDao;
 import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.auth.services.LoginServiceImpl;
 
-class TestLoginService {
+class TestLoginServiceImpl {
 
-	UserDao ud = new MockUserDao();
+	UserDao ud = new MockUserDaoImpl();
 	LoginServiceImpl ls = new LoginServiceImpl();
 	
 	@Test

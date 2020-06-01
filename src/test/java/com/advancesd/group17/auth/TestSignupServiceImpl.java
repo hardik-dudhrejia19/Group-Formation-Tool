@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import com.advancesd.group17.auth.dao.UserDao;
 import com.advancesd.group17.auth.models.User;
 
-class TestSignupService {
+class TestSignupServiceImpl {
 
 	User u = new User();
-	UserDao ud = new MockUserDao();
+	UserDao ud = new MockUserDaoImpl();
 	
 	@Test
 	public void TestIsAlreadyUser()
