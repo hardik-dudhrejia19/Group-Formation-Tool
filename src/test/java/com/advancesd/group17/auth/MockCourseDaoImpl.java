@@ -6,7 +6,7 @@ import java.util.List;
 import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.models.Course;
 
-public class MockCourseDao implements CourseDao {
+public class MockCourseDaoImpl implements CourseDao {
 	
 	@Override
 	public List<Course> getallcourses() 

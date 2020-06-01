@@ -21,17 +21,17 @@ public class SignupController {
 	}
 	
 	@PostMapping("/signup")
-	public String submitsignup(@RequestParam("confirmpassowrd") String passwordConfirm, User usr, Model model)
+	public String submitsignup(@RequestParam("confirmpassowrd") String passwordConfirm, User user, Model model)
 	{
 		UserDao dl = new UserDaoImpl();
 		SignupServiceImpl s = new SignupServiceImpl();
 		
-		if (usr.getBannerId() == null || usr.getBannerId().isEmpty() || "".equals(usr.getBannerId()) ||
-            usr.getEmail() == null || usr.getEmail().isEmpty() || "".equals(usr.getEmail()) ||
-            usr.getFirstName() == null || usr.getFirstName().isEmpty() || "".equals(usr.getFirstName()) ||
-            usr.getLastName() == null || usr.getLastName().isEmpty() || "".equals(usr.getLastName()) ||
-            usr.getPassword() == null || usr.getPassword().isEmpty() || "".equals(usr.getPassword()) ||
-            !usr.getPassword().equals(passwordConfirm) 
+		if (user.getBannerId() == null || user.getBannerId().isEmpty() || "".equals(user.getBannerId()) ||
+            user.getEmail() == null || user.getEmail().isEmpty() || "".equals(user.getEmail()) ||
+            user.getFirstName() == null || user.getFirstName().isEmpty() || "".equals(user.getFirstName()) ||
+            user.getLastName() == null || user.getLastName().isEmpty() || "".equals(user.getLastName()) ||
+            user.getPassword() == null || user.getPassword().isEmpty() || "".equals(user.getPassword()) ||
+            !user.getPassword().equals(passwordConfirm) 
            )
 		{
 			model.addAttribute("invalidData", true);
@@ -39,16 +39,20 @@ public class SignupController {
         }
 		else
 		{
-			if(s.IsAlreadyUser(usr,dl))
+			if(s.IsAlreadyUser(user,dl))
 			{
 				model.addAttribute("alreadyuserexist",true);
 				return "signup"; 
 			}
 			
-			s.registeruser(usr, dl);
-			
-			model.addAttribute("registrationsuccess",true);
-			
+			if(s.registeruser(user, dl))
+			{
+				model.addAttribute("registrationsuccess",true);
+			}
+			else
+			{
+				model.addAttribute("registrationfailed",true);
+			}
 			return "signup";
 		}
 	}

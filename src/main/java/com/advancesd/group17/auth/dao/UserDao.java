@@ -10,4 +10,7 @@ public interface UserDao {
 	
     public boolean registeruser(User u);
 	
+    public boolean checkuserbyemail(User u);
+    
+    public User getusercred(String email);
 }

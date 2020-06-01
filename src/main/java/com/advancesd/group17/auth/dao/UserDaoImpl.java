@@ -100,4 +100,63 @@ public class UserDaoImpl implements UserDao{
 		return true;
 	}
 
+	@Override
+	public boolean checkuserbyemail(User u) {
+		
+		try
+		(
+			Connection conn = DatabaseConfig.getInstance().getConnection();
+		    CallableStatement st = conn.prepareCall("{CALL checkuserbyemail(?)}");
+		)
+		{    
+		    st.setString(1, u.getEmail());
+		    
+		    ResultSet rs = st.executeQuery();
+		    
+		    if(rs.next())
+	    	{
+				st.close();
+		    	return true;
+	    	}
+		    else
+		    {
+				st.close();
+		    	return false;
+		    } 
+		}
+		catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+	}
+
+	@Override
+	public User getusercred(String banner) {
+		
+	    User u = new User();
+
+		try
+		(	
+			Connection conn = DatabaseConfig.getInstance().getConnection();
+		    CallableStatement st = conn.prepareCall("{CALL getusercred(?)}");
+		)    
+		{
+			st.setString(1, banner);
+		    
+		    ResultSet rs = st.executeQuery();
+		    		    
+		    if(rs.next())
+		    {
+		    	u.setEmail(rs.getString("user_email"));
+		    	u.setPassword(rs.getString("user_password"));
+			    st.close();
+		    }
+		    st.close();
+		    return u;
+		}
+		catch (SQLException ex) {
+            ex.printStackTrace();
+            return u;
+        }			
+	}
 }

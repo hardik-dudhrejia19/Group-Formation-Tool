@@ -11,9 +11,9 @@ import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.models.Course;
 import com.advancesd.group17.course.services.CourseService;
 
-class TestCourseService {
+class TestCourseServiceImpl {
 
-	CourseDao dc = new MockCourseDao();
+	CourseDao dc = new MockCourseDaoImpl();
 	CourseService cs = new CourseService();
 	
 	@Test
