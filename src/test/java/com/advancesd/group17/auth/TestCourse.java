@@ -14,7 +14,6 @@ class TestCourse {
 	public void TestgetCourseid()
 	{
 		c.setCourseid(1);
-		
 		assertEquals(1, c.getCourseid());
 	}
 	

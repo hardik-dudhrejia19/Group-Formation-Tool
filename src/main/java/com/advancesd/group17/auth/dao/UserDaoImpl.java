@@ -32,6 +32,7 @@ public class UserDaoImpl implements UserDao{
 		    else
 		    {
 			    st.close();
+			    conn.close();
 		    	return false;
 		    }
 		}
@@ -57,11 +58,13 @@ public class UserDaoImpl implements UserDao{
 		    if(rs.next())
 		    {
 			    st.close();
+			    conn.close();
 		    	return true;
 		    }
 		    else
 		    {
 			    st.close();
+			    conn.close();
 		    	return false;
 		    }
 
@@ -90,13 +93,14 @@ public class UserDaoImpl implements UserDao{
 		    st.executeQuery();
 		    
 			st.close();
+			conn.close();
 		 
 		}
 		catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         }
-		
+
 		return true;
 	}
 

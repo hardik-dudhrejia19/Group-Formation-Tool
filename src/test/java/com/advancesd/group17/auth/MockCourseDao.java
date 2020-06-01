@@ -3,8 +3,10 @@ package com.advancesd.group17.auth;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
 
 public class MockCourseDao implements CourseDao {
 	
@@ -26,16 +28,19 @@ public class MockCourseDao implements CourseDao {
 	}
 
 	@Override
-	public String getuserrolebybannerid(String bannerid) {
-		
+	public List<String> getuserrolebybannerid(String bannerid) {
+
+		List<String> list = new ArrayList<>();
 		if("B00836202".equals(bannerid))
 		{
-			return "TA";
+			list.add("TA");
+			return list;
 		}
 		
 		if("B00000000".equals(bannerid))
 		{
-			return "Guest";
+			list.add("Guest");
+			return list;
 		}
 		
 		return null;
@@ -53,7 +58,6 @@ public class MockCourseDao implements CourseDao {
 			l.add(c);
 			c.setCoursename("Adv Cloud");
 			l.add(c);
-			
 			return l;
 		}
 		
@@ -63,6 +67,22 @@ public class MockCourseDao implements CourseDao {
 		}
 		
 		return l;		
+	}
+
+	@Override
+	public List<CourseAndRole> getcoursesandrolesbybannerid(String bannerid) {
+		return null;
+	}
+
+
+	@Override
+	public boolean isalreadyuser(String bannerid) {
+		return false;
+	}
+
+	@Override
+	public String getcoursebycourseid(int courseid) {
+		return null;
 	}
 
 }

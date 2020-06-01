@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.course.models.Course;
 import com.advancesd.group17.course.models.CourseAndRole;
 import com.advancesd.group17.database.DatabaseConfig;
@@ -32,10 +33,12 @@ public class CourseDaoImpl implements CourseDao {
 		    	rolename.add(rs.getString("role_name"));
 			}
 	    	st.close();
+	    	conn.close();
 		}
 		catch (SQLException ex) {
             ex.printStackTrace();
         }
+
 
 		return rolename;
 	}
@@ -60,6 +63,7 @@ public class CourseDaoImpl implements CourseDao {
 		    	crs.add(c);
 		    }
 		    st.close();
+		    conn.close();
 
 		    return crs;
 
@@ -94,6 +98,7 @@ public class CourseDaoImpl implements CourseDao {
 		    }
 
 		    st.close();
+		    conn.close();
 
 		    return crs;
 
@@ -112,10 +117,10 @@ public class CourseDaoImpl implements CourseDao {
 
 		try
 		{
-			Connection conn = DatabaseConfig.getInstance().getConnection();
-			CallableStatement st = conn.prepareCall("{CALL getcoursesandrolesbybannerid(?)}");
-			st.setString(1,bannerid);
-			ResultSet rs = st.executeQuery();
+			Connection connection = DatabaseConfig.getInstance().getConnection();
+			CallableStatement statement = connection.prepareCall("{CALL getcoursesandrolesbybannerid(?)}");
+			statement.setString(1,bannerid);
+			ResultSet rs = statement.executeQuery();
 			while(rs.next())
 			{
 				CourseAndRole cr = new CourseAndRole();
@@ -124,12 +129,61 @@ public class CourseDaoImpl implements CourseDao {
 				cr.setRole(rs.getString(3));
 				crsrole.add(cr);
 			}
-			st.close();
+			statement.close();
+			connection.close();
 		}
 		catch (SQLException ex)
 		{
 			ex.printStackTrace();
 		}
 		return crsrole;
+	}
+
+
+
+	@Override
+	public boolean isalreadyuser(String bannerid)
+	{
+		boolean isalreadyuser = false;
+		try
+		{
+			Connection connection = DatabaseConfig.getInstance().getConnection();
+			CallableStatement statement = connection.prepareCall("{CALL isalreadyuser(?)}");
+			statement.setString(1, bannerid);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next())
+			{
+				isalreadyuser = true;
+			}
+			statement.close();
+			connection.close();
+		}
+		catch (SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+		return isalreadyuser;
+	}
+
+	@Override
+	public String getcoursebycourseid(int courseid)
+	{
+		String coursename="";
+		try
+		{
+			Connection connection = DatabaseConfig.getInstance().getConnection();
+			CallableStatement statement = connection.prepareCall("{CALL getcoursenamebycourseid(?)}");
+			statement.setInt(1,courseid);
+			ResultSet rs = statement.executeQuery();
+			rs.next();
+			coursename = rs.getString(1);
+			statement.close();
+			connection.close();
+		}
+		catch (SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+		return coursename;
 	}
 }
