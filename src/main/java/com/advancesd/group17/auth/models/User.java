@@ -1,5 +1,7 @@
 package com.advancesd.group17.auth.models;
 
+import java.util.Set;
+
 public class User {
 
     private String bannerId;
@@ -7,6 +9,7 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
+    private Set<Role> roles;
 
     public User() {
     }
@@ -57,6 +60,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
