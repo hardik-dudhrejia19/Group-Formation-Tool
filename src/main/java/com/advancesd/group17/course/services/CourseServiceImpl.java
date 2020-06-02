@@ -1,6 +1,7 @@
 package com.advancesd.group17.course.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,47 +10,55 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.advancesd.group17.course.dao.CourseDao;
+import com.advancesd.group17.course.dao.CourseDaoImpl;
 import com.advancesd.group17.course.model.Course;
+
+import static com.advancesd.group17.utils.Constants.COURSE_DESC_FIELD;
+import static com.advancesd.group17.utils.Constants.COURSE_CREDITS_FIELD;
 
 @Service
 public class CourseServiceImpl implements CourseService{
 	
-	private List<Course> courseList = new ArrayList<Course> ();
-	private int count = 0;
 	
 	private static final Logger LOGGER=LoggerFactory.getLogger(CourseServiceImpl.class);
 
 	@Override
-	public List<Course> addCourse(String courseName) {
-		courseList.add(new Course(count, courseName));
-		count++;
-		return courseList;
+	public Course addCourse(String courseName, HashMap<String, Object> courseParameters) {
+		String courseDesc = (String) courseParameters.get(COURSE_DESC_FIELD);
+		Integer courseCredits = Integer.parseInt(courseParameters.get(COURSE_CREDITS_FIELD).toString());
+		
+		Course course = new Course();
+		course.setCourseCredits(courseCredits);
+		course.setCourseDesc(courseDesc);
+		course.setCourseName(courseName);
+		CourseDao courseDao = new CourseDaoImpl();
+		courseDao.addNewCourse(course);
+		return course;
 	}
 
 	@Override
-	public List<Course> deleteCourse(String courseName) {
-		courseList = courseList.stream().filter(course -> !course.getCourseName().equals(courseName)).collect(Collectors.toList());
-		LOGGER.info("" + courseList);
-		return courseList;
-	}
-
-	@Override
-	public Course updateCourse(String courseName, String updatedCourseName) {
-		List <Course> updatedCourseList = courseList.stream().peek(course -> {
-			if (course.getCourseName().equals(courseName)) {
-				course.setCourseName(updatedCourseName);
-			}
-		}).collect(Collectors.toList());
-		if (CollectionUtils.isEmpty(updatedCourseList)) {
-			return null;
-		}
-		return updatedCourseList.get(0);
+	public Boolean deleteCourse(Integer courseId) {
+		CourseDao courseDao = new CourseDaoImpl();
+		Boolean courseDeleted = courseDao.deleteCourse(courseId);
+		LOGGER.info("Course Deleted" + courseDeleted);
+		return courseDeleted;
 	}
 
 	@Override
 	public List<Course> listOfCourses() {
 		
-		return courseList;
+		CourseDao courseDao = new CourseDaoImpl();
+		
+		return courseDao.getAllCourses();
+	}
+
+	@Override
+	public Course courseDetails(Integer courseId) {
+		CourseDao courseDao = new CourseDaoImpl();
+		Course course = courseDao.getCourseDetails(courseId);
+		LOGGER.info("Course Details" + course);
+		return course;
 	}
 
 }

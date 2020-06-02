@@ -35,12 +35,12 @@ public class CourseTests {
 	public void getIdTest() {
 		LOGGER.info("Running getIdTest");
 		Course c = new Course(1, courseName);
-		assertEquals(courseName, c.getId());
+		assertEquals(courseName, c.getCourseId());
 	}
 
 	public void setIdTest(int id) {
 		LOGGER.info("Running setIdTest");
 		Course c = new Course();
-		assertEquals(1, c.getId());
+		assertEquals(1, c.getCourseId());
 	}
 }

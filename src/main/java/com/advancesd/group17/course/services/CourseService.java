@@ -1,5 +1,6 @@
 package com.advancesd.group17.course.services;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -9,12 +10,12 @@ import com.advancesd.group17.course.model.Course;
 @Service
 public interface CourseService {
 	
-	public List<Course> addCourse(String courseName);
+	public Course addCourse(String courseName, HashMap<String, Object> courseParameters);
 	
-	public List<Course> deleteCourse(String courseName);
-	
-	public Course updateCourse(String courseName, String updatedCourseName);
+	public Boolean deleteCourse(Integer id);
 	
 	public List<Course> listOfCourses();
+	
+	public Course courseDetails(Integer id);
 
 }
