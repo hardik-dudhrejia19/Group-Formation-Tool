@@ -1,10 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymleaf.org/">
 <head>
-<meta charset="UTF-8">
-<title>Landing Page</title>
+	<meta charset="UTF-8">
+	<title>Home Page</title>
+	<link href="webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
-	<h1>Welcome Page</h1>
+
+	<div class="container">
+
+
+		<div th:if="${isGuest}==true">
+			<h1 >Welcome to Group Formation tool</h1>
+			<table class="table">
+				<thead class="thead-dark">
+				<tr>
+					<th scope="col">CourseID</th>
+					<th scope="col">CourseName</th>
+					<th scope="col">Description</th>
+					<th scope="col">Credits</th>
+				</tr>
+				</thead>
+				<tbody>
+				</tr>
+				<th:block th:each="course : ${allcourses}">
+					<tr>
+						<td th:text="${course.getId()}"></td>
+						<td th:text="${course.getCoursename()}"></td>
+						<td th:text="${course.getCoursedescription()}"></td>
+						<td th:text="${course.getCredits()}"></td>
+					</tr>
+				</th:block>
+
+				</tbody>
+			</table>
+		</div>
+
+
+		<div th:if="${isStudent}==true">
+			<h1 >Courses as Student</h1>
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">CourseID</th>
+						<th scope="col">Name</th>
+						<th scope="col">Role</th>
+						<th scope="col">View</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tr>
+				<th:block th:each="course : ${coursesandroles}">
+					<tr th:if="${course.getRole()}=='Student'">
+						<td th:text="${course.getCourseid()}"></td>
+						<td th:text="${course.getCoursename()}"></td>
+						<td th:text="${course.getRole()}"></td>
+						<td><a th:href="'/home/student/description?courseid='+${course.getCourseid()}">
+							<button class="btn btn-primary">View Course</button></a></td>
+					</tr>
+				</th:block>
+
+				</tbody>
+			</table>
+		</div>
+
+
+		<div th:if="${isTA}==true">
+
+			<h1 >Courses as TA</h1>
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">CourseID</th>
+						<th scope="col">Name</th>
+						<th scope="col">Role</th>
+						<th scope="col">View</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tr>
+				<th:block th:each="course : ${coursesandroles}">
+					<tr th:if="${course.getRole()}=='TA'" >
+						<td th:text="${course.getCourseid()}"></td>
+						<td th:text="${course.getCoursename()}"></td>
+						<td th:text="${course.getRole()}"></td>
+						<td><a th:href="'/home/ta/description?courseid='+${course.getCourseid()}">
+							<button class="btn btn-primary">View Course</button></a></td>
+					</tr>
+				</th:block>
+				</tbody>
+			</table>
+		</div>
+
+
+
+		<div th:if="${isInstructor}==true">
+
+			<h1 >Courses as Instructor</h1>
+			<table class="table">
+				<thead class="thead-dark">
+				<tr>
+					<th scope="col">CourseID</th>
+					<th scope="col">Name</th>
+					<th scope="col">Role</th>
+					<th scope="col">View</th>
+				</tr>
+				</thead>
+				<tbody>
+				</tr>
+				<th:block th:each="course : ${coursesandroles}">
+					<tr th:if="${course.getRole()=='Instructor'}" >
+						<td th:text="${course.getCourseid()}"></td>
+						<td th:text="${course.getCoursename()}"></td>
+						<td th:text="${course.getRole()}"></td>
+						<td><a th:href="'/home/ta/description?courseid='+${course.getCourseid()}">
+							<button class="btn btn-primary">View Course</button></a></td>
+					</tr>
+				</th:block>
+				</tbody>
+			</table>
+		</div>
+
+
+	</div>
+
 </body>
 </html>
