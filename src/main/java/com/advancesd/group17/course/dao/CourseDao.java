@@ -2,7 +2,8 @@ package com.advancesd.group17.course.dao;
 
 import java.util.List;
 
-import com.advancesd.group17.course.model.Course;
+import com.advancesd.group17.course.models.Course;
+
 
 public interface CourseDao {
 	
@@ -13,5 +14,8 @@ public interface CourseDao {
 	Boolean deleteCourse(Integer courseId);
 	
 	Course getCourseDetails(Integer courseId);
-
+	
+	List<Course> getcoursesbybannerid(String bannerid);
 }
+
+

@@ -4,12 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
-import org.springframework.context.annotation.Configuration;
-
 public class DatabaseConfig {
-	
-	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_17_DEVINT?useSSL=false";
     private static final String USER = "CSCI5308_17_DEVINT_USER";
     private static final String PASSWORD = "CSCI5308_17_DEVINT_17284";
@@ -36,6 +33,4 @@ public class DatabaseConfig {
     public Connection getConnection() {
         return connection;
     }
-
-
 }

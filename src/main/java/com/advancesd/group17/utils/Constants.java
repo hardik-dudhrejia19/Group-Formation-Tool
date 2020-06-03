@@ -10,4 +10,5 @@ public class Constants {
 	public static final String COURSE_CREDITS_FIELD = "courseCredits";
 	public static final String COURSE_DESC_FIELD = "courseDesc";
 	public static final String INSTRUCTOR_FIELD = "instructor";
+
 }
