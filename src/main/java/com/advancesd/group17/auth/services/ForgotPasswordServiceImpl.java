@@ -1,21 +1,21 @@
 package com.advancesd.group17.auth.services;
 
-import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.auth.dao.UserDao;
+import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.email.MailConfig;
-import com.advancesd.group17.users.model.User;
 
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
 	@Override
-	public boolean checkuserbybanner(User u, AuthDao ud) 
+	public boolean checkuserbybanner(User u, UserDao ud) 
 	{	
-		return ud.isAlreadyUser(u);
+		return ud.isalreadyuser(u);
 	}
 	
 	@Override
-	public boolean mailsent(String banner, AuthDao ud) 
+	public boolean mailsent(String banner, UserDao ud) 
 	{	
-		User u = ud.getUserCred(banner);
+		User u = ud.getusercred(banner);
 		
 		try
 		{

@@ -1,12 +1,12 @@
 package com.advancesd.group17.auth.services;
 
-import com.advancesd.group17.auth.dao.AuthDao;
-import com.advancesd.group17.users.model.User;
+import com.advancesd.group17.auth.dao.UserDao;
+import com.advancesd.group17.auth.models.User;
 
 public interface SignupService {
 
-	public boolean IsAlreadyUser(User user, AuthDao dl);
+	public boolean IsAlreadyUser(User user, UserDao dl);
 	
-	public boolean registeruser(User user, AuthDao dl);
+	public boolean registeruser(User user, UserDao dl);
 	
 }

@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.advancesd.group17.auth.dao.AuthDao;
-import com.advancesd.group17.auth.dao.AuthDaoImpl;
+import com.advancesd.group17.auth.dao.UserDao;
+import com.advancesd.group17.auth.dao.UserDaoImpl;
+import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.auth.services.SignupServiceImpl;
-import com.advancesd.group17.users.model.User;
 
 @Controller
 public class SignupController {
@@ -23,7 +23,7 @@ public class SignupController {
 	@PostMapping("/signup")
 	public String submitsignup(@RequestParam("confirmpassowrd") String passwordConfirm, User user, Model model)
 	{
-		AuthDao dl = new AuthDaoImpl();
+		UserDao dl = new UserDaoImpl();
 		SignupServiceImpl s = new SignupServiceImpl();
 		
 		if (user.getBannerId() == null || user.getBannerId().isEmpty() || "".equals(user.getBannerId()) ||

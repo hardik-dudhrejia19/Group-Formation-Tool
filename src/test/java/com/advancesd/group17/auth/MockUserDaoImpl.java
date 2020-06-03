@@ -1,9 +1,9 @@
 package com.advancesd.group17.auth;
 
-import com.advancesd.group17.auth.dao.AuthDao;
-import com.advancesd.group17.users.model.User;
+import com.advancesd.group17.auth.dao.UserDao;
+import com.advancesd.group17.auth.models.User;
 
-public class MockUserDaoImpl implements AuthDao{
+public class MockUserDaoImpl implements UserDao{
 
 	@Override
 	public boolean loginAuthentication(User u) {
@@ -19,7 +19,7 @@ public class MockUserDaoImpl implements AuthDao{
 	}
 
 	@Override
-	public boolean isAlreadyUser(User u) {
+	public boolean isalreadyuser(User u) {
 		
 		if("admin".equals(u.getBannerId()))
 		{
@@ -32,7 +32,7 @@ public class MockUserDaoImpl implements AuthDao{
 	}
 
 	@Override
-	public boolean registerUser(User u) {
+	public boolean registeruser(User u) {
 		
 		if("B00000000".equals(u.getBannerId()) && 
 		   "abc.xyz@mail.com".equals(u.getEmail()) &&
@@ -47,7 +47,7 @@ public class MockUserDaoImpl implements AuthDao{
 	}
 
 	@Override
-	public boolean checkUserByEmail(User u) {
+	public boolean checkuserbyemail(User u) {
 		
 		if("abc.xyz@gmail.com".equals(u.getEmail()))
 		{
@@ -60,7 +60,7 @@ public class MockUserDaoImpl implements AuthDao{
 	}
 
 	@Override
-	public User getUserCred(String banner) {
+	public User getusercred(String banner) {
 		
 		User u = new User();
 		

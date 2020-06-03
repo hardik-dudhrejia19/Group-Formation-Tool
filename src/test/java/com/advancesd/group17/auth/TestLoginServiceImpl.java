@@ -5,13 +5,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.auth.dao.UserDao;
+import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.auth.services.LoginServiceImpl;
-import com.advancesd.group17.users.model.User;
 
 class TestLoginServiceImpl {
 
-	AuthDao ud = new MockUserDaoImpl();
+	UserDao ud = new MockUserDaoImpl();
 	LoginServiceImpl ls = new LoginServiceImpl();
 	
 	@Test
@@ -20,10 +20,11 @@ class TestLoginServiceImpl {
 		User u = new User();
 		u.setBannerId("admin");
 		u.setPassword("admin");
+		assertTrue(ls.userauthentication(u, ud));
 		
 		u.setBannerId("poojan");
 		u.setPassword("admin");
-		assertFalse(ud.loginAuthentication(u));
+		assertFalse(ls.userauthentication(u, ud));
 	}
 	
 	@Test

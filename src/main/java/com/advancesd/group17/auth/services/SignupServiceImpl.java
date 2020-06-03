@@ -1,17 +1,17 @@
 package com.advancesd.group17.auth.services;
 
-import com.advancesd.group17.auth.dao.AuthDao;
-import com.advancesd.group17.users.model.User;
+import com.advancesd.group17.auth.dao.UserDao;
+import com.advancesd.group17.auth.models.User;
 
 public class SignupServiceImpl {
 
-	public boolean IsAlreadyUser(User user, AuthDao dl)
+	public boolean IsAlreadyUser(User user, UserDao dl)
 	{
-		return dl.isAlreadyUser(user);
+		return dl.isalreadyuser(user);
 	}
 	
-	public boolean registeruser(User user, AuthDao dl)
+	public boolean registeruser(User user, UserDao dl)
 	{
-		return dl.registerUser(user);
+		return dl.registeruser(user);
 	}
 }
