@@ -30,5 +30,7 @@ out/
 /nbdist/
 /.nb-gradle/
 
+#Bin files
+bin/
 ### VS Code ###
 .vscode/

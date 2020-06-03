@@ -4,11 +4,18 @@ import java.util.List;
 
 import com.advancesd.group17.course.models.Course;
 
-public interface CourseDao {
 
-	public String getuserrolebybannerid(String bannerid);
+public interface CourseDao {
 	
-	public List<Course> getallcourses();
+	List<Course> getAllCourses();
 	
-	public List<Course> getcoursesbybannerid(String bannerid);
+	Course addNewCourse(Course course);
+	
+	Boolean deleteCourse(Integer courseId);
+	
+	Course getCourseDetails(Integer courseId);
+	
+	List<Course> getcoursesbybannerid(String bannerid);
 }
+
+

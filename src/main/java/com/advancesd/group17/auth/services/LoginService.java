@@ -1,12 +1,13 @@
 package com.advancesd.group17.auth.services;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.models.User;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.users.model.User;
 
 public interface LoginService {
 
-	public boolean userauthentication(User usr, UserDao dl);
-	
-	public boolean Isadmin(String bannerid, UserDao dl);
+	public ModelAndView userAuthentication(User usr, AuthDao dl, Model model);
 	
 }

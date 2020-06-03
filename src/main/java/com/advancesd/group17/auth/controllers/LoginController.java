@@ -1,53 +1,44 @@
 package com.advancesd.group17.auth.controllers;
 
+import static com.advancesd.group17.utils.Constants.REDIRECT;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.dao.UserDaoImpl;
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.auth.dao.AuthDaoImpl;
 import com.advancesd.group17.auth.services.LoginServiceImpl;
+import com.advancesd.group17.users.model.User;;
+
 
 @Controller
 public class LoginController {
+	
+	private Logger log = LoggerFactory.getLogger(LoginController.class);
 
 	@GetMapping("/login")
 	public String login(Model model)
 	{
+		log.info("Entered LoginController.login()");
 		return "login";
 	}
 	
 	@PostMapping("/login")
-	public String submitLogin(User usr, Model model)
+	public ModelAndView submitLogin(User usr, Model model)
 	{
-		UserDao dl = new UserDaoImpl();
-		LoginServiceImpl s = new LoginServiceImpl();
+		log.info("Entered LoginController.submitLogin()");
+		AuthDao dl = new AuthDaoImpl();
+		LoginServiceImpl loginServiceImpl = new LoginServiceImpl();
+		//s.userautentication(usr,dl, model);
 				
-		if(usr.getBannerId() == null || usr.getBannerId().isEmpty() || "".equals(usr.getBannerId()) ||
-           usr.getPassword() == null || usr.getPassword().isEmpty() || "".equals(usr.getPassword()) )
-		{
-			model.addAttribute("invalidData", true);
-			return "login";
-		}
 		
-		boolean authentication = s.userauthentication(usr,dl);
-
-		if(!authentication)
-		{
-			model.addAttribute("invalidcred",true);
-			return "login"; 
-		}
+		return loginServiceImpl.userAuthentication(usr,dl, model);
 		
-		if(s.Isadmin(usr.getBannerId(), dl))
-		{
-			return "redirect:/admin?bannerid="+usr.getBannerId();
-		}
-		else
-		{
-			return "redirect:/home?bannerid="+usr.getBannerId();
-		}
 	}
 	
 }
