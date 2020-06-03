@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Course Creation</title>
@@ -34,29 +34,19 @@
 				<thead class="thead-dark">
 					<tr class="d-flex">
 						<th class="col-1"></th>
-						<th class="col-1">SNo</th>
-						<th class="col-3">User Id</th>
-						<th class="col-5">User Name</th>
+						<th class="col-3">BannerID</th>
+						<th class="col-6">First Name</th>
+						<th class="col-8">Last Name</th>
 					</tr>
 				</thead>
-				<tr class="d-flex">
-					<td class="col-1"><input type="radio" th:name="instructor" th:value="1"/></td>
-					<th class="col-1">1</th>
-					<td class="col-3">B008778</td>
-					<td class="col-5">Rumi Singh</td>
-				</tr>
-				<tr class="d-flex">
-					<td class="col-1"><input type="radio" th:name="instructor" th:value="2"/></td>
-					<th class="col-1">1</th>
-					<td class="col-3">B008778</td>
-					<td class="col-5">Rumi Singh</td>
-				</tr>
-				<tr class="d-flex">
-					<td class="col-1"><input type="radio" th:name="instructor" th:value="3"/></td>
-					<th class="col-1">1</th>
-					<td class="col-3">B008778</td>
-					<td class="col-5">Rumi Singh</td>
-				</tr>
+				<div th:each="user: ${userlistforinstructor}">
+					<tr class="d-flex">
+						<td class="col-1"><input type="radio" th:name="instructor" th:value="${user.bannerId}"/></td>
+						<td class="col-3"><div th:text="${user.bannerId}"/></td>
+						<td class="col-6"><div th:text="${user.firstName}"/></td>
+						<td class="col-8"><div th:text="${user.lastName}"/></td>
+					</tr>
+				</div>
 			</table>
 			<table>
 				<tr class="d-flex">
@@ -67,7 +57,6 @@
 						<a th:href="@{'/admin/home/'}" class="btn btn-warning" role="">Cancel Course Creation</a>
 					</td>
 				</tr>
-			</div>
 			</table>
 		</form>
 	</div>

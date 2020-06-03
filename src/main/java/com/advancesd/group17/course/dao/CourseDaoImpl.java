@@ -127,10 +127,7 @@ public class CourseDaoImpl implements CourseDao {
 			CallableStatement stmt = connection.prepareCall("{CALL deletecoursebyid(?)}");
 			stmt.setInt(1, courseId);
 			stmt.execute();
-			ResultSet resultSet = stmt.executeQuery();
-			stmt = connection.prepareCall("{CALL delete_course_from_user_course_role(?)}");
-			stmt.setInt(1, courseId);
-			resultSet = stmt.executeQuery();
+			stmt.executeQuery();
 			connection.close();
 			return Boolean.TRUE;
 

@@ -58,7 +58,7 @@ public class CourseController {
 	public String addCourse(@PathVariable(required = true) String courseName, @RequestParam HashMap<String, Object> inputMap) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		log.info("Entered CourseController.addCourse with model " + gson.toJson(inputMap));
-
+		
 		CourseService courseService = new CourseServiceImpl();
 		courseService.addCourse(courseName, inputMap);
 		return REDIRECT + ADMIN_HOME_PAGE;
