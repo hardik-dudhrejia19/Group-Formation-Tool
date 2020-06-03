@@ -151,9 +151,15 @@ public class CourseController {
 			return "coursedescription";
 		}
 
+		if(file.getBytes().length==0)
+		{
+			model.addAttribute("uploadstatusfail", "Cannot upload Empty file");
+			return "coursedescription";	
+		}
+		
 		byte[] bytes = file.getBytes();
 		newstudents = lc.readFile(bytes);
-		sendmailtostudents = userDao.getNewStudents(newstudents);
+		sendmailtostudents = lc.getNewStudents(newstudents, userDao);
 		isValid = lc.enrollStudentsToCourse(courseid, newstudents, cd);
 
 		for (NewStudent student : sendmailtostudents) {
