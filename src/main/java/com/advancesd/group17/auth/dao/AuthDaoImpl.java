@@ -5,10 +5,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.database.DatabaseConfig;
+import com.advancesd.group17.user.models.User;
 
-public class UserDaoImpl implements UserDao{
+public class AuthDaoImpl implements AuthDao{
 	
 	@Override
 	public boolean loginAuthentication(User usr)
@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean isalreadyuser(User u) 
+	public boolean isAlreadyUser(User u) 
 	{	
 		try
 		(	

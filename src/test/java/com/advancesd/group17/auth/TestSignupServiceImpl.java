@@ -5,22 +5,22 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.user.models.User;
 
 class TestSignupServiceImpl {
 
 	User u = new User();
-	UserDao ud = new MockUserDaoImpl();
+	AuthDao ud = new MockAuthDaoImpl();
 	
 	@Test
 	public void TestIsAlreadyUser()
 	{
 		u.setBannerId("admin");
-		assertTrue(ud.isalreadyuser(u));
+		assertTrue(ud.isAlreadyUser(u));
 		
 		u.setBannerId("abcd");
-		assertFalse(ud.isalreadyuser(u));
+		assertFalse(ud.isAlreadyUser(u));
 	}
 	
 	@Test

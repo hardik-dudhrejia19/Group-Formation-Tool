@@ -1,66 +1,76 @@
 package com.advancesd.group17.course.models;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.advancesd.group17.user.models.User;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseTest {
 
-    Course course = new Course();
+	private String courseName = "CSCI5490";
+	private String courseDesc = "Advance Software Development";
+	private Integer courseCredits = 3;
+	private String bannerId = "121";
 
-    @Test
-    void getId()
-    {
-        course.setId(1);
-        assertEquals(1,course.getId());
-    }
+	private static final Logger LOGGER = LoggerFactory.getLogger(CourseTest.class);
 
-    @Test
-    void setId()
-    {
-        course.setId(3);
-        assertEquals(3,course.getId());
-    }
+	@Test
+	public void setCourseNameTest() {
+		LOGGER.info("Running setCourseNameTest");
+		Course c = new Course();
+		c.setCourseName(courseName);
+		assertEquals(courseName, c.getCourseName());
+	}
 
-    @Test
-    void getCoursename()
-    {
-        course.setCoursename("Technology Innovation");
-        assertEquals("Technology Innovation",course.getCoursename());
-    }
+	@Test
+	public void getCourseNameTest() {
+		LOGGER.info("Running getCourseNameTest");
+		Course c = new Course(1, courseName);
+		assertEquals(courseName, c.getCourseName());
+	}
 
-    @Test
-    void setCoursename()
-    {
-        course.setCoursename("Cloud Computing");
-        assertEquals("Cloud Computing",course.getCoursename());
-    }
+	public void getIdTest() {
+		LOGGER.info("Running getIdTest");
+		Course c = new Course(1, courseName);
+		assertEquals(courseName, c.getCourseId());
+	}
 
-    @Test
-    void getCoursedescription()
-    {
-        course.setCoursedescription("Advanced course in Masters");
-        assertEquals("Advanced course in Masters",course.getCoursedescription());
-    }
+	public void setIdTest(int id) {
+		LOGGER.info("Running setIdTest");
+		Course c = new Course();
+		assertEquals(1, c.getCourseId());
+	}
 
-    @Test
-    void setCoursedescription()
-    {
-        course.setCoursedescription("Advanced course in Graduate");
-        assertEquals("Advanced course in Graduate",course.getCoursedescription());
-    }
+	public void getCourseCreditsTest() {
+		LOGGER.info("Running getCourseCreditsTests");
+		Course c = new Course(1, courseName, courseDesc, courseCredits, null);
+		assertEquals(3, c.getCourseCredits());
+	}
 
-    @Test
-    void getCredits()
-    {
-        course.setCredits(3);
-        assertEquals(3,course.getCredits());
-    }
+	public void setCourseCreditsTests(int credits) {
+		LOGGER.info("Running setCourseCreditsTests");
+		Course c = new Course();
+		c.setCourseCredits(3);
+		assertEquals(3, c.getCourseCredits());
+	}
 
-    @Test
-    void setCredits()
-    {
-        course.setCredits(1);
-        assertEquals(1,course.getCredits());
-    }
+	public void getCourseInstructorTest() {
+		LOGGER.info("Running getCourseInstructorTest");
+		User user = new User();
+		user.setBannerId(bannerId);
+		Course course = new Course(1, courseName, courseDesc, courseCredits, user);
+		assertEquals(course.getInstructor().getBannerId(), bannerId);
+	}
+
+	public void setCourseInstructorTest() {
+		LOGGER.info("Running setCourseInstructorTest");
+		User user = new User();
+		user.setBannerId(bannerId);
+		Course course = new Course();
+		course.setInstructor(user);
+		assertEquals(course.getInstructor().getBannerId(), bannerId);
+	}
 }

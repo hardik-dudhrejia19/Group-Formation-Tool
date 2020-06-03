@@ -1,4 +1,4 @@
-package com.advancesd.group17.course.models;
+package com.advancesd.group17.user.models;
 
 public class NewStudent {
     private String bannerId;

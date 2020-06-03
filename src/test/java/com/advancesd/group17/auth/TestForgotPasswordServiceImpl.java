@@ -5,14 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.auth.dao.AuthDao;
 import com.advancesd.group17.auth.services.ForgotPasswordService;
 import com.advancesd.group17.auth.services.ForgotPasswordServiceImpl;
+import com.advancesd.group17.user.models.User;
 
 class TestForgotPasswordServiceImpl {
 
-	UserDao ud = new MockUserDaoImpl();
+	AuthDao ud = new MockAuthDaoImpl();
 	ForgotPasswordService fps = new ForgotPasswordServiceImpl();
 	
 	@Test

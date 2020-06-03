@@ -2,9 +2,15 @@ package com.advancesd.group17.course.services;
 
 import com.advancesd.group17.course.dao.MockCourseDao;
 import com.advancesd.group17.course.dao.CourseDao;
+import com.advancesd.group17.course.models.Course;
 import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.course.models.NewStudent;
+import com.advancesd.group17.user.models.NewStudent;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +19,49 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CourseServiceTest {
 
-    CourseDao cd = new MockCourseDao();
+    static CourseDao courseDao = null;
+    
     CourseServiceImpl cs = new CourseServiceImpl();
+    
+    private static final Logger log = LoggerFactory.getLogger(CourseServiceImpl.class);
+    
+    @BeforeAll
+	public static void setUp() {
+		log.info("Setting the environment");
+		courseDao = new MockCourseDao();
+	}
+	
+	@AfterEach
+	public void tearDown() {
+		log.info("Resetting the environment");
+		courseDao = new MockCourseDao();
+	}
+	
+	@Test
+	public void addCourseTest() {
+		log.info("Running addCourseTest");
+		Course course = new Course();
+		course.setCourseName("Advance Web");
+		int intialListSize = courseDao.getAllCourses().size();
+		Course addedCourse = courseDao.addNewCourse(course);
+		assertEquals(intialListSize + 1, courseDao.getAllCourses().size());
+	}
+	
+	@Test
+	public void deleteCourseTest() {
+		log.info("Running deleteCourseTest");
+		int intialListSize = courseDao.getAllCourses().size();
+		Boolean courseDeleted = courseDao.deleteCourse(1);
+		assertTrue(courseDeleted);
+	}
+	
+	@Test
+	public void courseDetailsTest() {
+		log.info("Running getCourseByBannerIdCase2Test");
+		Course course = courseDao.getCourseDetails(1);
+		assertEquals(3, course.getCourseCredits());
+	}
 
-    @Test
-    void getUserRoleByBannerIdTest()
-    {
-       List<String> roles = new ArrayList<>();
-       roles.add("TA");
-       assertEquals(roles,cd.getUserRoleByBannerid("B00836202"));
-       assertNotEquals("Guest",cd.getUserRoleByBannerid("B00000000"));
-    }
 
     @Test
     void getCoursesAndRolesByBannerIdTest()
@@ -36,30 +74,23 @@ class CourseServiceTest {
         cr.setRole("Student");
         crs.add(cr);
 
-        assertEquals(crs.size(),cd.getCoursesAndRolesByBannerId("B00835071").size());
-        assertNotEquals(crs.size(),cd.getCoursesAndRolesByBannerId("B0000000").size());
-    }
-
-    @Test
-    void isAlreadyUserTest() {
-        assertTrue(cd.isAlreadyUser("B00835071"));
-        assertFalse(cd.isAlreadyUser("B99999999"));
+        assertEquals(crs.size(),courseDao.getCoursesAndRolesByBannerId("B00835071").size());
+        assertNotEquals(crs.size(),courseDao.getCoursesAndRolesByBannerId("B0000000").size());
     }
 
     @Test
     void getCourseByCourseIdTest()
     {
-        assertEquals("Advance SDC",cd.getCourseByCourseId(1));
-        assertEquals("Machine Learning",cd.getCourseByCourseId(3));
-        assertNotEquals("Web Development",cd.getCourseByCourseId(2));
-        assertNotEquals("Communication skills",cd.getCourseByCourseId(5));
+        assertEquals("Advance SDC",courseDao.getCourseByCourseId(1));
+        assertNotEquals("Web Development",courseDao.getCourseByCourseId(2));
+        assertNotEquals("Communication skills",courseDao.getCourseByCourseId(5));
     }
 
     @Test
     void assignTaTest()
     {
-        assertTrue(cd.assignTa(3,"B00835071"));
-        assertFalse(cd.assignTa(1,"B00835071"));
+        assertTrue(courseDao.assignTa(3,"B00835071"));
+        assertFalse(courseDao.assignTa(1,"B00835071"));
     }
 
     @Test
@@ -72,7 +103,7 @@ class CourseServiceTest {
         student.setLastName("mocklname");
         student.setEmail("mock@gmai.com");
         newtudents.add(student);
-        assertTrue(cd.enrollStudentsToCourse(1, newtudents));
+        assertTrue(courseDao.enrollStudentsToCourse(1, newtudents));
     }
 
     @Test
@@ -87,7 +118,7 @@ class CourseServiceTest {
     @Test
     void getAllCoursesTest()
     {
-        assertEquals(cd.getAllCourses().size(),cd.getAllCourses().size());
+        assertEquals(2, courseDao.getAllCourses().size());
     }
 
 }
