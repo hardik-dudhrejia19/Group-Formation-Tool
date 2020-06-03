@@ -1,20 +1,7 @@
 package com.advancesd.group17.course.services;
 
-import com.advancesd.group17.course.dao.CourseDao;
-import com.advancesd.group17.course.dao.CourseDaoImpl;
-import com.advancesd.group17.course.models.Course;
-import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.user.models.NewStudent;
-
 import static com.advancesd.group17.utils.Constants.COURSE_CREDITS_FIELD;
 import static com.advancesd.group17.utils.Constants.COURSE_DESC_FIELD;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -24,6 +11,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.advancesd.group17.course.dao.CourseDao;
+import com.advancesd.group17.course.dao.CourseDaoImpl;
+import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.user.dao.UserDao;
+import com.advancesd.group17.user.models.NewStudent;
 
 public class CourseServiceImpl implements CourseService {
 
@@ -88,15 +93,20 @@ public class CourseServiceImpl implements CourseService {
 			String line = "";
 			br.readLine();
 			while ((line = br.readLine()) != null) {
+				
 				NewStudent student = new NewStudent();
+	
+					String[] fields = line.split(",");
 
-				String[] fields = line.split(",");
-				student.setFirstName(fields[0]);
-				student.setLastName(fields[1]);
-				student.setBannerId(fields[2]);
-				student.setEmail(fields[3]);
-
-				newstudents.add(student);
+					if(fields.length!=0)
+					{
+						student.setFirstName(fields[0]);
+						student.setLastName(fields[1]);
+						student.setBannerId(fields[2]);
+						student.setEmail(fields[3]);
+		
+						newstudents.add(student);
+					}
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -145,6 +155,18 @@ public class CourseServiceImpl implements CourseService {
 		}
 
 		return true;
+	}
+	
+	@Override
+	public List<NewStudent> getNewStudents(List<NewStudent> newstudents, UserDao ud) {
+		List<NewStudent> sendmailtostudents = new ArrayList<>();
+
+		for (NewStudent student : newstudents) {
+			if (!ud.isAlreadyUser(student.getBannerId()) && !ud.isEmailExist(student.getEmail())) {
+				sendmailtostudents.add(student);
+			}
+		}
+		return sendmailtostudents;
 	}
 
 }

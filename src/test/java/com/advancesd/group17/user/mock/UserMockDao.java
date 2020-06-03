@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.advancesd.group17.user.dao.UserDao;
-import com.advancesd.group17.user.models.NewStudent;
 
 public class UserMockDao implements UserDao {
 
@@ -36,9 +35,11 @@ public class UserMockDao implements UserDao {
 	}
 
 	@Override
-	public List<NewStudent> getNewStudents(List<NewStudent> newstudents) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isEmailExist(String email) {
+		if(email.equals("test@test.com"))
+			return true;
+		else
+			return false;
 	}
 
 }

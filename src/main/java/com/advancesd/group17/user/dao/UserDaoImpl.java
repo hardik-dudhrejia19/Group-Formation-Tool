@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.advancesd.group17.database.DatabaseConfig;
-import com.advancesd.group17.user.models.NewStudent;
 
 public class UserDaoImpl implements UserDao {
 
@@ -55,18 +54,6 @@ public class UserDaoImpl implements UserDao {
 		return isalreadyuser;
 	}
 
-	@Override
-	public List<NewStudent> getNewStudents(List<NewStudent> newstudents) {
-		List<NewStudent> sendmailtostudents = new ArrayList<>();
-
-		for (NewStudent student : newstudents) {
-			if (!isAlreadyUser(student.getBannerId())) {
-				sendmailtostudents.add(student);
-			}
-		}
-		return sendmailtostudents;
-	}
-
 	Connection createDbConnection() {
 		Connection connection = null;
 		try {
@@ -84,4 +71,30 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	@Override
+	public boolean isEmailExist(String email) {
+
+		try(Connection connection = DatabaseConfig.getInstance().getConnection();
+				CallableStatement statement = connection.prepareCall("{CALL isemailexist(?)}");
+				)
+		{
+			statement.setString(1,email);
+			ResultSet rs = statement.executeQuery();
+			
+			if(rs.next())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+		}
+		catch (SQLException ex)
+		{
+			ex.printStackTrace();
+			return false;
+		}
+	}
 }

@@ -13,9 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.advancesd.group17.course.dao.CourseDao;
-import com.advancesd.group17.course.dao.MockCourseDao;
-import com.advancesd.group17.course.services.CourseServiceImpl;
 import com.advancesd.group17.user.mock.UserMockDao;
 
 public class UserDaoTest {

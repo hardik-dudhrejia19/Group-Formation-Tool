@@ -32,7 +32,11 @@ public class CourseDaoImpl implements CourseDao {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				log.info("Course: " + rs.getString("course_name"));
-				Course course = new Course(rs.getInt("course_id"), rs.getString("course_name"));
+				Course course = new Course();
+				course.setCourseId(rs.getInt("course_id"));
+				course.setCourseName(rs.getString("course_name"));
+				course.setCourseDesc(rs.getString("course_desc"));
+				course.setCourseCredits(rs.getInt("course_credits"));
 				courseList.add(course);
 			}
 			connection.close();

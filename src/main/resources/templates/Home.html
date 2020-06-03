@@ -19,17 +19,16 @@
 					<th scope="col">CourseID</th>
 					<th scope="col">CourseName</th>
 					<th scope="col">Description</th>
-					<th scope="col">Credits</th>
+					<th scope="col">Credits</th> 
 				</tr>
 				</thead>
 				<tbody>
-				</tr>
 				<th:block th:each="course : ${allcourses}">
 					<tr>
-						<td th:text="${course.getId()}"></td>
-						<td th:text="${course.getCoursename()}"></td>
-						<td th:text="${course.getCoursedescription()}"></td>
-						<td th:text="${course.getCredits()}"></td>
+						<td th:text="${course.getCourseId()}"></td>
+						<td th:text="${course.getCourseName()}"></td>
+						<td th:text="${course.getCourseDesc()}"></td>
+						<td th:text="${course.getCourseCredits()}"></td> 
 					</tr>
 				</th:block>
 
