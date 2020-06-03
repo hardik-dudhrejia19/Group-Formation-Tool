@@ -15,7 +15,7 @@ public class LoginServiceImpl implements LoginService {
 
 	private Logger log = LoggerFactory.getLogger(LoginServiceImpl.class);
 
-	private boolean Isadmin(String bannerid, AuthDao dl) {
+	public boolean Isadmin(String bannerid, AuthDao dl) {
 		if ("admin".equals(bannerid))
 			return true;
 		else

@@ -20,11 +20,10 @@ class TestLoginServiceImpl {
 		User u = new User();
 		u.setBannerId("admin");
 		u.setPassword("admin");
-		assertTrue(ls.userauthentication(u, ud));
 		
 		u.setBannerId("poojan");
 		u.setPassword("admin");
-		assertFalse(ls.userauthentication(u, ud));
+		assertFalse(ud.loginAuthentication(u));
 	}
 	
 	@Test
