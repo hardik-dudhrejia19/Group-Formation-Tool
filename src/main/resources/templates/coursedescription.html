@@ -10,28 +10,34 @@
 </head>
 <body>
     <div class="container">
+
         <h1 th:text="${coursename}" style="text-align: center"></h1><br/>
 
         <div th:if="${isTA}==true">
-            <form>
+            <form th:action="@{/home/description/upload}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
+                    <input type="hidden" name="courseid" th:value="${courseid}"/>
                     <label for="exampleFormControlFile1">Upload a CSV file</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1"><br/>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1" name="file" accept=".csv" required/><br/>
                     <input type="submit" class="btn btn-success" value="Upload"/>
                 </div>
+                <p th:text="${uploadstatusfail}" class="text-danger"></p>
+                <p th:text="${uploadstatuspass}" class="text-success"></p>
             </form>
 
             <h2 >Add TAs to the course</h2>
-            <form class="form-inline" th:action="@{/home/ta/description}" method="post">
+            <form class="form-inline" th:action="@{/home/description/addta}" method="post">
                 <div class="form-group mx-md-1 mb-2">
-                    <input type="hidden" name="courseid" th:value="${courseid}">
-                    <input type="text" class="form-control" name="bannerid" placeholder="Enter banner ID">
+                    <input type="hidden" name="courseid" th:value="${courseid}"/>
+                    <input type="text" class="form-control" name="bannerid" placeholder="Enter banner ID" required/>
                 </div>
                 <input type="submit" class="btn btn-primary mb-2"/>
             </form>
 
-            <p th:text="${statusmessage}"></p>
+            <p th:text="${addtafail}" class="text-danger"></p>
+            <p th:text="${addtapass}" class="text-success"></p>
         </div>
+
     </div>
 </body>
 </html>

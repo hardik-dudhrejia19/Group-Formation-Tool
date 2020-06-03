@@ -1,20 +1,13 @@
 package com.advancesd.group17.auth;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-
 import com.advancesd.group17.course.dao.CourseDao;
-import com.advancesd.group17.course.models.Course;
-import com.advancesd.group17.course.services.CourseService;
+import com.advancesd.group17.course.dao.MockCourseDao;
+import com.advancesd.group17.course.services.CourseServiceImpl;
 
 class TestCourseService {
 
 	CourseDao dc = new MockCourseDao();
-	CourseService cs = new CourseService();
+	CourseServiceImpl cs = new CourseServiceImpl();
 	
 //	@Test
 //	public void Testlistcourses()

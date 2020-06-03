@@ -1,32 +1,31 @@
 package com.advancesd.group17.auth;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.advancesd.group17.course.models.Course;
 import org.junit.jupiter.api.Test;
 
-import com.advancesd.group17.course.models.Course;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestCourse {
 	
 	Course c = new Course();
 	
 	@Test
-	public void TestgetCourseid()
+	public void getIdTest()
 	{
-		c.setCourseid(1);
-		assertEquals(1, c.getCourseid());
+		c.setId(1);
+		assertEquals(1, c.getId());
 	}
 	
 	@Test
-	public void TestsetCourseid()
+	public void setIdTest()
 	{
-		c.setCourseid(2);
+		c.setId(2);
 		
-		assertEquals(2, c.getCourseid());
+		assertEquals(2, c.getId());
 	}
 	
 	@Test
-	public void TestgetCoursename() 
+	public void getCourseNameTest()
 	{
 		c.setCoursename("Adv Cloud");
 	
@@ -34,7 +33,7 @@ class TestCourse {
 	}
 
 	@Test
-	public void TestsetCoursename() 
+	public void setCourseNameTest()
 	{	
 		c.setCoursename("SC");
 		

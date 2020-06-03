@@ -1,22 +1,25 @@
 package com.advancesd.group17.course.dao;
 
-import java.util.List;
-
-import com.advancesd.group17.auth.models.User;
 import com.advancesd.group17.course.models.Course;
 import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.course.models.NewStudent;
+
+import java.util.List;
 
 public interface CourseDao {
 
-	public List<String> getuserrolebybannerid(String bannerid);
-	
-	public List<Course> getallcourses();
-	
-	public List<Course> getcoursesbybannerid(String bannerid);
+	public List<Course> getAllCourses();
 
-	public List<CourseAndRole> getcoursesandrolesbybannerid(String bannerid);
+	public List<String> getUserRoleByBannerid(String bannerid);
 
-	public boolean isalreadyuser(String bannerid);
+	public List<CourseAndRole> getCoursesAndRolesByBannerId(String bannerid);
 
-	public String getcoursebycourseid(int courseid);
+	public boolean isAlreadyUser(String bannerid);
+
+	public String getCourseByCourseId(int courseid);
+
+	public boolean assignTa(int courseid, String bannerid);
+
+	public boolean enrollStudentsToCourse(int courseid, List<NewStudent> newstudents);
+
 }
