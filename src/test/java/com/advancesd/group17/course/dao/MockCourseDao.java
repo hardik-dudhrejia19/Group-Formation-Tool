@@ -127,7 +127,11 @@ public class MockCourseDao implements CourseDao {
 	@Override
 	public boolean enrollStudentsToCourse(int courseid, List<NewStudent> newstudents)
 	{
-		return true;
+		if(courseid == 1 && newstudents.get(0).getBannerId().equals("B00555698"))
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

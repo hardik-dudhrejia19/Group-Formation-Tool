@@ -3,6 +3,7 @@ package com.advancesd.group17.course.services;
 import com.advancesd.group17.course.dao.MockCourseDao;
 import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.course.models.NewStudent;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -64,7 +65,14 @@ class CourseServiceTest {
     @Test
     void enrollStudentsToCourseTest()
     {
-
+        List<NewStudent> newtudents = new ArrayList<NewStudent>();
+        NewStudent student = new NewStudent();
+        student.setBannerId("B00555698");
+        student.setFirstName("mockfname");
+        student.setLastName("mocklname");
+        student.setEmail("mock@gmai.com");
+        newtudents.add(student);
+        assertTrue(cd.enrollStudentsToCourse(1, newtudents));
     }
 
     @Test
