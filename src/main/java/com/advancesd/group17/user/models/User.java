@@ -1,4 +1,4 @@
-package com.advancesd.group17.auth.models;
+package com.advancesd.group17.user.models;
 
 public class User {
 

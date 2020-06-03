@@ -1,10 +1,10 @@
 package com.advancesd.group17.auth.services;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.user.models.User;
 
 public interface ForgotPasswordService {
 
-	public boolean checkuserbybanner(User u, UserDao ud);
-	public boolean mailsent(String banner, UserDao ud);
+	public boolean checkuserbybanner(User u, AuthDao ud);
+	public boolean mailsent(String banner, AuthDao ud);
 }

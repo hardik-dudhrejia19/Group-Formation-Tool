@@ -1,42 +1,73 @@
 package com.advancesd.group17.course.models;
 
+import com.advancesd.group17.user.models.User;
+
 public class Course {
-	
-	private int id;
-	private String coursename;
-	private String coursedescription;
-	private int credits;
 
-	public int getId() {
-		return id;
+	private int courseId;
+	private String courseName;
+	private String courseDesc;
+	private Integer courseCredits;
+	private User instructor;
+
+	public Course() {
+		super();
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public Course(int courseId, String courseName) {
+		super();
+		this.courseId = courseId;
+		this.courseName = courseName;
 	}
 
-	public String getCoursename() {
-		return coursename;
+	public Course(int courseId, String courseName, String courseDesc, Integer courseCredits, User instructor) {
+		super();
+		this.courseId = courseId;
+		this.courseName = courseName;
+		this.courseDesc = courseDesc;
+		this.courseCredits = courseCredits;
+		this.instructor = instructor;
+
 	}
 
-	public void setCoursename(String coursename) {
-		this.coursename = coursename;
+	public int getCourseId() {
+		return courseId;
 	}
 
-	public String getCoursedescription()
-	{
-		return coursedescription;
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
 	}
 
-	public void setCoursedescription(String coursedescription) {
-		this.coursedescription = coursedescription;
+	public String getCourseName() {
+		return courseName;
 	}
 
-	public int getCredits() {
-		return credits;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 
-	public void setCredits(int credits) {
-		this.credits = credits;
+	public String getCourseDesc() {
+		return courseDesc;
 	}
+
+	public void setCourseDesc(String courseDesc) {
+		this.courseDesc = courseDesc;
+	}
+
+	public Integer getCourseCredits() {
+		return courseCredits;
+	}
+
+	public void setCourseCredits(Integer courseCredits) {
+		this.courseCredits = courseCredits;
+	}
+
+	public User getInstructor() {
+		return instructor;
+	}
+
+	public void setInstructor(User instructor) {
+		this.instructor = instructor;
+	}
+
 }

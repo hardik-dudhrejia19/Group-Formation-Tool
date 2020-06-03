@@ -1,10 +1,10 @@
-package com.advancesd.group17.auth;
+package com.advancesd.group17.user.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.user.models.User;
 
 class TestUser {
 	

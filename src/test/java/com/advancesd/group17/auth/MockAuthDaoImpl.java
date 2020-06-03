@@ -1,9 +1,9 @@
 package com.advancesd.group17.auth;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.user.models.User;
 
-public class MockUserDaoImpl implements UserDao{
+public class MockAuthDaoImpl implements AuthDao{
 
 	@Override
 	public boolean loginAuthentication(User u) {
@@ -19,7 +19,7 @@ public class MockUserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean isalreadyuser(User u) {
+	public boolean isAlreadyUser(User u) {
 		
 		if("admin".equals(u.getBannerId()))
 		{

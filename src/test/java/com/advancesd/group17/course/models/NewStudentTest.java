@@ -2,6 +2,8 @@ package com.advancesd.group17.course.models;
 
 import org.junit.jupiter.api.Test;
 
+import com.advancesd.group17.user.models.NewStudent;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NewStudentTest {

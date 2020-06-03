@@ -5,13 +5,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.auth.dao.AuthDao;
 import com.advancesd.group17.auth.services.LoginServiceImpl;
+import com.advancesd.group17.user.models.User;
 
 class TestLoginServiceImpl {
 
-	UserDao ud = new MockUserDaoImpl();
+	AuthDao ud = new MockAuthDaoImpl();
 	LoginServiceImpl ls = new LoginServiceImpl();
 	
 	@Test

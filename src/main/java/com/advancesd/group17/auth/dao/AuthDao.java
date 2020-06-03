@@ -1,12 +1,12 @@
 package com.advancesd.group17.auth.dao;
 
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.user.models.User;
 
-public interface UserDao {
+public interface AuthDao {
 
 	public boolean loginAuthentication(User u);
 	
-	public boolean isalreadyuser(User u);
+	public boolean isAlreadyUser(User u);
 	
     public boolean registeruser(User u);
 	

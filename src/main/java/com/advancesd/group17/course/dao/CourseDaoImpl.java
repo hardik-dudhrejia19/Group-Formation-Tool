@@ -1,10 +1,5 @@
 package com.advancesd.group17.course.dao;
 
-import com.advancesd.group17.course.models.Course;
-import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.course.models.NewStudent;
-import com.advancesd.group17.database.DatabaseConfig;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,58 +7,45 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
+import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.database.DatabaseConfig;
+import com.advancesd.group17.user.models.NewStudent;
+
 public class CourseDaoImpl implements CourseDao {
+	
+	public static Logger log = LoggerFactory.getLogger(CourseDaoImpl.class);
 
 	@Override
 	public List<Course> getAllCourses() {
-		List<Course> allcourses = new ArrayList<>();
-		try
-		{
-			Connection connection = DatabaseConfig.getInstance().getConnection();
-			CallableStatement statement = connection.prepareCall("{CALL getallcourses()}");
-			ResultSet rs = statement.executeQuery();
-			while(rs.next())
-			{
-				Course course = new Course();
-				course.setId(rs.getInt(1));
-				course.setCoursename(rs.getString(2));
-				course.setCoursedescription(rs.getString(3));
-				course.setCredits(rs.getInt(4));
-				allcourses.add(course);
+		log.info("Entered CourseDaoImpl.getAllCourses");
+
+		Connection connection = null;
+		List<Course> courseList = new ArrayList<Course>();
+		try {
+			connection = createDbConnection();
+			CallableStatement stmt = connection.prepareCall("{CALL getallcourses}");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				log.info("Course: " + rs.getString("course_name"));
+				Course course = new Course(rs.getInt("course_id"), rs.getString("course_name"));
+				courseList.add(course);
 			}
-			statement.close();
 			connection.close();
-		}
-		catch (SQLException ex)
-		{
-			ex.printStackTrace();
-			return null;
-		}
-		return allcourses;
-	}
-
-	@Override
-	public List<String> getUserRoleByBannerid(String bannerid) {
-
-		List<String> rolename = new ArrayList<>();
-		try
-		(
-			Connection conn = DatabaseConfig.getInstance().getConnection();
-		    CallableStatement st = conn.prepareCall("{CALL getuserrolebybannerid(?)}");
-		)
-		{
-			st.setString(1, bannerid);
-	    	ResultSet rs = st.executeQuery();
-	    	
-	    	while(rs.next())
-	    	{
-		    	rolename.add(rs.getString("role_name"));
+			if (CollectionUtils.isEmpty(courseList)) {
+				return null;
 			}
+			return courseList;
+
+		} catch (Exception e) {
+			log.error("Error occured " + e);
+			e.printStackTrace();
 		}
-		catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-		return rolename;
+		return null;
 	}
 
 	@Override
@@ -73,7 +55,7 @@ public class CourseDaoImpl implements CourseDao {
 
 		try
 		{
-			Connection connection = DatabaseConfig.getInstance().getConnection();
+			Connection connection = createDbConnection();
 			CallableStatement statement = connection.prepareCall("{CALL getcoursesandrolesbybannerid(?)}");
 			statement.setString(1,bannerid);
 			ResultSet rs = statement.executeQuery();
@@ -94,52 +76,108 @@ public class CourseDaoImpl implements CourseDao {
 		}
 		return crsrole;
 	}
-
+	
 	@Override
-	public boolean isAlreadyUser(String bannerid)
-	{
-		boolean isalreadyuser = false;
-		try
-		{
-			Connection connection = DatabaseConfig.getInstance().getConnection();
-			CallableStatement statement = connection.prepareCall("{CALL isalreadyuser(?)}");
-			statement.setString(1, bannerid);
-			ResultSet rs = statement.executeQuery();
-			if(rs.next())
-			{
-				isalreadyuser = true;
+	public Course addNewCourse(Course course) {
+		Connection connection = null;
+
+		try {
+			connection = createDbConnection();
+			if (connection == null) {
+				return null;
 			}
-			statement.close();
+			CallableStatement stmt = connection.prepareCall("{CALL createcourse(?, ?, ?)}");
+			stmt.setString(1, course.getCourseName());
+			stmt.setString(2, course.getCourseDesc());
+			stmt.setInt(3, course.getCourseCredits());
+
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Course addedCourse = new Course();
+				addedCourse.setCourseId(rs.getInt("course_id"));
+				addedCourse.setCourseName(rs.getString("course_name"));
+				addedCourse.setCourseCredits(rs.getInt("course_credits"));
+				addedCourse.setCourseDesc(rs.getString("course_desc"));
+				return addedCourse;
+			}
 			connection.close();
+			return null;
+
+		} catch (Exception e) {
+			log.error("Error occured: " + e);
+			e.printStackTrace();
 		}
-		catch (SQLException ex)
-		{
-			ex.printStackTrace();
-			return false;
+		return null;
+	}
+	
+	@Override
+	public Boolean deleteCourse(Integer courseId) {
+		Connection connection = null;
+
+		try {
+
+			connection = createDbConnection();
+			if (connection == null) {
+				return Boolean.FALSE;
+			}
+			CallableStatement stmt = connection.prepareCall("{CALL deletecoursebyid(?)}");
+			stmt.setInt(1, courseId);
+			stmt.execute();
+			ResultSet resultSet = stmt.executeQuery();
+			stmt = connection.prepareCall("{CALL delete_course_from_user_course_role(?)}");
+			stmt.setInt(1, courseId);
+			resultSet = stmt.executeQuery();
+			connection.close();
+			return Boolean.TRUE;
+
+		} catch (Exception e) {
+			log.error("Error occured: " + e);
+			e.printStackTrace();
 		}
-		return isalreadyuser;
+		return Boolean.FALSE;
 	}
 
 	@Override
-	public String getCourseByCourseId(int courseid)
-	{
-		String coursename = "";
-		try
-		{
-			Connection connection = DatabaseConfig.getInstance().getConnection();
-			CallableStatement statement = connection.prepareCall("{CALL getcoursenamebycourseid(?)}");
-			statement.setInt(1,courseid);
-			ResultSet rs = statement.executeQuery();
-			rs.next();
-			coursename = rs.getString(1);
-			statement.close();
+	public Course getCourseDetails(Integer courseId) {
+		log.info("Entered CourseDaoImpl.getCourseDetails with courseId: " + courseId);
+		try {
+			Connection connection = createDbConnection();
+			if (connection == null) {
+				return null;
+			}
+			Course course = null;
+			CallableStatement stmt = connection.prepareCall("{CALL getcoursedetailbyid(?)}");
+			stmt.setInt(1, courseId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				log.info("Course details found");
+				course = new Course();
+				course.setCourseId(rs.getInt("course_id"));
+				course.setCourseName(rs.getString("course_name"));
+				course.setCourseCredits(rs.getInt("course_credits"));
+				course.setCourseDesc(rs.getString("course_desc"));
+			} else {
+				log.info("Course details are null");
+			}
 			connection.close();
+			return course;
+
+		} catch (Exception e) {
+
 		}
-		catch (SQLException ex)
-		{
-			ex.printStackTrace();
+		return null;
+	}
+	
+
+	@Override
+	public String getCourseByCourseId(int courseId)
+	{
+		Course course = getCourseDetails(courseId);
+		if (course == null) {
+			return  null;
+		} else {
+			return course.getCourseName();
 		}
-		return coursename;
 	}
 
 	@Override
@@ -194,6 +232,24 @@ public class CourseDaoImpl implements CourseDao {
 			return false;
 		}
 		return true;
+	}
+	
+	
+	Connection createDbConnection() {
+		Connection connection = null;
+		try {
+			connection = DatabaseConfig.getInstance().getConnection();
+			if (connection == null) {
+				log.info("Connection null");
+			} else {
+				log.info("Connection established");
+			}
+		} catch (Exception e) {
+			log.error("Error occured: " + e);
+			e.printStackTrace();
+		}
+		return connection;
+
 	}
 
 }

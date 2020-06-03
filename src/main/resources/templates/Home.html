@@ -56,7 +56,7 @@
 						<td th:text="${course.getCourseid()}"></td>
 						<td th:text="${course.getCoursename()}"></td>
 						<td th:text="${course.getRole()}"></td>
-						<td><a th:href="'/home/student/description?courseid='+${course.getCourseid()}">
+						<td><a th:href="'/course/description?courseid='+${course.getCourseid()}">
 							<button class="btn btn-primary">View Course</button></a></td>
 					</tr>
 				</th:block>
@@ -85,7 +85,7 @@
 						<td th:text="${course.getCourseid()}"></td>
 						<td th:text="${course.getCoursename()}"></td>
 						<td th:text="${course.getRole()}"></td>
-						<td><a th:href="'/home/ta/description?courseid='+${course.getCourseid()}">
+						<td><a th:href="'/course/ta/description?courseid='+${course.getCourseid()}">
 							<button class="btn btn-primary">View Course</button></a></td>
 					</tr>
 				</th:block>
@@ -114,7 +114,7 @@
 						<td th:text="${course.getCourseid()}"></td>
 						<td th:text="${course.getCoursename()}"></td>
 						<td th:text="${course.getRole()}"></td>
-						<td><a th:href="'/home/ta/description?courseid='+${course.getCourseid()}">
+						<td><a th:href="'/course/ta/description?courseid='+${course.getCourseid()}">
 							<button class="btn btn-primary">View Course</button></a></td>
 					</tr>
 				</th:block>

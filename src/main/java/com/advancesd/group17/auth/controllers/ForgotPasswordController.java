@@ -5,11 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.advancesd.group17.auth.dao.UserDao;
-import com.advancesd.group17.auth.dao.UserDaoImpl;
-import com.advancesd.group17.auth.models.User;
+import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.auth.dao.AuthDaoImpl;
 import com.advancesd.group17.auth.services.ForgotPasswordService;
 import com.advancesd.group17.auth.services.ForgotPasswordServiceImpl;
+import com.advancesd.group17.user.models.User;
 
 @Controller
 public class ForgotPasswordController {
@@ -23,7 +23,7 @@ public class ForgotPasswordController {
 	@PostMapping("/forgotpassword")
 	public String SubmitEmail(User user, Model model)
 	{
-		UserDao ud = new UserDaoImpl();
+		AuthDao ud = new AuthDaoImpl();
 		ForgotPasswordService fp = new ForgotPasswordServiceImpl();
 		
 		if(user.getBannerId() == null || user.getBannerId().isEmpty() || "".equals(user.getBannerId()) )
