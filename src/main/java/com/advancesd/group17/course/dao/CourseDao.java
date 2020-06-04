@@ -24,8 +24,6 @@ public interface CourseDao {
 
 	public boolean enrollStudentsToCourse(int courseid, List<NewStudent> newstudents);
 
-//	public boolean isEmailExist(String email);
-
 	public List<String> getUserRoleByBannerid(String bannerid);
 
 }

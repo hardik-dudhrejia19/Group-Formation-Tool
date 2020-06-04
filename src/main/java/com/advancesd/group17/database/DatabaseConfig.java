@@ -7,9 +7,13 @@ import java.sql.SQLException;
 public class DatabaseConfig {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_17_DEVINT?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    private static final String USER = "CSCI5308_17_DEVINT_USER";
-    private static final String PASSWORD = "CSCI5308_17_DEVINT_17284";
+//    private static final String URL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_17_DEVINT?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//    private static final String USER = "CSCI5308_17_DEVINT_USER";
+//    private static final String PASSWORD = "CSCI5308_17_DEVINT_17284";
+
+    private static final String URL = System.getenv("url");
+    private static final String USER = System.getenv("username");
+    private static final String PASSWORD = System.getenv("password");
     private static DatabaseConfig dbInstance;
     private Connection connection;
 

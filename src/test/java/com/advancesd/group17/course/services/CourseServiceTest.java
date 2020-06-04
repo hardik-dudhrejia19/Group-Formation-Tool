@@ -4,7 +4,6 @@ import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.dao.MockCourseDao;
 import com.advancesd.group17.course.models.Course;
 import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.user.models.NewStudent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -92,27 +91,6 @@ class CourseServiceTest {
         assertFalse(courseDao.assignTa(1,"B00835071"));
     }
 
-    @Test
-    void enrollStudentsToCourseTest()
-    {
-        List<NewStudent> newtudents = new ArrayList<NewStudent>();
-        NewStudent student = new NewStudent();
-        student.setBannerId("B00555698");
-        student.setFirstName("mockfname");
-        student.setLastName("mocklname");
-        student.setEmail("mock@gmai.com");
-        newtudents.add(student);
-        assertTrue(courseDao.enrollStudentsToCourse(1, newtudents));
-    }
-
-    @Test
-    void getFileExtensionTest()
-    {
-        assertEquals("csv",cs.getFileExtension("data.csv"));
-        assertEquals("csv",cs.getFileExtension("data.csv.csv"));
-        assertNotEquals(".pdf", cs.getFileExtension("courses.csv"));
-        assertNotEquals("jpg", cs.getFileExtension("file.csv"));
-    }
 
     @Test
     void getAllCoursesTest() {
