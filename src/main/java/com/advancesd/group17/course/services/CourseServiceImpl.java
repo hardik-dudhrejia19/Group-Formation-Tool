@@ -208,4 +208,9 @@ public class CourseServiceImpl implements CourseService {
 		return sendmailtostudents;
 	}
 
+	@Override
+	public List<String> getUserRoleByBannerId(String bannerid, CourseDao cd) {
+		return cd.getUserRoleByBannerid(bannerid);
+	}
+
 }

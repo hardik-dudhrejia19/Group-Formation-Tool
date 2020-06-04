@@ -1,24 +1,20 @@
 package com.advancesd.group17.course.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.advancesd.group17.course.dao.CourseDao;
+import com.advancesd.group17.course.dao.MockCourseDao;
+import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.user.models.NewStudent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.advancesd.group17.course.dao.CourseDao;
-import com.advancesd.group17.course.dao.MockCourseDao;
-import com.advancesd.group17.course.models.Course;
-import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.user.models.NewStudent;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class CourseServiceTest {
 
@@ -114,14 +110,20 @@ class CourseServiceTest {
     {
         assertEquals("csv",cs.getFileExtension("data.csv"));
         assertEquals("csv",cs.getFileExtension("data.csv.csv"));
-        assertNotEquals(".pdf",cs.getFileExtension("courses.csv"));
-        assertNotEquals("jpg",cs.getFileExtension("file.csv"));
+        assertNotEquals(".pdf", cs.getFileExtension("courses.csv"));
+        assertNotEquals("jpg", cs.getFileExtension("file.csv"));
     }
 
     @Test
-    void getAllCoursesTest()
-    {
+    void getAllCoursesTest() {
         assertEquals(2, courseDao.getAllCourses().size());
     }
 
+    @Test
+    void getUserRoleByBannerIdTest() {
+        List<String> roles = new ArrayList<>();
+        roles.add("TA");
+        assertEquals(roles, courseDao.getUserRoleByBannerid("B00836202"));
+        assertNotEquals("Guest", courseDao.getUserRoleByBannerid("B00000000"));
+    }
 }

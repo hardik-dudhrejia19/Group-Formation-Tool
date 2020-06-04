@@ -3,15 +3,6 @@ package com.advancesd.group17.user.controllers;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.advancesd.group17.course.models.Course;
 import com.advancesd.group17.user.dao.InstructorDao;
 import com.advancesd.group17.user.dao.InstructorDaoImpl;
@@ -21,6 +12,15 @@ import com.advancesd.group17.user.services.InstructorService;
 import com.advancesd.group17.user.services.InstructorServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin")
@@ -57,6 +57,6 @@ public class AdminController {
 		log.info("Exiting from AdminController.addCourseDetailsPage");
 		
 		return "courseInstructor";
-	}	
 
+	}
 }

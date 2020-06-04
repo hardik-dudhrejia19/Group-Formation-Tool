@@ -1,24 +1,5 @@
 package com.advancesd.group17.course.controllers;
 
-import static com.advancesd.group17.utils.Constants.ADMIN_HOME_PAGE;
-import static com.advancesd.group17.utils.Constants.REDIRECT;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.dao.CourseDaoImpl;
 import com.advancesd.group17.course.models.Course;
@@ -29,6 +10,20 @@ import com.advancesd.group17.user.dao.UserDaoImpl;
 import com.advancesd.group17.user.models.NewStudent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+import static com.advancesd.group17.utils.Constants.ADMIN_HOME_PAGE;
+import static com.advancesd.group17.utils.Constants.REDIRECT;
 
 @Controller
 @RequestMapping("/course")
