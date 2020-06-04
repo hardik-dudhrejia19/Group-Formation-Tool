@@ -18,5 +18,11 @@ public class InstructorServiceImpl implements InstructorService {
 		
 		return instructordao.assignInstructor(banner, courseid);
 	}
+
+	@Override
+	public User getCourseInstructor(Integer courseId, InstructorDao instructordao) {
+		// TODO Auto-generated method stub
+		return instructordao.getCourseInstructor(courseId);
+	}
 	
 }

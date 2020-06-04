@@ -9,4 +9,6 @@ public interface InstructorDao {
 	public List<User> listusersforInstructor();
 	
 	public boolean assignInstructor(String bannerid, Integer courseid);
+	
+	public User getCourseInstructor(Integer courseId);
 }

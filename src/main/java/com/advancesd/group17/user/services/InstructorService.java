@@ -10,4 +10,6 @@ public interface InstructorService {
 	public List<User> listUsersforinstructor(InstructorDao Instructordao);
 	
 	public boolean addInstructor(String banner , Integer courseid, InstructorDao instructordao);
+	
+	public User getCourseInstructor(Integer courseId, InstructorDao instructordao);
 }
