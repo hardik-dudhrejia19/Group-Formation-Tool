@@ -9,32 +9,32 @@
 	<form th:action="@{/signup}" th:object="${user}" method="post">
 		<div th:style="|margin-left:30px;margin-top:30px|">
 				<label>Banner ID</label>
-				<input type="text" id="bannerid" name="bannerId" th:style="|margin-left:80px|"/>
+				<input type="text" id="bannerid" name="bannerId" th:style="|margin-left:80px|" required/>
 			<br/>
 			<br/>
 				<label>First Name</label>
-				<input type="text" id="firstname" name="firstName" th:style="|margin-left:72px|"/>
+				<input type="text" id="firstname" name="firstName" th:style="|margin-left:72px|" required/>
 			<br/>
 			<br/>
 				<label>Last Name</label>
-				<input type="text" id="lastname" name="lastName" th:style="|margin-left:73px|"/>
+				<input type="text" id="lastname" name="lastName" th:style="|margin-left:73px|" required/>
 			<br/>
 			<br/>
 				<label>Email</label>
-				<input type="text" id="email" name="email" th:style="|margin-left:112px|"/>
+				<input type="text" id="email" name="email" th:style="|margin-left:112px|" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
 			<br/>
 			<br/>
 				<label>Password</label>
-				<input type="password" id="password" name="password" th:style="|margin-left:81px|"/>
+				<input type="password" id="password" name="password" th:style="|margin-left:81px|" required/>
 			<br/>
 			<br/>
 				<label>Confirm Password</label>
-				<input type="password" id="confirmpassowrd" name="confirmpassowrd" th:style="|margin-left:19px|"/>
+				<input type="password" id="confirmpassowrd" name="confirmpassowrd" th:style="|margin-left:19px|" required/>
 			<br/>
 			<br/>
 				<p th:if="${alreadyuserexist}" class="text-danger"> User Already Exists with give banner number</p>
 				<p th:if="${registrationsuccess}" class="text-success"> Succesfully Registered </p>	
-				<p th:if="${invalidData}" class="text-danger">Data Invalid</p>
+				<p th:if="${invalidData}" class="text-danger">Confirm Password should be same as password</p>
 				<p th:if="${registrationfailed}" class="text-danger">Signup failed. Try with different email</p>
 			
 			<br/>
