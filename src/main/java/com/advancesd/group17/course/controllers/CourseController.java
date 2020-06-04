@@ -5,6 +5,8 @@ import com.advancesd.group17.course.dao.CourseDaoImpl;
 import com.advancesd.group17.course.models.Course;
 import com.advancesd.group17.course.services.CourseService;
 import com.advancesd.group17.course.services.CourseServiceImpl;
+import com.advancesd.group17.course.services.FileImportService;
+import com.advancesd.group17.course.services.FileImportServiceImpl;
 import com.advancesd.group17.user.dao.UserDao;
 import com.advancesd.group17.user.dao.UserDaoImpl;
 import com.advancesd.group17.user.models.NewStudent;
@@ -36,7 +38,6 @@ public class CourseController {
 		log.info("Entered CourseController.deleteCourse");
 		CourseService courseService = new CourseServiceImpl();
 		courseService.deleteCourse(id);
-		
 		log.info("Exiting CourseController.deleteCourse");
 		return REDIRECT + ADMIN_HOME_PAGE;
 	}
@@ -72,10 +73,11 @@ public class CourseController {
 
 
 	@GetMapping("/description")
-	public String studentinfopage(@RequestParam("courseid") int courseid, Model model) {
-		CourseDao cd = new CourseDaoImpl();
-		CourseServiceImpl lc = new CourseServiceImpl();
-		String coursename = lc.getCourseByCourseId(courseid, cd);
+	public String studentInfoPage(@RequestParam("courseid") int courseid, Model model) {
+		log.info("Entered CourseController.studentInfoPage");
+		CourseDao courseDao = new CourseDaoImpl();
+		CourseService courseService = new CourseServiceImpl();
+		String coursename = courseService.getCourseByCourseId(courseid, courseDao);
 
 		model.addAttribute("courseid", courseid);
 		model.addAttribute("coursename", coursename);
@@ -84,11 +86,11 @@ public class CourseController {
 	}
 
 	@GetMapping("/ta/description")
-	public String tainfopage(@RequestParam("courseid") int courseid, Model model) {
-
-		CourseDao cd = new CourseDaoImpl();
-		CourseServiceImpl lc = new CourseServiceImpl();
-		String coursename = lc.getCourseByCourseId(courseid, cd);
+	public String taInfoPage(@RequestParam("courseid") int courseid, Model model) {
+		log.info("Entered CourseController.taInfoPage");
+		CourseDao courseDao = new CourseDaoImpl();
+		CourseService courseService = new CourseServiceImpl();
+		String coursename = courseService.getCourseByCourseId(courseid, courseDao);
 
 		model.addAttribute("courseid", courseid);
 		model.addAttribute("coursename", coursename);
@@ -99,19 +101,21 @@ public class CourseController {
 	@PostMapping("/description/addta")
 	public String addTa(@RequestParam("bannerid") String bannerid, @RequestParam("courseid") int courseid,
 			Model model) {
-		boolean exsistinguser;
-		CourseDao cd = new CourseDaoImpl();
-		CourseServiceImpl lc = new CourseServiceImpl();
+		log.info("Entered CourseController.addTa");
+		boolean isExistingUser;
+		CourseDao courseDao = new CourseDaoImpl();
+		CourseService courseService = new CourseServiceImpl();
 		UserDao userDao = new UserDaoImpl();
-		String coursename = lc.getCourseByCourseId(courseid, cd);
 
-		exsistinguser = userDao.isAlreadyUser(bannerid);
-		if (exsistinguser) {
-			boolean rowsaffected = lc.assignTa(courseid, bannerid, cd);
+		String coursename = courseService.getCourseByCourseId(courseid, courseDao);
+		isExistingUser = userDao.isAlreadyUser(bannerid);
+
+		if (isExistingUser) {
+			boolean rowsaffected = courseService.assignTa(courseid, bannerid, courseDao);
 			if (rowsaffected) {
 				model.addAttribute("addtapass", "TA added successfully");
 			} else {
-				model.addAttribute("addtafail", "The user is already either a TA or a student in this course");
+				model.addAttribute("addtafail", "The user is already either a TA or a student in this course or is a guest");
 			}
 		} else {
 			model.addAttribute("addtafail", "User with the entered banner id does not exists");
@@ -123,23 +127,25 @@ public class CourseController {
 	}
 
 	@PostMapping("/description/upload")
-	public String uploadfile(@RequestParam("file") MultipartFile file, @RequestParam("courseid") int courseid,
-			Model model) throws IOException {
+	public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("courseid") int courseid,
+							 Model model) throws IOException {
 
-		CourseServiceImpl lc = new CourseServiceImpl();
-		CourseDao cd = new CourseDaoImpl();
+		log.info("Entered CourseController.uploadFile");
+		CourseService courseService = new CourseServiceImpl();
+		FileImportService fileService = new FileImportServiceImpl();
+		CourseDao courseDao = new CourseDaoImpl();
 		UserDao userDao = new UserDaoImpl();
-		List<NewStudent> newstudents;
-		List<NewStudent> sendmailtostudents;
+		List<NewStudent> newStudents;
+		List<NewStudent> sendMailToStudents;
 		boolean isValid;
 
-		String coursename = lc.getCourseByCourseId(courseid, cd);
+		String coursename = courseService.getCourseByCourseId(courseid, courseDao);
 		model.addAttribute("courseid", courseid);
 		model.addAttribute("coursename", coursename);
 		model.addAttribute("isTA", true);
 
 		String filename = file.getOriginalFilename();
-		String extension = lc.getFileExtension(filename);
+		String extension = fileService.getFileExtension(filename);
 
 		if (!extension.equals("csv")) {
 			model.addAttribute("uploadstatusfail", "Please upload a CSV file only");
@@ -149,16 +155,16 @@ public class CourseController {
 		if(file.getBytes().length==0)
 		{
 			model.addAttribute("uploadstatusfail", "Cannot upload Empty file");
-			return "coursedescription";	
+			return "coursedescription";
 		}
-		
-		byte[] bytes = file.getBytes();
-		newstudents = lc.readFile(bytes);
-		sendmailtostudents = lc.getNewStudents(newstudents, userDao);
-		isValid = lc.enrollStudentsToCourse(courseid, newstudents, cd);
 
-		for (NewStudent student : sendmailtostudents) {
-			lc.sendMail(student.getEmail(), student.getBannerId(), student.getBannerId(), coursename);
+		byte[] bytes = file.getBytes();
+		newStudents = fileService.readFile(bytes);
+		sendMailToStudents = fileService.getNewStudents(newStudents, userDao);
+		isValid = fileService.enrollStudentsToCourse(courseid, newStudents, courseDao);
+
+		for (NewStudent student : sendMailToStudents) {
+			fileService.sendMail(student.getEmail(), student.getBannerId(), student.getBannerId(), coursename);
 		}
 		if (isValid) {
 			model.addAttribute("uploadstatuspass", "Students registered successfully");
@@ -167,6 +173,7 @@ public class CourseController {
 		}
 
 		return "coursedescription";
+
 	}
 
 }
