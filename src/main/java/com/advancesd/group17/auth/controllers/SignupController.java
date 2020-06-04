@@ -25,13 +25,14 @@ public class SignupController {
 		AuthDao dl = new AuthDaoImpl();
 		SignupServiceImpl s = new SignupServiceImpl();
 		
-		if (user.getBannerId() == null || user.getBannerId().isEmpty() || "".equals(user.getBannerId()) ||
-            user.getEmail() == null || user.getEmail().isEmpty() || "".equals(user.getEmail()) ||
-            user.getFirstName() == null || user.getFirstName().isEmpty() || "".equals(user.getFirstName()) ||
-            user.getLastName() == null || user.getLastName().isEmpty() || "".equals(user.getLastName()) ||
-            user.getPassword() == null || user.getPassword().isEmpty() || "".equals(user.getPassword()) ||
-            !user.getPassword().equals(passwordConfirm) 
-           )
+//		if (user.getBannerId() == null || user.getBannerId().isEmpty() || "".equals(user.getBannerId()) ||
+//            user.getEmail() == null || user.getEmail().isEmpty() || "".equals(user.getEmail()) ||
+//            user.getFirstName() == null || user.getFirstName().isEmpty() || "".equals(user.getFirstName()) ||
+//            user.getLastName() == null || user.getLastName().isEmpty() || "".equals(user.getLastName()) ||
+//            user.getPassword() == null || user.getPassword().isEmpty() || "".equals(user.getPassword()) ||
+//            !user.getPassword().equals(passwordConfirm) 
+//           )
+		if(!user.getPassword().equals(passwordConfirm))
 		{
 			model.addAttribute("invalidData", true);
 			return "signup";
