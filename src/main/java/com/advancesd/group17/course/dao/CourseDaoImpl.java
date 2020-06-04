@@ -1,20 +1,19 @@
 package com.advancesd.group17.course.dao;
 
+import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.database.DatabaseConfig;
+import com.advancesd.group17.user.models.NewStudent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
-
-import com.advancesd.group17.course.models.Course;
-import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.database.DatabaseConfig;
-import com.advancesd.group17.user.models.NewStudent;
 
 public class CourseDaoImpl implements CourseDao {
 	
@@ -254,6 +253,26 @@ public class CourseDaoImpl implements CourseDao {
 		}
 		return connection;
 
+	}
+
+	@Override
+	public List<String> getUserRoleByBannerid(String bannerid) {
+		List<String> rolename = new ArrayList<>();
+		try
+				(
+						Connection conn = DatabaseConfig.getInstance().getConnection();
+						CallableStatement st = conn.prepareCall("{CALL getuserrolebybannerid(?)}");
+				) {
+			st.setString(1, bannerid);
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				rolename.add(rs.getString("role_name"));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return rolename;
 	}
 
 }

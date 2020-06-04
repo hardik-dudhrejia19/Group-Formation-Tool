@@ -1,16 +1,15 @@
 package com.advancesd.group17.course.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.user.models.NewStudent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
-import com.advancesd.group17.course.models.Course;
-import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.user.models.NewStudent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MockCourseDao implements CourseDao {
 
@@ -110,6 +109,20 @@ public class MockCourseDao implements CourseDao {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<String> getUserRoleByBannerid(String bannerid) {
+		List<String> list = new ArrayList<>();
+		if ("B00836202".equals(bannerid)) {
+			list.add("TA");
+			return list;
+		}
+		if ("B00000000".equals(bannerid)) {
+			list.add("Guest");
+			return list;
+		}
+		return null;
 	}
 
 }

@@ -1,14 +1,13 @@
 package com.advancesd.group17.auth.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import com.advancesd.group17.auth.dao.AuthDao;
 import com.advancesd.group17.auth.dao.AuthDaoImpl;
 import com.advancesd.group17.auth.services.LoginServiceImpl;
 import com.advancesd.group17.user.models.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {

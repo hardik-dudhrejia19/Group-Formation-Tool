@@ -1,8 +1,17 @@
 package com.advancesd.group17.course.services;
 
-import static com.advancesd.group17.utils.Constants.COURSE_CREDITS_FIELD;
-import static com.advancesd.group17.utils.Constants.COURSE_DESC_FIELD;
+import com.advancesd.group17.course.dao.CourseDao;
+import com.advancesd.group17.course.dao.CourseDaoImpl;
+import com.advancesd.group17.course.models.Course;
+import com.advancesd.group17.course.models.CourseAndRole;
+import com.advancesd.group17.user.dao.UserDao;
+import com.advancesd.group17.user.models.NewStudent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -12,23 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.advancesd.group17.course.dao.CourseDao;
-import com.advancesd.group17.course.dao.CourseDaoImpl;
-import com.advancesd.group17.course.models.Course;
-import com.advancesd.group17.course.models.CourseAndRole;
-import com.advancesd.group17.user.dao.UserDao;
-import com.advancesd.group17.user.models.NewStudent;
+import static com.advancesd.group17.utils.Constants.COURSE_CREDITS_FIELD;
+import static com.advancesd.group17.utils.Constants.COURSE_DESC_FIELD;
 
 public class CourseServiceImpl implements CourseService {
 
@@ -167,6 +161,11 @@ public class CourseServiceImpl implements CourseService {
 			}
 		}
 		return sendmailtostudents;
+	}
+
+	@Override
+	public List<String> getUserRoleByBannerId(String bannerid, CourseDao cd) {
+		return cd.getUserRoleByBannerid(bannerid);
 	}
 
 }

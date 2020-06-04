@@ -1,15 +1,14 @@
 package com.advancesd.group17.auth.controllers;
 
+import com.advancesd.group17.auth.dao.AuthDao;
+import com.advancesd.group17.auth.dao.AuthDaoImpl;
+import com.advancesd.group17.auth.services.SignupServiceImpl;
+import com.advancesd.group17.user.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.advancesd.group17.auth.dao.AuthDao;
-import com.advancesd.group17.auth.dao.AuthDaoImpl;
-import com.advancesd.group17.auth.services.SignupServiceImpl;
-import com.advancesd.group17.user.models.User;
 
 @Controller
 public class SignupController {

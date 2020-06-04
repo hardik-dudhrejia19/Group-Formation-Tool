@@ -1,12 +1,12 @@
 package com.advancesd.group17.auth.dao;
 
+import com.advancesd.group17.database.DatabaseConfig;
+import com.advancesd.group17.user.models.User;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.advancesd.group17.database.DatabaseConfig;
-import com.advancesd.group17.user.models.User;
 
 public class AuthDaoImpl implements AuthDao{
 	

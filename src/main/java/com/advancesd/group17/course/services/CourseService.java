@@ -35,5 +35,5 @@ public interface CourseService {
     
 	List<NewStudent> getNewStudents(List<NewStudent> newstudents, UserDao ud);
 
-
+    public List<String> getUserRoleByBannerId(String bannerid, CourseDao cd);
 }
