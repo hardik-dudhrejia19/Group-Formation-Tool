@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymleaf.org/">
 <head>
-<meta charset="UTF-8">
-<title>Course Creation</title>
-<link type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" / >
-<link type="text/css" href="./adminHome.css" rel="stylesheet"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Course Creation</title>
+	<link type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		  rel="stylesheet"
+	/ >
+	<link type="text/css" href="./adminHome.css" rel="stylesheet"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" th:href="'/home'">Welcome to the Group Formation Tool</a>
+	<div class='btn-group'>
+		<a th:href="'/logout'" class='btn btn-primary pull-right'>Logout</a>
+	</div>
+</nav>
 <div class="container m-3 p-3">
 	<h1 class="ml-5"> Course: <span th:text="${courseName}"></span></h1>
 	
@@ -17,17 +24,17 @@
 		<form th:action="@{'/course/add/{id}'(id=${courseName})}" th:method="post" th:object="${course}">
 			<div class="form-group">
 				<label for="courseDescription">Course Description</label>
-				<input type="text" class="form-control" th:name="courseDesc">
+				<input type="text" class="form-control" th:name="courseDesc" id="courseDescription">
 			</div>
 			<div class="form-group" style="width: 20%;">
 				<label for="courseCredits">Course Credits</label>
-				<select class="form-control" th:name="courseCredits">
+				<select class="form-control" th:name="courseCredits" id="courseCredits">
 					<option th:value="'1'" th:text="1" value="1"></option>
 					<option th:value="2" th:text="2" value=""></option>
 					<option th:value="3" th:text="3" value=""></option>
 					<option th:value="4" th:text="4" value=""></option>
 					<option th:value="5" th:text="5" value=""></option>
-				  </select>
+				</select>
 			</div>
 			<label style="margin-top:10px">Select instructor from below users</label>
 			<table class="table" style="width: 70%">
