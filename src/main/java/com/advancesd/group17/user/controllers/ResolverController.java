@@ -19,4 +19,9 @@ public class ResolverController {
             return "redirect:/user/home";
         }
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "login";
+    }
 }
