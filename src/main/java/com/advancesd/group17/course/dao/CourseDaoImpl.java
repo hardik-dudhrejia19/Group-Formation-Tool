@@ -95,17 +95,24 @@ public class CourseDaoImpl implements CourseDao {
 			stmt.setInt(3, course.getCourseCredits());
 
 			ResultSet rs = stmt.executeQuery();
+			
+			stmt = connection.prepareCall("{CALL getcoursebyname(?)}");
+			stmt.setString(1, course.getCourseName());
+			rs = stmt.executeQuery();
 			if (rs.next()) {
 				Course addedCourse = new Course();
 				addedCourse.setCourseId(rs.getInt("course_id"));
 				addedCourse.setCourseName(rs.getString("course_name"));
 				addedCourse.setCourseCredits(rs.getInt("course_credits"));
 				addedCourse.setCourseDesc(rs.getString("course_desc"));
+				connection.close();
 				return addedCourse;
-			}
-			connection.close();
-			return null;
 
+			} else {
+				connection.close();
+				return null;
+			}
+			
 		} catch (Exception e) {
 			log.error("Error occured: " + e);
 			e.printStackTrace();
@@ -126,10 +133,7 @@ public class CourseDaoImpl implements CourseDao {
 			CallableStatement stmt = connection.prepareCall("{CALL deletecoursebyid(?)}");
 			stmt.setInt(1, courseId);
 			stmt.execute();
-			ResultSet resultSet = stmt.executeQuery();
-			stmt = connection.prepareCall("{CALL delete_course_from_user_course_role(?)}");
-			stmt.setInt(1, courseId);
-			resultSet = stmt.executeQuery();
+			stmt.executeQuery();
 			connection.close();
 			return Boolean.TRUE;
 
