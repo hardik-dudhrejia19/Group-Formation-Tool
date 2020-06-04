@@ -1,13 +1,5 @@
 package com.advancesd.group17.user.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.advancesd.group17.course.dao.CourseDao;
 import com.advancesd.group17.course.dao.CourseDaoImpl;
 import com.advancesd.group17.course.models.Course;
@@ -15,20 +7,33 @@ import com.advancesd.group17.course.models.CourseAndRole;
 import com.advancesd.group17.course.services.CourseServiceImpl;
 import com.advancesd.group17.user.dao.UserDao;
 import com.advancesd.group17.user.dao.UserDaoImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
+@RequestMapping("/user")
 public class UsersController {
 
-	@GetMapping("/home")
-	public String homepage(@RequestParam("bannerid") String bannerid, Model model) {
-		boolean isStudent = false;
-		boolean isTA = false;
-		boolean isGuest = false;
-		boolean isInstructor = false;
+    @GetMapping("/home")
+    public String homepage(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String bannerid = auth.getPrincipal().toString();
 
-		UserDao userDao = new UserDaoImpl();
-		CourseDao courseDao = new CourseDaoImpl();
-		CourseServiceImpl lc = new CourseServiceImpl();
+        boolean isStudent = false;
+        boolean isTA = false;
+        boolean isGuest = false;
+        boolean isInstructor = false;
+
+        UserDao userDao = new UserDaoImpl();
+        CourseDao courseDao = new CourseDaoImpl();
+        CourseServiceImpl lc = new CourseServiceImpl();
 
 		List<CourseAndRole> coursesandroles = new ArrayList<>();
 		List<Course> allcourses = new ArrayList<>();
