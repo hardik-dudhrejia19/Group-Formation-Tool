@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org/">
+<head>
+	<meta charset="UTF-8">
+	<title>Admin Home Page</title>
+	<link type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		  rel="stylesheet"
+	/ >
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" th:href="'/home'">Welcome to the Group Formation Tool</a>
+	<div class='btn-group'>
+		<a th:href="'/logout'" class='btn btn-primary pull-right'>Logout</a>
+	</div>
+</nav>
+<div class="container" style="margin-top:30px">
+	<form th:action="@{'/admin/addCourse'}" th:method="get">
+		<div class="input-group mb-3" style="width:50%">
+	  		<input type="text" class="form-control mr-4" placeholder="Add new course" th:name="courseName" required>
+	  		<button class="btn btn-success ">Add</button>
+	  	</div>
+  	</form>
+  	
+  	<h2 style="margin-bottom: 30px;margin-top:50px;" class="text-success">Existing courses</h2>
+  	<div th:if="${courseList?.empty}">
+  		No Course available
+  	</div>
+ 
+	  	<div style="margin-top:30px;">
+				<table class="table" style="width:100%">
+					<tr>
+						<th>
+							Course Name
+						</th>
+						<th>
+							
+						</th>
+						<th>
+							
+						</th>
+					</tr>
+					<tr th:each="course: ${courseList}">
+						<td>
+							<div th:text="${course.courseName}"/>
+						</td>
+						<td>
+							<a th:href="@{'/course/details/' + ${course.courseId}}" class="btn btn-primary" role="">View Details</a>
+						</td>
+						<td>
+							<a th:href="@{'/course/delete/' + ${course.courseId}}" class="btn btn-danger" role="">Delete</a>
+						</td>
+					</tr>
+				</table>
+		</div>
+	
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

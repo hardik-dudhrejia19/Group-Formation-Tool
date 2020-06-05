@@ -1,3 +1,7 @@
+#variables:
+#    GIT_STRATEGY: clone
+image: java:8-jdk
+
 stages:
     - build
     - test
@@ -7,21 +11,26 @@ before_script:
      - export GRADLE_USER_HOME='pwd'/.gradle
      - chmod +x ./gradlew
 
+cache:
+    paths:
+        - .gradle/wrapper
+        - .gradle/caches
+
 build:
-    image: gradle:alpine
+#    image: gradle:alpine
     stage: build
     script: 
         - ./gradlew assemble
     tags:
-        - grad
-
+#        - grad
+        - dalfcs_gitlab_docker_ci
 test: 
     stage: test 
     script:
         - ./gradlew check
     tags:
-        - grad
-
+#        - grad
+        - dalfcs_gitlab_docker_ci
 develop:
     stage: deploy
     image: ruby:latest
