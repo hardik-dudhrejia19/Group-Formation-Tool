@@ -1,5 +1,13 @@
 package CSCI5308.GroupFormationTool.CoursesTest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 import CSCI5308.GroupFormationTool.AccessControl.IUserPersistence;
 import CSCI5308.GroupFormationTool.AccessControl.User;
 import CSCI5308.GroupFormationTool.AccessControlTest.UserDBMock;
@@ -7,21 +15,15 @@ import CSCI5308.GroupFormationTool.Courses.Course;
 import CSCI5308.GroupFormationTool.Courses.Role;
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 import CSCI5308.GroupFormationTool.SecurityTest.PasswordEncryptionMock;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
-class StudentCSVImportTest {
+class StudentCSVImportTest 
+{
 
 	@Test
-	public void enrollStudentFromRecord() {
+	public void enrollStudentFromRecord() 
+	{
 		User user = new User();
 		Course course = new Course();
 		IUserPersistence userDB = new UserDBMock();
@@ -31,7 +33,8 @@ class StudentCSVImportTest {
 	}
 
 	@Test
-	public void getSuccessResults() {
+	public void getSuccessResults() 
+	{
 		List<String> successResults = new ArrayList<String>();
 		successResults.add("Created record");
 		assertThat(successResults).isNotNull();
@@ -40,7 +43,8 @@ class StudentCSVImportTest {
 	}
 
 	@Test
-	public void getFailureResults() {
+	public void getFailureResults() 
+	{
 		List<String> failureResults = new ArrayList<String>();
 		failureResults.add("Created record");
 		assertThat(failureResults).isNotNull();

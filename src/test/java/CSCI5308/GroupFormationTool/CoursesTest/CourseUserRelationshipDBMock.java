@@ -1,15 +1,17 @@
 package CSCI5308.GroupFormationTool.CoursesTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import CSCI5308.GroupFormationTool.AccessControl.User;
 import CSCI5308.GroupFormationTool.Courses.Course;
 import CSCI5308.GroupFormationTool.Courses.ICourseUserRelationshipPersistence;
 import CSCI5308.GroupFormationTool.Courses.Role;
 
-import java.util.ArrayList;
-import java.util.List;
-
-class CourseUserRelationshipDBMock implements ICourseUserRelationshipPersistence {
-	public List<User> findAllUsersWithoutCourseRole(Role role, long courseID) {
+class CourseUserRelationshipDBMock implements ICourseUserRelationshipPersistence 
+{
+	public List<User> findAllUsersWithoutCourseRole(Role role, long courseID) 
+	{
 		List<User> userList = new ArrayList<>();
 		User u = new User();
 		u.setId(0);
@@ -20,7 +22,8 @@ class CourseUserRelationshipDBMock implements ICourseUserRelationshipPersistence
 		return userList;
 	}
 
-	public List<User> findAllUsersWithCourseRole(Role role, long courseID) {
+	public List<User> findAllUsersWithCourseRole(Role role, long courseID) 
+	{
 		List<User> userList = new ArrayList<>();
 		User u = new User();
 		u.setId(0);
@@ -31,7 +34,8 @@ class CourseUserRelationshipDBMock implements ICourseUserRelationshipPersistence
 		return userList;
 	}
 
-	public boolean enrollUser(Course course, User user, Role role) {
+	public boolean enrollUser(Course course, User user, Role role) 
+	{
 		user.setId(0);
 		course.setId(0);
 		course.setTitle("Software Engineering");
@@ -39,7 +43,8 @@ class CourseUserRelationshipDBMock implements ICourseUserRelationshipPersistence
 
 	}
 
-	public List<Role> loadUserRolesForCourse(Course course, User user) {
+	public List<Role> loadUserRolesForCourse(Course course, User user) 
+	{
 		List<Role> userRoles = new ArrayList<>();
 		userRoles.add(Role.STUDENT);
 		userRoles.add(Role.TA);

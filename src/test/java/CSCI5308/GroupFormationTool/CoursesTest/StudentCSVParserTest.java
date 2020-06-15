@@ -1,19 +1,21 @@
 package CSCI5308.GroupFormationTool.CoursesTest;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.Reader;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
-class StudentCSVParserTest {
+class StudentCSVParserTest 
+{
 	@Test
-	public void parseCSVFile() {
+	public void parseCSVFile() 
+	{
 		Reader reader = null;
 		CSVReaderMock csvReader = new CSVReaderMock();
 		List<String[]> records = csvReader.readAll(reader);
