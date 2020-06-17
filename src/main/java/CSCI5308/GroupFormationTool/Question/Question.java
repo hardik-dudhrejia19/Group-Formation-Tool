@@ -1,5 +1,6 @@
 package CSCI5308.GroupFormationTool.Question;
 
+import java.util.List;
 
 public class Question 
 {
@@ -7,6 +8,8 @@ public class Question
 	private String title;
 	private String question;
 	private String type;
+	private List<Option> answerOptions;
+	private String dateCreated;
 	
 	
 	public Question() 
@@ -20,6 +23,7 @@ public class Question
 		title = "";
 		question = "";
 		type = "";
+		answerOptions = null;
 	}
 	
 	public long getId() 
@@ -54,6 +58,21 @@ public class Question
 	{
 		this.type = type;
 	}
-	
+
+	public List<Option> getAnswerOptions() {
+		return answerOptions;
+	}
+
+	public void setAnswerOptions(List<Option> answerOptions) {
+		this.answerOptions = answerOptions;
+	}
+
+	public String getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(String dateCreated) {
+		this.dateCreated = dateCreated;
+	}
 	
 }

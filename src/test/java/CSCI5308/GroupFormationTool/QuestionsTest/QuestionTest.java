@@ -1,9 +1,14 @@
 package CSCI5308.GroupFormationTool.QuestionsTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
+import CSCI5308.GroupFormationTool.Question.Option;
 import CSCI5308.GroupFormationTool.Question.Question;
 
 @SpringBootTest
@@ -18,6 +23,7 @@ public class QuestionTest {
 		Assert.isTrue(question.getTitle().isEmpty());
 		Assert.isTrue(question.getQuestion().isEmpty());
 		Assert.isTrue(question.getType().isEmpty());
+		Assert.isTrue(CollectionUtils.isEmpty(question.getAnswerOptions()));
 		
 	}
 
@@ -95,6 +101,32 @@ public class QuestionTest {
 		
 		question.setType(questionType);
 		Assert.isTrue(question.getType().equals(questionType));
+	}
+	
+	@Test
+	public void setAnswerOptionsTest() 
+	{
+		Question question = new Question();
+		Option option = new Option();
+		option.setText("Java");
+		option.setValue("1");
+		List<Option> optionList = new ArrayList<>();
+		optionList.add(option);
+		question.setAnswerOptions(optionList);
+		Assert.isTrue(!question.getAnswerOptions().isEmpty());
+	}
+	
+	@Test
+	public void getAnswerOptionsTest() 
+	{
+		Question question = new Question();
+		Option option = new Option();
+		option.setText("PHP");
+		option.setValue("2");
+		List<Option> optionList = new ArrayList<>();
+		optionList.add(option);
+		question.setAnswerOptions(optionList);
+		Assert.isTrue(!question.getAnswerOptions().isEmpty());
 	}
 
 }

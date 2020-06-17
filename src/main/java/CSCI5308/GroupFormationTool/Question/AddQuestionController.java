@@ -1,14 +1,21 @@
 package CSCI5308.GroupFormationTool.Question;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import CSCI5308.GroupFormationTool.SystemConfig;
 
 @Controller
 public class AddQuestionController 
@@ -39,7 +46,7 @@ public class AddQuestionController
 		model.addAttribute("question", question);
 		model.addAttribute("type", type);
 		
-		if (type.equals(QuestionTypes.MULTIPLE_CHOICE_1.name()) || type.equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_MANY.name())) 
+		if (type.equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_ONE.name()) || type.equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_MANY.name())) 
 		{
 			return MULTIPLE_CHOICE__PAGE;
 		} else if (type.equals(QuestionTypes.NUMERIC.name()))
@@ -67,7 +74,7 @@ public class AddQuestionController
 		model.addAttribute("valueOptions", value);
 		log.info("Exiting submitQuestion");
 		
-		if (type.equals(QuestionTypes.MULTIPLE_CHOICE_1.name()))
+		if (type.equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_ONE.name()))
 		{
 			return SURVEY_VIEW_MULTIPLE_CHOICE_CHOOSE_ONE;
 		} else 
@@ -80,6 +87,35 @@ public class AddQuestionController
 	public String saveQuestion(@RequestParam String title, @RequestParam String question, 
 			@RequestParam String type, @RequestParam(required = false) List<String> option, @RequestParam(required = false) List<String> value) 
 	{
+		Question questionObject = new Question();
+		
+		questionObject.setTitle(title);
+		questionObject.setQuestion(question);
+		questionObject.setType(type);
+		
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		String formattedDate = formatter.format(date);
+		questionObject.setDateCreated(formattedDate);
+		
+		List<Option> optionList = null;
+		if (!CollectionUtils.isEmpty(option)) 
+		{
+			optionList = new ArrayList<Option>();
+			int index = 0;
+			for(String optionStr : option)
+			{
+				Option optionObject = new Option();
+				optionObject.setText(optionStr);
+				optionObject.setValue(value.get(index));
+				optionList.add(optionObject);
+				index++;
+			}
+		}
+		questionObject.setAnswerOptions(optionList);
+		IQuestionManager questionManager = new QuestionManager();
+		IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
+		questionManager.saveQuestion(questionObject, questionPersistence);
 		return CREATE_QUES_PAGE;
 	}
 	
