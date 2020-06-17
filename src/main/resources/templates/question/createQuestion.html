@@ -14,30 +14,26 @@
 	<h1 class="ml-5"> Create Question</span></h1>
 	
 	<div class="form-group m-5">
-		<form th:action="@{'/question/type/add'(id=${courseName})}" th:method="post" th:object="${course}" style="width: 70%;">
+		<form th:action="@{/question/type/}" th:method="get" style="width: 70%;">
 			<div class="form-group">
 				<label for="quesTitle">Title</label>
-				<input type="text" class="form-control" th:name="courseDesc">
+				<input type="text" class="form-control" th:name="title" required>
 			</div>
 			<div class="form-group">
-				<label for="courseDescription">Question</label>
-				<input type="text" class="form-control" th:name="courseDesc">
+				<label for="question">Question</label>
+				<input type="text" class="form-control" th:name="question" required>
 			</div>
 			<div class="form-group" style="width: 30%;">
 				<label for="quesType">Type</label>
-				<select class="form-control" th:name="questionType" >
+				<select class="form-control" th:name="type" required>
 					<option th:each="questionType : ${questionTypes}" th:value=${questionType} th:text=${questionType.value} value="questionType.value"></option>
-					<!-- <option th:value="MultipleChoiceChoose1" th:text="2" value=""></option>
-					<option th:value="MultipleChoiceChooseMultiple" th:text="3" value=""></option>
-					<option th:value="FreeText" th:text="4" value=""></option>
-					<option th:value="5" th:text="5" value=""></option> -->
 				  </select>
 			</div>
 			
 			<table>
 				<tr class="d-flex">
 					<td class="col-7" style="left:10%">
-						<button class="btn btn-secondary" type="Submit">Submit</button>
+						<button class="btn btn-secondary" type="Submit">Next</button>
 					</td>
 					<td class="col-10 align-middle" style="left: 20%;">
 						<a th:href="@{'/admin/home/'}" class="btn btn-warning" role="">Cancel Question Creation</a>
