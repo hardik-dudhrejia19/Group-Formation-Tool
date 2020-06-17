@@ -30,7 +30,7 @@
         <table class="container-fluid" style="margin-left: 5%">
             <tr th:each="optionObject : ${answerOptions}">
                 <td>
-                    <input type="hidden" name="option" value="${optionObject}" />
+                    <input type="hidden" th:name="option" th:value="${optionObject}" />
                 </td>
                 
             </tr>
@@ -38,7 +38,7 @@
         <table class="container-fluid" style="margin-left: 5%">
             <tr th:each="valueObject : ${valueOptions}">
                 <td>
-                    <input type="hidden" name="value" value="${valueObject}" />
+                    <input type="hidden" th:name="value" th:value="${valueObject}" />
                 </td>
                 
             </tr>

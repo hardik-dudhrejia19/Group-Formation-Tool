@@ -13,4 +13,12 @@ public class QuestionDbMock implements IQuestionPersistence{
 		return true;
 	}
 
+	@Override
+	public Integer getQuestionIdByTitleTextType(Question question) 
+	{
+		question.setId(3);
+		return 3;
+	}
+	
+
 }
