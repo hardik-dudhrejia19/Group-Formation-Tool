@@ -6,7 +6,7 @@ import CSCI5308.GroupFormationTool.Question.Question;
 public class QuestionDbMock implements IQuestionPersistence{
 
 	@Override
-	public Boolean saveQuestion(Question question) {
+	public Boolean saveQuestion(Question question, String id) {
 		
 		question.setTitle("Tell us more");
 		question.setType("FREE_TEXT");

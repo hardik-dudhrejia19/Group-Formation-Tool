@@ -8,7 +8,7 @@ import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 public class QuestionDB implements IQuestionPersistence{
 
 	@Override
-	public Boolean saveQuestion(Question question) 
+	public Boolean saveQuestion(Question question, String id) 
 	{
 
 		CallStoredProcedure proc = null;
@@ -33,6 +33,12 @@ public class QuestionDB implements IQuestionPersistence{
 			}
 		}
 		
+		Integer questionId = getQuestionIdByTitleTextType(question);
+		if (null != questionId)
+		{
+			saveQuestionForInstructor(questionId, id);
+		}
+		
 		if (question.getType().equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_MANY.name()) || question.getType().equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_ONE.name())) 
 		{
 			saveMultipleOptions(question);
@@ -50,6 +56,31 @@ public class QuestionDB implements IQuestionPersistence{
 		for(Option option : question.getAnswerOptions())
 		{
 			saveQuestionOption(id, option);
+		}
+		return true;
+	}
+	
+	private boolean saveQuestionForInstructor(Integer questionId, String id)
+	{
+		CallStoredProcedure proc = null;
+		try
+		{
+			proc = new CallStoredProcedure("spAddInstructorToQuestion(?, ?)");
+			proc.setParameter(1, id);
+			proc.setParameter(2, questionId);
+			proc.execute();
+		}
+		catch (SQLException e)
+		{
+			// Logging needed
+			return false;
+		}
+		finally
+		{
+			if (null != proc)
+			{
+				proc.cleanup();
+			}
 		}
 		return true;
 	}

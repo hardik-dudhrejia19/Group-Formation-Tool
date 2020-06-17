@@ -17,7 +17,7 @@ public class QuestionManagerTest
 		Question question = new Question();
 		question.setTitle("How many hours of credits required");
 		question.setType("NUMERIC");
-		questionPersistence.saveQuestion(question);
+		questionPersistence.saveQuestion(question, "B-000000");
 		Assert.isTrue(question.getType().equals("FREE_TEXT"));
 		Assert.isTrue(question.getTitle().equals("Tell us more"));
 	}

@@ -95,6 +95,8 @@ public class AddQuestionController
 	public String saveQuestion(@RequestParam String title, @RequestParam String question, 
 			@RequestParam String type, @RequestParam(required = false) List<String> option, @RequestParam(required = false) List<String> value) 
 	{
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
 		Question questionObject = new Question();
 		
 		questionObject.setTitle(title);
@@ -118,9 +120,7 @@ public class AddQuestionController
 		questionObject.setAnswerOptions(optionList);
 		IQuestionManager questionManager = new QuestionManager();
 		IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
-		questionManager.saveQuestion(questionObject, questionPersistence);
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String id = authentication.getName();
+		questionManager.saveQuestion(questionObject, questionPersistence, id);
         
 		return "redirect:/" + VIEW_QUES_PAGE + "?id=" + id + "&order";
 	}
