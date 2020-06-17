@@ -1,5 +1,6 @@
 package CSCI5308.GroupFormationTool;
 
+import CSCI5308.GroupFormationTool.Email.Email;
 import CSCI5308.GroupFormationTool.Security.*;
 import CSCI5308.GroupFormationTool.AccessControl.*;
 import CSCI5308.GroupFormationTool.Database.*;
@@ -23,7 +24,9 @@ public class SystemConfig
 	private IDatabaseConfiguration databaseConfiguration;
 	private ICoursePersistence courseDB;
 	private ICourseUserRelationshipPersistence courseUserRelationshipDB;
-	
+	private Email email;
+
+
 	// This private constructor ensures that no class other than System can allocate
 	// the System object. The compiler would prevent it.
 	private SystemConfig()
@@ -36,6 +39,8 @@ public class SystemConfig
 		databaseConfiguration = new DefaultDatabaseConfiguration();
 		courseDB = new CourseDB();
 		courseUserRelationshipDB = new CourseUserRelationshipDB();
+		email = new Email();
+
 	}
 	
 	// This is the way the rest of the application gets access to the System object.
@@ -49,7 +54,15 @@ public class SystemConfig
 		}
 		return uniqueInstance;
 	}
-	
+
+	public Email getEmail() {
+		return email;
+	}
+
+	public void setEmail(Email email) {
+		this.email = email;
+	}
+
 	public IPasswordEncryption getPasswordEncryption()
 	{
 		return passwordEncryption;
