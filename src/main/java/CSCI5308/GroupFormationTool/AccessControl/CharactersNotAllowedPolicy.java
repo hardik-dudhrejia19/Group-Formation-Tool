@@ -5,7 +5,7 @@ public class CharactersNotAllowedPolicy implements IPasswordPolicyValidation {
     private String criteria = null;
     private String validatorCriteria = null;
 
-    CharactersNotAllowedPolicy(String criteria, String validatorCriteria)
+    public CharactersNotAllowedPolicy(String criteria, String validatorCriteria)
     {
         this.criteria = criteria;
         this.validatorCriteria = validatorCriteria;

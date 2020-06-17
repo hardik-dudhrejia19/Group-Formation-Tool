@@ -5,7 +5,7 @@ public class MinimumUppercasePolicy implements IPasswordPolicyValidation {
     private String criteria = null;
     private String validatorCriteria = null;
 
-    MinimumUppercasePolicy(String criteria, String validatorCriteria)
+    public MinimumUppercasePolicy(String criteria, String validatorCriteria)
     {
         this.criteria = criteria;
         this.validatorCriteria = validatorCriteria;

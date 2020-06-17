@@ -5,7 +5,7 @@ public class MaximumLengthPolicy implements IPasswordPolicyValidation {
     private String criteria = null;
     private String validatorCriteria = null;
 
-    MaximumLengthPolicy(String criteria, String validatorCriteria)
+    public MaximumLengthPolicy(String criteria, String validatorCriteria)
     {
         this.criteria = criteria;
         this.validatorCriteria = validatorCriteria;

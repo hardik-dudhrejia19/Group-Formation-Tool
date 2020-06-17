@@ -5,7 +5,7 @@ public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyVal
     private String criteria = null;
     private String validatorCriteria = null;
 
-    MinimumSymbolOrSpecialCharacterPolicy(String criteria, String validatorCriteria)
+    public MinimumSymbolOrSpecialCharacterPolicy(String criteria, String validatorCriteria)
     {
         this.criteria = criteria;
         this.validatorCriteria = validatorCriteria;

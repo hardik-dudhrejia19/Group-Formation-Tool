@@ -5,7 +5,7 @@ public class MinimumLengthPolicy implements IPasswordPolicyValidation {
     private String criteria = null;
     private String validatorCriteria = null;
 
-    MinimumLengthPolicy(String criteria, String validatorCriteria)
+    public MinimumLengthPolicy(String criteria, String validatorCriteria)
     {
         this.criteria = criteria;
         this.validatorCriteria = validatorCriteria;
