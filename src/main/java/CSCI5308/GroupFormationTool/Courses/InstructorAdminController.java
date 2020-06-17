@@ -2,6 +2,8 @@ package CSCI5308.GroupFormationTool.Courses;
 
 import java.util.List;
 
+import CSCI5308.GroupFormationTool.AccessControl.User;
+import CSCI5308.GroupFormationTool.Email.Email;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,16 +91,28 @@ public class InstructorAdminController
 	@RequestMapping(value = "/course/uploadcsv", consumes = {"multipart/form-data"})
    public ModelAndView upload(@RequestParam(name = FILE) MultipartFile file, @RequestParam(name = ID) long courseID)
    {
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
-		courseDB.loadCourseByID(courseID, course);
-		IStudentCSVParser parser = new StudentCSVParser(file);
-		StudentCSVImport importer = new StudentCSVImport(parser, course);
-		ModelAndView mav = new ModelAndView("redirect:/course/instructoradminresults?id=" + Long.toString(courseID));
-		mav.addObject("successful", importer.getSuccessResults());
-		mav.addObject("failures", importer.getFailureResults());
-		mav.addObject("displayresults", true);
-		
-		return mav;
+	   ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
+	   Course course = new Course();
+	   List<User> newStudents;
+	   courseDB.loadCourseByID(courseID, course);
+	   IStudentCSVParser parser = new StudentCSVParser(file);
+	   StudentCSVImport importer = new StudentCSVImport(parser, course);
+
+	   newStudents = importer.getNewStudents();
+	   importer.enrollStudentFromRecord();
+
+	   Email email = SystemConfig.instance().getEmail();
+
+	   for (User student:newStudents)
+	   {
+		   email.sendMail(student.getEmail(),student.getBannerID(),course.getTitle());
+	   }
+
+	   ModelAndView mav = new ModelAndView("redirect:/course/instructoradminresults?id=" + Long.toString(courseID));
+	   mav.addObject("successful", importer.getSuccessResults());
+	   mav.addObject("failures", importer.getFailureResults());
+	   mav.addObject("displayresults", true);
+
+	   return mav;
    }
 }
