@@ -33,8 +33,8 @@ public class QuestionTest {
 	public void getIdTest() 
 	{
 		Question question = new Question();
-		question.setId(7);
-		Assert.isTrue(question.getId() == 1);
+		question.setId(2);
+		Assert.isTrue(question.getId() == 2);
 	}
 	
 	@Test
