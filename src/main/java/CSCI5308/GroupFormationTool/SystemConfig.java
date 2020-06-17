@@ -1,11 +1,21 @@
 package CSCI5308.GroupFormationTool;
 
+import CSCI5308.GroupFormationTool.Email.Email;
 import CSCI5308.GroupFormationTool.Security.*;
 import CSCI5308.GroupFormationTool.AccessControl.*;
 import CSCI5308.GroupFormationTool.Database.*;
 import CSCI5308.GroupFormationTool.Question.IQuestionPersistence;
 import CSCI5308.GroupFormationTool.Question.QuestionDB;
 import CSCI5308.GroupFormationTool.Courses.*;
+import CSCI5308.GroupFormationTool.Courses.CourseDB;
+import CSCI5308.GroupFormationTool.Courses.CourseUserRelationshipDB;
+import CSCI5308.GroupFormationTool.Courses.ICoursePersistence;
+import CSCI5308.GroupFormationTool.Courses.ICourseUserRelationshipPersistence;
+import CSCI5308.GroupFormationTool.Database.DefaultDatabaseConfiguration;
+import CSCI5308.GroupFormationTool.Database.IDatabaseConfiguration;
+import CSCI5308.GroupFormationTool.Security.BCryptPasswordEncryption;
+import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
+
 
 /*
  * This is a singleton, we will learn about these when we learn design patterns.
@@ -26,7 +36,10 @@ public class SystemConfig
 	private ICoursePersistence courseDB;
 	private ICourseUserRelationshipPersistence courseUserRelationshipDB;
 	private IQuestionPersistence questionDB;
-	
+	private Email email;
+	private IActivePasswordPolicyPersistence activePasswordPolicyDB;
+	private IActivePasswordPolicyListBuilder activePasswordPolicyListBuilder;
+
 	// This private constructor ensures that no class other than System can allocate
 	// the System object. The compiler would prevent it.
 	private SystemConfig()
@@ -40,6 +53,9 @@ public class SystemConfig
 		courseDB = new CourseDB();
 		courseUserRelationshipDB = new CourseUserRelationshipDB();
 		questionDB = new QuestionDB();
+		email = new Email();
+		activePasswordPolicyDB = new ActivePasswordPolicyDB();
+		activePasswordPolicyListBuilder = new ActivePasswordPolicyListBuilder();
 	}
 	
 	// This is the way the rest of the application gets access to the System object.
@@ -53,10 +69,21 @@ public class SystemConfig
 		}
 		return uniqueInstance;
 	}
-	
-	public IPasswordEncryption getPasswordEncryption()
-	{
+
+	public IActivePasswordPolicyListBuilder getActivePasswordPolicyListBuilder() { return activePasswordPolicyListBuilder; }
+
+	public IActivePasswordPolicyPersistence getActivePasswordPolicyDB() { return activePasswordPolicyDB; }
+
+	public IPasswordEncryption getPasswordEncryption() {
 		return passwordEncryption;
+	}
+    
+    public Email getEmail() {
+		return email;
+	}
+
+	public void setEmail(Email email) {
+		this.email = email;
 	}
 	
 	public void setPasswordEncryption(IPasswordEncryption passwordEncryption)

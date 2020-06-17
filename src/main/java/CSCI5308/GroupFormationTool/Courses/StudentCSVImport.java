@@ -15,7 +15,9 @@ public class StudentCSVImport
 	private IUserPersistence userDB;
 	private IPasswordEncryption passwordEncryption;
 	private IStudentCSVParser parser;
-	
+	private List<User> studentList;
+
+
 	public StudentCSVImport(IStudentCSVParser parser, Course course)
 	{
 		this.course = course;
@@ -24,20 +26,18 @@ public class StudentCSVImport
 		userDB = SystemConfig.instance().getUserDB();
 		passwordEncryption = SystemConfig.instance().getPasswordEncryption();
 		this.parser = parser;
-		enrollStudentFromRecord();
 	}
-	
-	private void enrollStudentFromRecord()
+
+	public void enrollStudentFromRecord()
 	{
-		List<User> studentList = parser.parseCSVFile(failureResults);
-		for(User u : studentList)
-		{	
+		for(User u : this.studentList)
+		{
 			String bannerID = u.getBanner();
 			String firstName = u.getFirstName();
 			String lastName = u.getLastName();
 			String email = u.getEmail();
 			String userDetails = bannerID + " " + firstName + " " + lastName +" " + email;
-			
+
 			User user = new User();
 			userDB.loadUserByBannerID(bannerID, user);
 			if (!user.isValidUser())
@@ -64,6 +64,22 @@ public class StudentCSVImport
 				failureResults.add("Unable to enroll user in course: " + userDetails);
 			}
 		}
+	}
+
+	public List<User> getNewStudents()
+	{
+		List<User> newStudents= new ArrayList<User>();
+		IUserPersistence userDB =  SystemConfig.instance().getUserDB();
+		this.studentList = parser.parseCSVFile(failureResults);
+
+		for (User student : this.studentList)
+		{
+			if(!userDB.isAlreadyUser(student.getBannerID()))
+			{
+				newStudents.add(student);
+			}
+		}
+		return newStudents;
 	}
 	
 	public List<String> getSuccessResults()

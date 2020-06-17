@@ -1,10 +1,13 @@
 package CSCI5308.GroupFormationTool.AccessControlTest;
 
 import CSCI5308.GroupFormationTool.AccessControl.*;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
@@ -149,5 +152,40 @@ public class UserTest
 		Assert.isTrue(!User.isEmailValid(""));
 		Assert.isTrue(!User.isEmailValid("@dal.ca"));
 		Assert.isTrue(!User.isEmailValid("rhawkey@"));
-	}	
+	}
+
+	@Test
+	public void failedPasswordValidationListTest(){
+		String password = "abcd";
+		IActivePasswordPolicyListBuilder listBuilder = new ActivePasswordPolicyListBuilderMock();
+		listBuilder.createActivePasswordPolicyList();
+		List<IPasswordPolicyValidation> activePasswordPolicyList = listBuilder.getActivePasswordPolicyList();
+
+		List<String> failedValidationCriteriaList = new ArrayList<>();
+
+		failedValidationCriteriaList.clear();
+		for (int i=0; i<activePasswordPolicyList.size(); i++)
+		{
+			if(!activePasswordPolicyList.get(i).isPasswordValid(password))
+			{
+				failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
+			}
+		}
+
+		Assertions.assertEquals(2,failedValidationCriteriaList.size());
+
+		password = "abcdefghi";
+		listBuilder.createActivePasswordPolicyList();
+
+		failedValidationCriteriaList.clear();
+		for (int i=0; i<activePasswordPolicyList.size(); i++)
+		{
+			if(!activePasswordPolicyList.get(i).isPasswordValid(password))
+			{
+				failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
+			}
+		}
+
+		Assertions.assertEquals(1,failedValidationCriteriaList.size());
+	}
 }
