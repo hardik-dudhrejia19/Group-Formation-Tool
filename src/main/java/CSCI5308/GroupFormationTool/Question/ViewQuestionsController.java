@@ -1,5 +1,6 @@
 package CSCI5308.GroupFormationTool.Question;
 
+import CSCI5308.GroupFormationTool.SystemConfig;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,25 +13,24 @@ import java.util.List;
 @Controller
 public class ViewQuestionsController {
 
-    private IRetrieveQuestionService questionService = new RetrieveQuestionService();
+    private IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
 
     @RequestMapping("/viewQuestions")
-    public String viewQuestions(Model model, @RequestParam(value = "id") String id,
+    public String viewQuestions(Model model, @RequestParam(value = "id") String instructorId,
                                 @RequestParam(value = "order", required = false) String order) {
         List<List<String>> questionList;
         try {
-            questionList = questionService.getQuestionsByInstructorID(id, order);
+            questionList = questionPersistence.getQuestionsByInstructorID(instructorId, order);
             model.addAttribute("questionList", questionList);
         } catch (Exception ex) {
             return "error";
         }
-        return "viewquestions";
+        return "question/viewQuestions";
     }
 
     @RequestMapping("/viewQuestionsSorted")
     public String viewQuestionsSorted(Model model, @RequestParam("order") String order) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Sort order : " + order);
         return "redirect:/viewQuestions?id=" + authentication.getName() + "&order=" + order;
     }
 
@@ -39,7 +39,7 @@ public class ViewQuestionsController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
         try {
-            questionService.removeQuestionFromDatabase(questionId);
+            questionPersistence.removeQuestionFromDatabase(questionId);
         } catch (Exception ex) {
             return "error";
         }

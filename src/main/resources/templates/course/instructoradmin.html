@@ -57,8 +57,5 @@
 		</form>
 		<br/>
 		<a th:href="@{/course/enrollta(id=${course.id})}">Enroll TAs</a>
-		<div th:if="${isInstructor}">
-			<a th:href="@{/viewQuestions(id=${instructorId},order)}">Survey Questions</a>
-		</div>
 	</body>
 </html>

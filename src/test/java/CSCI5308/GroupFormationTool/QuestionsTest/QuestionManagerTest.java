@@ -1,18 +1,18 @@
 package CSCI5308.GroupFormationTool.QuestionsTest;
 
+import CSCI5308.GroupFormationTool.Question.IQuestionPersistence;
+import CSCI5308.GroupFormationTool.Question.Question;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
-import CSCI5308.GroupFormationTool.Question.IQuestionPersistence;
-import CSCI5308.GroupFormationTool.Question.Question;
+import java.util.List;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
-public class QuestionManagerTest 
-{
-
-	public void saveQuestionTest()
-	{
+public class QuestionManagerTest {
+	@Test
+	public void saveQuestionTest() {
 		IQuestionPersistence questionPersistence = new QuestionDbMock();
 		Question question = new Question();
 		question.setTitle("How many hours of credits required");
@@ -21,14 +21,31 @@ public class QuestionManagerTest
 		Assert.isTrue(question.getType().equals("FREE_TEXT"));
 		Assert.isTrue(question.getTitle().equals("Tell us more"));
 	}
-	
-	public void getQuestionIdByTitleTextTypeText()
-	{
+
+	@Test
+	public void getQuestionIdByTitleTextTypeText() {
 		IQuestionPersistence questionPersistence = new QuestionDbMock();
 		Question question = new Question();
 		question.setTitle("How many hours of credits required");
 		question.setType("NUMERIC");
 		questionPersistence.getQuestionIdByTitleTextType(question);
 		Assert.isTrue(question.getId() == 3);
+	}
+
+	@Test
+	public void getQuestionsByInstructorID() {
+		IQuestionPersistence questionPersistence = new QuestionDbMock();
+		String instructorId = "B-444444";
+		String order = "Mock Order";
+		List<List<String>> questionList = questionPersistence.getQuestionsByInstructorID(instructorId, order);
+		Assert.isTrue(questionList.size() == 1);
+	}
+
+	@Test
+	public void removeQuestionFromDatabase() {
+		IQuestionPersistence questionPersistence = new QuestionDbMock();
+		String questionId = "123456";
+		boolean isQuestionDeleted = questionPersistence.removeQuestionFromDatabase(questionId);
+		Assert.isTrue(isQuestionDeleted);
 	}
 }
