@@ -55,7 +55,10 @@
 			<input type="file" name="file">
 			<button type="submit">Upload CSV File</button>
 		</form>
-        <br/>
+		<br/>
 		<a th:href="@{/course/enrollta(id=${course.id})}">Enroll TAs</a>
+		<div th:if="${isInstructor}">
+			<a th:href="@{/viewQuestions(id=${instructorId},order)}">Survey Questions</a>
+		</div>
 	</body>
 </html>
