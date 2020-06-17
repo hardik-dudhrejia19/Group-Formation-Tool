@@ -14,11 +14,10 @@ public class QuestionDB implements IQuestionPersistence{
 		CallStoredProcedure proc = null;
 		try
 		{
-			proc = new CallStoredProcedure("spCreateQuestion(?, ?, ?, ?)");
+			proc = new CallStoredProcedure("spCreateQuestion(?, ?, ?)");
 			proc.setParameter(1, question.getTitle());
-			proc.setParameter(2, question.getDateCreated().toString());
-			proc.setParameter(3, question.getQuestion());
-			proc.setParameter(4, question.getType());
+			proc.setParameter(2, question.getQuestion());
+			proc.setParameter(3, question.getType());
 			proc.execute();
 		}
 		catch (SQLException e)
