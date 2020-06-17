@@ -47,7 +47,7 @@
 			<table style="margin-top: 10%;">
 				<tr class="d-flex">
                     <td class="col-7" style="left:10%; width: 100%;">
-						<button class="btn btn-secondary" onclick="addMoreOptions()" type="button">Add More Answers</button>
+						<button class="btn btn-secondary" onclick="addOptions()" type="button">Add More Answers</button>
 					</td>
 					<td class="col-7" style="left:10%; width: 100%;">
 						<button class="btn btn-secondary" style="width: 100%" type="Submit">Next</button>
@@ -67,8 +67,9 @@
 </body>
 
 <script>
-	function addMoreOptions() {
-		document.getElementById("answers").innerHTML += '<table style="width: 100%;">'
+    function addOptions() {
+        $("#answers").append(
+            '<table style="width: 100%;">'
                 + '<tr>'
                 +    '<td >'
                 +        '<div class="input-group mb-2">'
@@ -92,8 +93,8 @@
                 +   '</div>'
                 +   '</td>'
                 +   '</tr>'
-                +'</table>';
-	}
+                +'</table>' );
+    }
 
 </script>
 
