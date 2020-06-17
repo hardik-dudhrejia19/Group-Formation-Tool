@@ -1,12 +1,12 @@
-package com.advancesd.group17;
+package CSCI5308.GroupFormationTool;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class GroupFormationToolApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(GroupFormationToolApplication.class, args);
 	}
 }

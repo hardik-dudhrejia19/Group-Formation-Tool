@@ -1,7 +1,6 @@
 package CSCI5308.GroupFormationTool;
 
-import CSCI5308.GroupFormationTool.AccessControl.IUserPersistence;
-import CSCI5308.GroupFormationTool.AccessControl.UserDB;
+import CSCI5308.GroupFormationTool.AccessControl.*;
 import CSCI5308.GroupFormationTool.Courses.CourseDB;
 import CSCI5308.GroupFormationTool.Courses.CourseUserRelationshipDB;
 import CSCI5308.GroupFormationTool.Courses.ICoursePersistence;
@@ -28,6 +27,8 @@ public class SystemConfig {
 	private IDatabaseConfiguration databaseConfiguration;
 	private ICoursePersistence courseDB;
 	private ICourseUserRelationshipPersistence courseUserRelationshipDB;
+	private IActivePasswordPolicyPersistence activePasswordPolicyDB;
+	private IActivePasswordPolicyListBuilder activePasswordPolicyListBuilder;
 
 	// This private constructor ensures that no class other than System can allocate
 	// the System object. The compiler would prevent it.
@@ -40,6 +41,8 @@ public class SystemConfig {
 		databaseConfiguration = new DefaultDatabaseConfiguration();
 		courseDB = new CourseDB();
 		courseUserRelationshipDB = new CourseUserRelationshipDB();
+		activePasswordPolicyDB = new ActivePasswordPolicyDB();
+		activePasswordPolicyListBuilder = new ActivePasswordPolicyListBuilder();
 	}
 
 	// This is the way the rest of the application gets access to the System object.
@@ -51,6 +54,10 @@ public class SystemConfig {
 		}
 		return uniqueInstance;
 	}
+
+	public IActivePasswordPolicyListBuilder getActivePasswordPolicyListBuilder() { return activePasswordPolicyListBuilder; }
+
+	public IActivePasswordPolicyPersistence getActivePasswordPolicyDB() { return activePasswordPolicyDB; }
 
 	public IPasswordEncryption getPasswordEncryption() {
 		return passwordEncryption;

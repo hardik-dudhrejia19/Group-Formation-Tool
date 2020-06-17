@@ -1,7 +1,11 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
+import CSCI5308.GroupFormationTool.SystemConfig;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -150,5 +154,23 @@ public class User {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public static List<String> failedPasswordValidationList(String password, IActivePasswordPolicyListBuilder listBuilder){
+
+        listBuilder.createActivePasswordPolicyList();
+        List<IPasswordPolicyValidation> activePasswordPolicyList = listBuilder.getActivePasswordPolicyList();
+
+        List<String> failedValidationCriteriaList = new ArrayList<>();
+
+        failedValidationCriteriaList.clear();
+        for (int i=0; i<activePasswordPolicyList.size(); i++)
+        {
+            if(!activePasswordPolicyList.get(i).isPasswordValid(password))
+            {
+                failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
+            }
+        }
+        return failedValidationCriteriaList;
     }
 }

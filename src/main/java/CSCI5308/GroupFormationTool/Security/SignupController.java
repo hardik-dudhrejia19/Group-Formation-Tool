@@ -1,5 +1,6 @@
 package CSCI5308.GroupFormationTool.Security;
 
+import CSCI5308.GroupFormationTool.AccessControl.IActivePasswordPolicyListBuilder;
 import CSCI5308.GroupFormationTool.AccessControl.IUserPersistence;
 import CSCI5308.GroupFormationTool.AccessControl.User;
 import CSCI5308.GroupFormationTool.SystemConfig;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class SignupController {
@@ -34,10 +37,13 @@ public class SignupController {
             @RequestParam(name = LAST_NAME) String lastName,
             @RequestParam(name = EMAIL) String email) {
         boolean success = false;
+        IActivePasswordPolicyListBuilder activePasswordPolicyListBuilder = SystemConfig.instance().getActivePasswordPolicyListBuilder();
+        List<String> failedPasswordValidationList = User.failedPasswordValidationList(password,activePasswordPolicyListBuilder);
         if (User.isBannerIDValid(bannerID) &&
                 User.isEmailValid(email) &&
                 User.isFirstNameValid(firstName) &&
                 User.isLastNameValid(lastName) &&
+                (failedPasswordValidationList.size() == 0) &&
                 password.equals(passwordConfirm)) {
             User u = new User();
             u.setBannerID(bannerID);
@@ -56,6 +62,7 @@ public class SignupController {
         } else {
             // Something wrong with the input data.
             m = new ModelAndView("signup");
+            m.addObject("passwordPolicyValidation",failedPasswordValidationList);
             m.addObject("errorMessage", "Invalid data, please check your values.");
         }
         return m;
