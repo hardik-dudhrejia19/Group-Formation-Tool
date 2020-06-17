@@ -1,7 +1,6 @@
 package CSCI5308.GroupFormationTool.Courses;
 
-import java.util.List;
-
+import CSCI5308.GroupFormationTool.SystemConfig;
 import CSCI5308.GroupFormationTool.AccessControl.User;
 import CSCI5308.GroupFormationTool.Email.Email;
 import org.springframework.stereotype.Controller;
@@ -11,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.List;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
+import java.util.List;
 
 @Controller
 public class InstructorAdminController
@@ -24,20 +24,19 @@ public class InstructorAdminController
 	private static final String DISPLAY_RESULTS = "displayresults";
 	
 	@GetMapping("/course/instructoradmin")
-	public String instructorAdmin(Model model, @RequestParam(name = ID) long courseID)
-	{
+	public String instructorAdmin(Model model, @RequestParam(name = ID) long courseID) {
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Course course = new Course();
 		courseDB.loadCourseByID(courseID, course);
+		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR)) {
+			model.addAttribute("isInstructor", true);
+		}
 		model.addAttribute("course", course);
 		model.addAttribute("displayresults", false);
 		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR) ||
-			 course.isCurrentUserEnrolledAsRoleInCourse(Role.TA))
-		{
+				course.isCurrentUserEnrolledAsRoleInCourse(Role.TA)) {
 			return "course/instructoradmin";
-		}
-		else
-		{
+		} else {
 			return "logout";
 		}
 	}

@@ -1,0 +1,206 @@
+package CSCI5308.GroupFormationTool.Question;
+
+import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class QuestionDB implements IQuestionPersistence{
+
+	@Override
+	public Boolean saveQuestion(Question question, String id) 
+	{
+
+		CallStoredProcedure proc = null;
+		try
+		{
+			proc = new CallStoredProcedure("spCreateQuestion(?, ?, ?)");
+			proc.setParameter(1, question.getTitle());
+			proc.setParameter(2, question.getQuestion());
+			proc.setParameter(3, question.getType());
+			proc.execute();
+		}
+		catch (SQLException e)
+		{
+			// Logging needed
+			return false;
+		}
+		finally
+		{
+			if (null != proc)
+			{
+				proc.cleanup();
+			}
+		}
+		
+		Integer questionId = getQuestionIdByTitleTextType(question);
+		if (null != questionId)
+		{
+			saveQuestionForInstructor(questionId, id);
+		}
+		
+		if (question.getType().equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_MANY.name()) || question.getType().equals(QuestionTypes.MULTIPLE_CHOICE_CHOOSE_ONE.name())) 
+		{
+			saveMultipleOptions(question);
+		}
+		return true;
+	}
+	
+	private boolean saveMultipleOptions(Question question)
+	{
+		Integer id = getQuestionIdByTitleTextType(question);
+		if (id == null)
+		{
+			return false;
+		}
+		for(Option option : question.getAnswerOptions())
+		{
+			saveQuestionOption(id, option);
+		}
+		return true;
+	}
+	
+	private boolean saveQuestionForInstructor(Integer questionId, String id)
+	{
+		CallStoredProcedure proc = null;
+		try
+		{
+			proc = new CallStoredProcedure("spAddInstructorToQuestion(?, ?)");
+			proc.setParameter(1, id);
+			proc.setParameter(2, questionId);
+			proc.execute();
+		}
+		catch (SQLException e)
+		{
+			// Logging needed
+			return false;
+		}
+		finally
+		{
+			if (null != proc)
+			{
+				proc.cleanup();
+			}
+		}
+		return true;
+	}
+	
+	public Integer getQuestionIdByTitleTextType(Question question)
+	{
+		CallStoredProcedure proc = null;
+		try
+		{
+			proc = new CallStoredProcedure("spGetQuestionByTitleTextType(?, ?, ?)");
+			proc.setParameter(1, question.getTitle());
+			proc.setParameter(2, question.getQuestion());
+			proc.setParameter(3, question.getType());
+			ResultSet results = proc.executeWithResults();
+			if (null != results)
+			{
+				while (results.next())
+				{
+					return results.getInt(1);
+				}
+			}
+			
+		}
+		catch (SQLException e)
+		{
+			// Logging needed
+		}
+		finally
+		{
+			if (null != proc)
+			{
+				proc.cleanup();
+			}
+		}
+		
+		
+		return null;
+	}
+	
+	private boolean saveQuestionOption(int id, Option option)
+	{
+		CallStoredProcedure proc = null;
+		try
+		{
+			proc = new CallStoredProcedure("spAddQuestionOptions(?, ?, ?)");
+			proc.setParameter(1, id);
+			proc.setParameter(2, option.getText());
+			proc.setParameter(3, option.getValue());
+			proc.execute();
+		}
+		catch (SQLException e)
+		{
+			// Logging needed
+			return false;
+		} finally {
+			if (null != proc) {
+				proc.cleanup();
+			}
+		}
+		return true;
+
+	}
+
+	@Override
+	public List<List<String>> getQuestionsByInstructorID(String instructorId, String order) {
+		List<List<String>> questionList = new ArrayList<List<String>>();
+		CallStoredProcedure proc = null;
+		try {
+			if (order.equals("Q.title") || order.equals("")) {
+				proc = new CallStoredProcedure("spGetQuestionsForInstructorFromBannerIdTitle(?,?)");
+			} else if (order.equals("Q.title DESC")) {
+				proc = new CallStoredProcedure("spGetQuestionsForInstructorFromBannerIdTitleDESC(?,?)");
+			} else if (order.equals("Q.dateCreated")) {
+				proc = new CallStoredProcedure("spGetQuestionsForInstructorFromBannerIdDate(?,?)");
+			} else if (order.equals("Q.dateCreated DESC")) {
+				proc = new CallStoredProcedure("spGetQuestionsForInstructorFromBannerIdDateDESC(?,?)");
+			}
+			proc.setParameter(1, instructorId);
+			proc.setParameter(2, order);
+			ResultSet results = proc.executeWithResults();
+			if (null != results) {
+				while (results.next()) {
+					ArrayList<String> questionInfo = new ArrayList<String>();
+					questionInfo.add(results.getString(1));
+					questionInfo.add(results.getString(2));
+					questionInfo.add(results.getString(3));
+					questionInfo.add(results.getString(4));
+					questionInfo.add(results.getString(5));
+					questionList.add(questionInfo);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (null != proc) {
+				proc.cleanup();
+			}
+		}
+		return questionList;
+	}
+
+	@Override
+	public boolean removeQuestionFromDatabase(String questionID) {
+		boolean flag = false;
+		CallStoredProcedure proc = null;
+		try {
+			proc = new CallStoredProcedure("spRemoveQuestionfromDB(?)");
+			proc.setParameter(1, Long.parseLong(questionID));
+			proc.execute();
+			flag = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (null != proc) {
+				proc.cleanup();
+			}
+		}
+		return flag;
+	}
+
+}
