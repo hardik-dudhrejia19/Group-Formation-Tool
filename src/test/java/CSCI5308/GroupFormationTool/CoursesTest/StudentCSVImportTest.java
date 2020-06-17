@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import CSCI5308.GroupFormationTool.Courses.StudentCSVImport;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
@@ -20,7 +21,6 @@ import CSCI5308.GroupFormationTool.SecurityTest.PasswordEncryptionMock;
 @SuppressWarnings("deprecation")
 class StudentCSVImportTest 
 {
-
 	@Test
 	public void enrollStudentFromRecord() 
 	{
@@ -50,6 +50,22 @@ class StudentCSVImportTest
 		assertThat(failureResults).isNotNull();
 		assertThat(failureResults).isNotEmpty();
 		Assert.isTrue(failureResults.size() > 0);
+	}
+
+	@Test
+	public void getNewStudents()
+	{
+		List<User> students = new ArrayList<User>();
+		User user = new User();
+		user.setBannerID("B-999333");
+		user.setFirstName("Tony");
+		user.setLastName("Stark");
+		user.setEmail("tony@dal.ca");
+		user.setPassword("12345");
+		students.add(user);
+		Assert.isTrue(students.size() > 0);
+		assertThat(students).isNotEmpty();
+		assertThat(students).isNotNull();
 	}
 
 }

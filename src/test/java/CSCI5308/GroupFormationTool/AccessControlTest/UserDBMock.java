@@ -45,4 +45,18 @@ public class UserDBMock implements IUserPersistence
 		user.setEmail("rhawkey@dal.ca");
 		return true;
 	}
+
+	@Override
+	public boolean isAlreadyUser(String bannerID)
+	{
+		boolean isExistingUser;
+		if(bannerID.equals("B-444444"))
+		{
+			isExistingUser = true;
+		}
+		else{
+			isExistingUser = false;
+		}
+		return isExistingUser;
+	}
 }

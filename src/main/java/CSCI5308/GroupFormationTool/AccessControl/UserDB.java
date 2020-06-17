@@ -116,4 +116,37 @@ public class UserDB implements IUserPersistence
 		// Coming in M2!
 		return false;
 	}
+
+	@Override
+	public boolean isAlreadyUser(String bannerID) {
+		CallStoredProcedure proc = null;
+		boolean existingUser = false;
+		try
+		{
+			proc = new CallStoredProcedure("spIsAlreadyUser(?)");
+			proc.setParameter(1, bannerID);
+			ResultSet results = proc.executeWithResults();
+			if(results.next())
+			{
+				existingUser = true;
+			}
+			else
+			{
+				existingUser = false;
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+			if (null != proc)
+			{
+				proc.cleanup();
+			}
+		}
+		return existingUser;
+	}
 }

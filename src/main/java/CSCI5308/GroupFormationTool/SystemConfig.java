@@ -1,5 +1,7 @@
 package CSCI5308.GroupFormationTool;
 
+import CSCI5308.GroupFormationTool.Email.Email;
+import CSCI5308.GroupFormationTool.Security.*;
 import CSCI5308.GroupFormationTool.AccessControl.*;
 import CSCI5308.GroupFormationTool.Courses.CourseDB;
 import CSCI5308.GroupFormationTool.Courses.CourseUserRelationshipDB;
@@ -28,6 +30,7 @@ public class SystemConfig
 	private IDatabaseConfiguration databaseConfiguration;
 	private ICoursePersistence courseDB;
 	private ICourseUserRelationshipPersistence courseUserRelationshipDB;
+	private Email email;
 	private IActivePasswordPolicyPersistence activePasswordPolicyDB;
 	private IActivePasswordPolicyListBuilder activePasswordPolicyListBuilder;
 
@@ -43,6 +46,7 @@ public class SystemConfig
 		databaseConfiguration = new DefaultDatabaseConfiguration();
 		courseDB = new CourseDB();
 		courseUserRelationshipDB = new CourseUserRelationshipDB();
+		email = new Email();
 		activePasswordPolicyDB = new ActivePasswordPolicyDB();
 		activePasswordPolicyListBuilder = new ActivePasswordPolicyListBuilder();
 	}
@@ -65,6 +69,14 @@ public class SystemConfig
 
 	public IPasswordEncryption getPasswordEncryption() {
 		return passwordEncryption;
+	}
+    
+    public Email getEmail() {
+		return email;
+	}
+
+	public void setEmail(Email email) {
+		this.email = email;
 	}
 	
 	public void setPasswordEncryption(IPasswordEncryption passwordEncryption)
