@@ -34,16 +34,18 @@ public class UserDBMock implements IUserPersistence
 		user.setEmail("rhawkey@dal.ca");
 		return true;
 	}
-	
-	public boolean updateUser(User user)
+
+	@Override
+	public boolean updatePassword(String bannerID, String password)
 	{
-		user.setID(0);
-		user.setBannerID("B00000000");
-		user.setPassword("Pass@123");
-		user.setFirstName("Rob");
-		user.setLastName("Hawkey");
-		user.setEmail("rhawkey@dal.ca");
-		return true;
+		if(bannerID.equals("B00123456") && password.equals("aaaabbbb"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	@Override

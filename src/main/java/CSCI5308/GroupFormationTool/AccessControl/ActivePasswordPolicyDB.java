@@ -4,7 +4,9 @@ import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence{
 
@@ -33,5 +35,33 @@ public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence{
             }
         }
         return policyCriteria;
+    }
+
+    @Override
+    public List<String> getPasswords(String bannerID, Integer criteria) {
+        List<String> passwordList = new ArrayList<>();
+
+        CallStoredProcedure proc = null;
+        try {
+            proc = new CallStoredProcedure("spLoadPasswords(?,?)");
+            proc.setParameter(1, bannerID);
+            proc.setParameter(2,criteria);
+            ResultSet results = proc.executeWithResults();
+            if (null != results) {
+                while (results.next()) {
+                    String password = results.getString(1);
+                    passwordList.add(password);
+                }
+            }
+        } catch (SQLException e) {
+            // Logging needed.
+            return passwordList;
+        } finally {
+            if (null != proc) {
+                proc.cleanup();
+            }
+        }
+
+        return passwordList;
     }
 }

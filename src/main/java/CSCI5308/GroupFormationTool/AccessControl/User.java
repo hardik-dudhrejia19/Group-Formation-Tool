@@ -15,7 +15,6 @@ public class User {
     // https://howtodoinjava.com/regex/java-regex-validate-email-address/
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
-
     private long id;
     private String password;
     private String bannerID;
@@ -125,9 +124,9 @@ public class User {
         return success;
     }
 
-    public boolean updateUser(IUserPersistence userDB) {
-        return userDB.updateUser(this);
-    }
+//    public boolean updateUser(IUserPersistence userDB) {
+//        return userDB.updateUser(this);
+//    }
 
     private static boolean isStringNullOrEmpty(String s) {
         if (null == s) {
@@ -158,17 +157,16 @@ public class User {
         return matcher.matches();
     }
 
-    public static List<String> failedPasswordValidationList(String password, IActivePasswordPolicyListBuilder listBuilder){
-
-        listBuilder.createActivePasswordPolicyList();
+    public static List<String> failedPasswordValidationList(User user, IActivePasswordPolicyListBuilder listBuilder)
+    {
+        listBuilder.createActivePasswordPolicyList(user);
         List<IPasswordPolicyValidation> activePasswordPolicyList = listBuilder.getActivePasswordPolicyList();
-
         List<String> failedValidationCriteriaList = new ArrayList<>();
 
         failedValidationCriteriaList.clear();
         for (int i=0; i<activePasswordPolicyList.size(); i++)
         {
-            if(!activePasswordPolicyList.get(i).isPasswordValid(password))
+            if(!activePasswordPolicyList.get(i).isPasswordValid(user.getPassword()))
             {
                 failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
             }

@@ -2,7 +2,9 @@ package CSCI5308.GroupFormationTool.AccessControlTest;
 
 import CSCI5308.GroupFormationTool.AccessControl.IActivePasswordPolicyPersistence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ActivePasswordPolicyMock implements IActivePasswordPolicyPersistence {
 
@@ -16,5 +18,17 @@ public class ActivePasswordPolicyMock implements IActivePasswordPolicyPersistenc
         activePasswordPolicyList.put("min no of uppercase","2");
 
         return activePasswordPolicyList;
+    }
+
+    @Override
+    public List<String> getPasswords(String bannerID, Integer criteria) {
+        List<String> passwordList = new ArrayList<>();
+
+        passwordList.add("abcd");
+        passwordList.add("abcdef");
+        passwordList.add("abcdefgh");
+        passwordList.add("abcdefghij");
+
+        return passwordList;
     }
 }

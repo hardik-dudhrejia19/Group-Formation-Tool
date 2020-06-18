@@ -111,10 +111,31 @@ public class UserDB implements IUserPersistence
 		return true;
 	}
 	
-	public boolean updateUser(User user)
+	public boolean updatePassword(String bannerID, String password)
 	{
-		// Coming in M2!
-		return false;
+		boolean passwordupdate = false;
+		CallStoredProcedure proc = null;
+		try
+		{
+			proc = new CallStoredProcedure("spUpdatePassword(?,?)");
+			proc.setParameter(1, password);
+			proc.setParameter(2,bannerID);
+			proc.execute();
+			passwordupdate = true;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+			if (null != proc)
+			{
+				proc.cleanup();
+			}
+		}
+		return passwordupdate;
 	}
 
 	@Override
