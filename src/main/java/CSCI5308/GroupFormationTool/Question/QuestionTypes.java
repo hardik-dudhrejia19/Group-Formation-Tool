@@ -1,6 +1,6 @@
 package CSCI5308.GroupFormationTool.Question;
 
-enum QuestionTypes 
+public enum QuestionTypes 
 {
 	NUMERIC("Numeric"), MULTIPLE_CHOICE_CHOOSE_ONE("Multiple Choice Choose 1"), MULTIPLE_CHOICE_CHOOSE_MANY("Multiple Choice Choose Many"), FREE_TEXT("Free Text");
 	
