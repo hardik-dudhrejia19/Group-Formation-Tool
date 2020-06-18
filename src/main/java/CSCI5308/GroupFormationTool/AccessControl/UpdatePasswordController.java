@@ -1,11 +1,12 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
+import CSCI5308.GroupFormationTool.Courses.Course;
+import CSCI5308.GroupFormationTool.Courses.ICoursePersistence;
 import CSCI5308.GroupFormationTool.SystemConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.List;
 
 @Controller
@@ -28,7 +29,6 @@ public class UpdatePasswordController {
         List<String> failedPasswordValidationList = User.failedPasswordValidationList(user,activePasswordPolicyListBuilder);
         IUpdatePassword updatePassword = new UpdatePassword();
         success = updatePassword.updatePassword(failedPasswordValidationList,user);
-
         ModelAndView m;
         if(success)
         {
@@ -38,8 +38,10 @@ public class UpdatePasswordController {
         {
             m = new ModelAndView("index");
             m.addObject("passwordPolicyValidation",failedPasswordValidationList);
+            ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
+            List<Course> allCourses = courseDB.loadAllCourses();
+            m.addObject("courses", allCourses);
         }
-
         return m;
     }
 }

@@ -24,11 +24,19 @@ public class ActivePasswordPolicyMock implements IActivePasswordPolicyPersistenc
     public List<String> getPasswords(String bannerID, Integer criteria) {
         List<String> passwordList = new ArrayList<>();
 
-        passwordList.add("abcd");
-        passwordList.add("abcdef");
-        passwordList.add("abcdefgh");
-        passwordList.add("abcdefghij");
-
+        if(criteria == 4)
+        {
+            passwordList.add("abcd");
+            passwordList.add("abcdef");
+            passwordList.add("abcdefgh");
+            passwordList.add("abcdefghij");
+        }
+        if(criteria == 3)
+        {
+            passwordList.add("abcd");
+            passwordList.add("abcdef");
+            passwordList.add("abcdefgh");
+        }
         return passwordList;
     }
 }

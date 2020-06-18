@@ -16,6 +16,8 @@ public class UpdatePasswordTest {
     {
         List<String> failedPasswordValidationList = new ArrayList<>();
         User user = new User();
+        user.setBannerID("B00123456");
+        user.setPassword("aaaabbbb");
         IUpdatePassword updatePassword = new UpdatePasswordMock();
         assertTrue(updatePassword.updatePassword(failedPasswordValidationList,user));
         failedPasswordValidationList.add("max length");
