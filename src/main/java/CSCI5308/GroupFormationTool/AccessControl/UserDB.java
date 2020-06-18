@@ -2,10 +2,16 @@ package CSCI5308.GroupFormationTool.AccessControl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 
 public class UserDB implements IUserPersistence
 {	
+	private Logger log = LoggerFactory.getLogger(UserDB.class);
+	
 	public void loadUserByID(long id, User user)
 	{
 		CallStoredProcedure proc = null;
@@ -35,7 +41,8 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed.
+			log.error("Error occured in loading user by id: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -65,7 +72,8 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed.
+			log.error("Error occured in loading user by bannerId: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -96,7 +104,8 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured in creating user: " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		finally
@@ -123,6 +132,7 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
+			log.error("Error occured in updating password: " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -157,6 +167,7 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
+			log.error("Error occured in checking isAlreadyUser: " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}

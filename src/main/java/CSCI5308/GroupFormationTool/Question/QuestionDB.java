@@ -6,8 +6,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class QuestionDB implements IQuestionPersistence
 {
+	
+	private Logger log = LoggerFactory.getLogger(QuestionDB.class);
+	
 	@Override
 	public Boolean saveQuestion(Question question, String id) 
 	{
@@ -22,7 +28,8 @@ public class QuestionDB implements IQuestionPersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured in saving question: " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		finally
@@ -72,7 +79,8 @@ public class QuestionDB implements IQuestionPersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured in saving question for instructor: " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		finally
@@ -106,7 +114,8 @@ public class QuestionDB implements IQuestionPersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured in getting question by title text and type: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -131,7 +140,8 @@ public class QuestionDB implements IQuestionPersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured in saving question options: " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		finally
@@ -186,6 +196,7 @@ public class QuestionDB implements IQuestionPersistence
 		}
 		catch (SQLException e)
 		{
+		    log.error("Error occured in getting question by instructorId: " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -212,6 +223,7 @@ public class QuestionDB implements IQuestionPersistence
 		}
 		catch (SQLException e)
 		{
+			log.error("Error occured in removing question from database: " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
