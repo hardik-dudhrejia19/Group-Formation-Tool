@@ -40,7 +40,6 @@ class CourseUserRelationshipDBMock implements ICourseUserRelationshipPersistence
 		course.setId(0);
 		course.setTitle("Software Engineering");
 		return true;
-
 	}
 
 	public List<Role> loadUserRolesForCourse(Course course, User user) 
@@ -50,5 +49,4 @@ class CourseUserRelationshipDBMock implements ICourseUserRelationshipPersistence
 		userRoles.add(Role.TA);
 		return userRoles;
 	}
-
 }

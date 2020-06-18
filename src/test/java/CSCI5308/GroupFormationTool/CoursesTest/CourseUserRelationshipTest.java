@@ -58,5 +58,4 @@ class CourseUserRelationshipTest
 		boolean result = courseUserRelationshipDB.enrollUser(course, user, Role.STUDENT);
 		Assert.isTrue(result);
 	}
-
 }

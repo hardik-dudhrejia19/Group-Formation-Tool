@@ -1,11 +1,12 @@
 package CSCI5308.GroupFormationTool.Question;
 
-public class Option {
-
+public class Option
+{
 	private String text;
 	private String value;
 	
-	public Option() {
+	public Option()
+	{
 		setDefaults();
 	}
 	
@@ -15,19 +16,23 @@ public class Option {
 		value = "";
 	}
 	
-	public String getText() {
+	public String getText()
+	{
 		return text;
 	}
-	public void setText(String text) {
+
+	public void setText(String text)
+	{
 		this.text = text;
 	}
-	public String getValue() {
+
+	public String getValue()
+	{
 		return value;
 	}
-	public void setValue(String value) {
+
+	public void setValue(String value)
+	{
 		this.value = value;
 	}
-	
-	
-	
 }

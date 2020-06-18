@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ActivePasswordPolicyMock implements IActivePasswordPolicyPersistence {
-
+public class ActivePasswordPolicyMock implements IActivePasswordPolicyPersistence
+{
     @Override
-    public HashMap<String, String> getActivePasswordPolicy() {
-
+    public HashMap<String, String> getActivePasswordPolicy()
+    {
         HashMap<String,String> activePasswordPolicyList = new HashMap<>();
 
         activePasswordPolicyList.put("min length","8");
@@ -21,7 +21,8 @@ public class ActivePasswordPolicyMock implements IActivePasswordPolicyPersistenc
     }
 
     @Override
-    public List<String> getPasswords(String bannerID, Integer criteria) {
+    public List<String> getPasswords(String bannerID, Integer criteria)
+    {
         List<String> passwordList = new ArrayList<>();
 
         if(criteria == 4)

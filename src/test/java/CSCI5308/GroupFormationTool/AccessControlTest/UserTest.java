@@ -8,7 +8,6 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @SpringBootTest
 @SuppressWarnings("deprecation")
 public class UserTest
@@ -174,7 +173,6 @@ public class UserTest
 				failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
 			}
 		}
-
 		Assertions.assertEquals(2,failedValidationCriteriaList.size());
 
 		u.setPassword("abcdefghi");
@@ -189,7 +187,6 @@ public class UserTest
 				failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
 			}
 		}
-
 		Assertions.assertEquals(1,failedValidationCriteriaList.size());
 	}
 }

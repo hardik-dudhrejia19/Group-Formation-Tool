@@ -10,7 +10,6 @@ import CSCI5308.GroupFormationTool.SystemConfig;
 public class ConnectionManager
 {
 	private static ConnectionManager uniqueInstance = null;
-	
 	private String dbURL;
 	private String dbUserName;
 	private String dbPassword;

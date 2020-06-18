@@ -10,9 +10,11 @@ import java.util.List;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
-public class QuestionManagerTest {
+public class QuestionManagerTest
+{
 	@Test
-	public void saveQuestionTest() {
+	public void saveQuestionTest()
+	{
 		IQuestionPersistence questionPersistence = new QuestionDbMock();
 		Question question = new Question();
 		question.setTitle("How many hours of credits required");
@@ -23,7 +25,8 @@ public class QuestionManagerTest {
 	}
 
 	@Test
-	public void getQuestionIdByTitleTextTypeText() {
+	public void getQuestionIdByTitleTextTypeText()
+	{
 		IQuestionPersistence questionPersistence = new QuestionDbMock();
 		Question question = new Question();
 		question.setTitle("How many hours of credits required");
@@ -33,7 +36,8 @@ public class QuestionManagerTest {
 	}
 
 	@Test
-	public void getQuestionsByInstructorID() {
+	public void getQuestionsByInstructorID()
+	{
 		IQuestionPersistence questionPersistence = new QuestionDbMock();
 		String instructorId = "B-444444";
 		String order = "Mock Order";
@@ -42,7 +46,8 @@ public class QuestionManagerTest {
 	}
 
 	@Test
-	public void removeQuestionFromDatabase() {
+	public void removeQuestionFromDatabase()
+	{
 		IQuestionPersistence questionPersistence = new QuestionDbMock();
 		String questionId = "123456";
 		boolean isQuestionDeleted = questionPersistence.removeQuestionFromDatabase(questionId);

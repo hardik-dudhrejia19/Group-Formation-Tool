@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ActivePasswordPolicyListBuilderMock implements IActivePasswordPolicyListBuilder {
-
+public class ActivePasswordPolicyListBuilderMock implements IActivePasswordPolicyListBuilder
+{
     List<IPasswordPolicyValidation> passwordPolicyValidationList = new ArrayList<>();
 
     public void createActivePasswordPolicyList(User user)
@@ -49,7 +49,8 @@ public class ActivePasswordPolicyListBuilderMock implements IActivePasswordPolic
         }
     }
 
-    public List<IPasswordPolicyValidation> getActivePasswordPolicyList() {
+    public List<IPasswordPolicyValidation> getActivePasswordPolicyList()
+    {
         return passwordPolicyValidationList;
     }
 }

@@ -54,25 +54,29 @@ public class CourseAdminController
 		return mav;
 	}
 
-	@RequestMapping(value = "/admin/createcourse", method = RequestMethod.POST) 
-   public ModelAndView createCourse(@RequestParam(name = TITLE) String title)
-   {
+	@RequestMapping(value = "/admin/createcourse", method = RequestMethod.POST)
+	public ModelAndView createCourse(@RequestParam(name = TITLE) String title)
+	{
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Course c = new Course();
 		c.setTitle(title);
 		c.createCourse(courseDB);
 		ModelAndView mav = new ModelAndView("redirect:/admin/course");
 		return mav;
-   }
+	}
 	
 	@RequestMapping(value = "/admin/assigninstructor", method = RequestMethod.POST) 
-   public ModelAndView assignInstructorToCourse(@RequestParam(name = INSTRUCTOR) List<Integer> instructor,
-   		@RequestParam(name = ID) long courseID)
-   {
+	public ModelAndView assignInstructorToCourse
+	(
+		@RequestParam(name = INSTRUCTOR) List<Integer> instructor,
+		@RequestParam(name = ID) long courseID
+	)
+	{
 		Course c = new Course();
 		c.setId(courseID);
 		Iterator<Integer> iter = instructor.iterator();
 		ICourseUserRelationshipPersistence courseUserRelationshipDB = SystemConfig.instance().getCourseUserRelationshipDB();
+
 		while (iter.hasNext())
 		{
 			User u = new User();
@@ -81,5 +85,5 @@ public class CourseAdminController
 		}
 		ModelAndView mav = new ModelAndView("redirect:/admin/course");
 		return mav;
-   }
+	}
 }

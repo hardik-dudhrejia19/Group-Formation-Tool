@@ -1,7 +1,7 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
-public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyValidation {
-
+public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyValidation
+{
     private String criteria = null;
     private String validatorCriteria = null;
 
@@ -12,8 +12,8 @@ public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyVal
     }
 
     @Override
-    public boolean isPasswordValid(String password) {
-
+    public boolean isPasswordValid(String password)
+    {
         String passwordWithoutSpecialCharacters = password.replaceAll("[^a-zA-Z0-9]", "");
         Integer numberOfSpecialCharacters = password.length() - passwordWithoutSpecialCharacters.length();
 
@@ -28,7 +28,8 @@ public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyVal
     }
 
     @Override
-    public String getValidationCriteria() {
+    public String getValidationCriteria()
+    {
         return this.validatorCriteria+" "+this.criteria;
     }
 }

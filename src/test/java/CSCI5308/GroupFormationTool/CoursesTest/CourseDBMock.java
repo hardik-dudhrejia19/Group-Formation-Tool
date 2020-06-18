@@ -43,5 +43,4 @@ public class CourseDBMock implements ICoursePersistence
 		course.setDefaults();
 		return true;
 	}
-
 }

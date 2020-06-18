@@ -9,8 +9,8 @@ import CSCI5308.GroupFormationTool.Question.Question;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
-public class OptionTest {
-
+public class OptionTest
+{
 	@Test
 	public void ConstructorTests() 
 	{

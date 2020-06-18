@@ -13,5 +13,4 @@ public class CurrentUserMock
 		userDB.loadUserByBannerID(bannerID, u);
 		return u;
 	}
-
 }
