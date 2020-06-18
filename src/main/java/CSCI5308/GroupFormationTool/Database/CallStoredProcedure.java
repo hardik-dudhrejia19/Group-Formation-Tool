@@ -37,7 +37,7 @@ public class CallStoredProcedure
 			}
 			if (null != connection)
 			{
-				if (!connection.isClosed())
+				if (connection.isClosed()==false)
 				{
 					connection.close();
 				}

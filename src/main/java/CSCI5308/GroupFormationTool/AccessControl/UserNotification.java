@@ -37,7 +37,7 @@ public class UserNotification implements IUserNotifications{
 
             msg.setContent(
                     "Your Banner ID is: "+ user.getBanner() + "\n" +
-                    "Your password is: " + user.getPassword() , "text/html");
+                    "Your password is: " + rawPassword , "text/html");
 
             Transport.send(msg);
         }

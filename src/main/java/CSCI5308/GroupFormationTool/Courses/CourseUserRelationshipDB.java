@@ -14,8 +14,7 @@ import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 public class CourseUserRelationshipDB implements ICourseUserRelationshipPersistence
 {
 	private Logger log = LoggerFactory.getLogger(CourseUserRelationshipDB.class);
-	
-	
+
 	public List<User> findAllUsersWithoutCourseRole(Role role, long courseID)
 	{
 		List<User> users = new ArrayList<User>();
