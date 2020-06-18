@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IActivePasswordPolicyListBuilder {
 
-    public void createActivePasswordPolicyList();
+    public void createActivePasswordPolicyList(User user);
 
     public List<IPasswordPolicyValidation> getActivePasswordPolicyList();
 }

@@ -10,7 +10,7 @@ public class ActivePasswordPolicyListBuilder implements IActivePasswordPolicyLis
 
     List<IPasswordPolicyValidation> passwordPolicyValidationList = new ArrayList<>();
 
-    public void createActivePasswordPolicyList()
+    public void createActivePasswordPolicyList(User user)
     {
         passwordPolicyValidationList.clear();
         IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
@@ -42,6 +42,10 @@ public class ActivePasswordPolicyListBuilder implements IActivePasswordPolicyLis
             if(policy.equals("characters not allowed"))
             {
                 passwordPolicyValidationList.add(new CharactersNotAllowedPolicy(activePasswordPolicyList.get(policy),"characters not allowed"));
+            }
+            if(policy.equals("old x passwords not allowed"))
+            {
+                passwordPolicyValidationList.add(new PasswordHistoryPolicy(user, activePasswordPolicyList.get(policy),"old x passwords not allowed"));
             }
         }
     }

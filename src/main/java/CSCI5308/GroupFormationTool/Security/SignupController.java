@@ -35,7 +35,9 @@ public class SignupController {
             @RequestParam(name = EMAIL) String email) {
         boolean success = false;
         IActivePasswordPolicyListBuilder activePasswordPolicyListBuilder = SystemConfig.instance().getActivePasswordPolicyListBuilder();
-        List<String> failedPasswordValidationList = User.failedPasswordValidationList(password,activePasswordPolicyListBuilder);
+        User user = new User();
+        user.setPassword(password);
+        List<String> failedPasswordValidationList = User.failedPasswordValidationList(user,activePasswordPolicyListBuilder);
         if (User.isBannerIDValid(bannerID) &&
                 User.isEmailValid(email) &&
                 User.isFirstNameValid(firstName) &&

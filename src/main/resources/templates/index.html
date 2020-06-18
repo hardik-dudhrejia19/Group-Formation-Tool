@@ -21,9 +21,17 @@
 		<!-- I got the idea for how to do this from https://www.thymeleaf.org/doc/articles/springsecurity.html -->
 		<div class="bodyGridRow userProfileGridContainer" sec:authorize="isAuthenticated()">
 			<h4 class="userProfileGridCol1" th:inline="text">BannerID: [[${#httpServletRequest.remoteUser}]]</h4>
-			<form class="userProfileGridCol4" th:action="@{/logout}" method="post">
+			<form class="userProfileGridCol3" th:action="@{/logout}" method="post">
 				<input type="submit" value="Sign Out"/>
 			</form>
+			<form class="userProfileGridCol5" th:action="@{/updatepassword}" method="post">
+				<input type="text" name="password" required>
+				<input type="hidden" name="username" th:value="${#httpServletRequest.remoteUser}">
+				<input type="submit" value="Update Password">
+			</form>
+			<div class="mainGridCentreInfoBox" th:each="failedValidations : ${passwordPolicyValidation}">
+				<h3 class="errorInfo" th:text="'Criteria ' + ${failedValidations} + ' for password did not match'"></h3>
+			</div>
 		</div>
 	
 		<main class="bodyGridRow mainGridContainer">

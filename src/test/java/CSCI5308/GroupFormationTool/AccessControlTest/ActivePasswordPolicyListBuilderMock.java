@@ -1,8 +1,6 @@
 package CSCI5308.GroupFormationTool.AccessControlTest;
 
 import CSCI5308.GroupFormationTool.AccessControl.*;
-import CSCI5308.GroupFormationTool.SystemConfig;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +9,7 @@ public class ActivePasswordPolicyListBuilderMock implements IActivePasswordPolic
 
     List<IPasswordPolicyValidation> passwordPolicyValidationList = new ArrayList<>();
 
-    public void createActivePasswordPolicyList()
+    public void createActivePasswordPolicyList(User user)
     {
         passwordPolicyValidationList.clear();
         IActivePasswordPolicyPersistence activePasswordPolicyDB = new ActivePasswordPolicyMock();
@@ -43,6 +41,10 @@ public class ActivePasswordPolicyListBuilderMock implements IActivePasswordPolic
             if(policy.equals("characters not allowed"))
             {
                 passwordPolicyValidationList.add(new CharactersNotAllowedPolicy(activePasswordPolicyList.get(policy),"characters not allowed"));
+            }
+            if(policy.equals("old x passwords not allowed"))
+            {
+                passwordPolicyValidationList.add(new PasswordHistoryPolicy(user, activePasswordPolicyList.get(policy),"old x passwords not allowed"));
             }
         }
     }
