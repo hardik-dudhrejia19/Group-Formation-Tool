@@ -10,15 +10,16 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class UpdatePasswordController {
-
+public class UpdatePasswordController
+{
     private final String USERNAME = "username";
     private final String PASSWORD = "password";
 
     @PostMapping("/updatepassword")
-    public ModelAndView updatePassword(
-            @RequestParam(name = USERNAME) String bannerID,
-            @RequestParam(name = PASSWORD) String password
+    public ModelAndView updatePassword
+    (
+        @RequestParam(name = USERNAME) String bannerID,
+        @RequestParam(name = PASSWORD) String password
     )
     {
         boolean success = false;
@@ -30,6 +31,7 @@ public class UpdatePasswordController {
         IUpdatePassword updatePassword = new UpdatePassword();
         success = updatePassword.updatePassword(failedPasswordValidationList,user);
         ModelAndView m;
+
         if(success)
         {
             m = new ModelAndView("login");

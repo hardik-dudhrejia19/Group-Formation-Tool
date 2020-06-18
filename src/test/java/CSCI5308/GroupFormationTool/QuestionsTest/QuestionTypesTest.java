@@ -10,7 +10,6 @@ import CSCI5308.GroupFormationTool.Question.QuestionTypes;
 @SuppressWarnings("deprecation")
 public class QuestionTypesTest 
 {
-
 	@Test
 	public void getNameTest()
 	{

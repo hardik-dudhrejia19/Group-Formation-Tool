@@ -24,7 +24,6 @@ public class QuestionTest {
 		Assert.isTrue(question.getQuestion().isEmpty());
 		Assert.isTrue(question.getType().isEmpty());
 		Assert.isTrue(CollectionUtils.isEmpty(question.getAnswerOptions()));
-		
 	}
 
 	@Test
@@ -128,5 +127,4 @@ public class QuestionTest {
 		question.setAnswerOptions(optionList);
 		Assert.isTrue(!question.getAnswerOptions().isEmpty());
 	}
-
 }

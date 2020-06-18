@@ -20,6 +20,7 @@ public class UpdatePasswordTest {
         user.setPassword("aaaabbbb");
         IUpdatePassword updatePassword = new UpdatePasswordMock();
         assertTrue(updatePassword.updatePassword(failedPasswordValidationList,user));
+
         failedPasswordValidationList.add("max length");
         assertFalse(updatePassword.updatePassword(failedPasswordValidationList,user));
     }

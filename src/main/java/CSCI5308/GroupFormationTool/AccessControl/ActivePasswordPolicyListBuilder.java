@@ -1,20 +1,18 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
 import CSCI5308.GroupFormationTool.SystemConfig;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ActivePasswordPolicyListBuilder implements IActivePasswordPolicyListBuilder{
-
+public class ActivePasswordPolicyListBuilder implements IActivePasswordPolicyListBuilder
+{
     List<IPasswordPolicyValidation> passwordPolicyValidationList = new ArrayList<>();
 
     public void createActivePasswordPolicyList(User user)
     {
         passwordPolicyValidationList.clear();
         IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
-
         HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
 
         for (String policy : activePasswordPolicyList.keySet())
@@ -50,7 +48,8 @@ public class ActivePasswordPolicyListBuilder implements IActivePasswordPolicyLis
         }
     }
 
-    public List<IPasswordPolicyValidation> getActivePasswordPolicyList() {
+    public List<IPasswordPolicyValidation> getActivePasswordPolicyList()
+    {
         return passwordPolicyValidationList;
     }
 }

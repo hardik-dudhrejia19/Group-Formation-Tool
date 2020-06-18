@@ -16,18 +16,18 @@ public class CourseController
 	private static final String ID = "id";
 	
 	@GetMapping("/course/course")
-	public String course(Model model, @RequestParam(name = ID) long courseID) {
+	public String course(Model model, @RequestParam(name = ID) long courseID)
+	{
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("instructorId", authentication.getName());
 		Course course = new Course();
 		courseDB.loadCourseByID(courseID, course);
 		model.addAttribute("course", course);
-		// This is likely something I would repeat elsewhere, I should come up with a generic solution
-		// for this in milestone 2.
+
 		List<Role> userRoles = course.getAllRolesForCurrentUserInCourse();
-		if (null == userRoles) {
-			// Default is user is a guest.
+		if (null == userRoles)
+		{
 			model.addAttribute("instructor", false);
 			model.addAttribute("ta", false);
 			model.addAttribute("student", false);

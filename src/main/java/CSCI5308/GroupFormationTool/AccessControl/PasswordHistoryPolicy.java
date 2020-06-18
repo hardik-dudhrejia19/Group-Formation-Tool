@@ -4,8 +4,8 @@ import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 import CSCI5308.GroupFormationTool.SystemConfig;
 import java.util.List;
 
-public class PasswordHistoryPolicy implements IPasswordPolicyValidation{
-
+public class PasswordHistoryPolicy implements IPasswordPolicyValidation
+{
     private String criteria = null;
     private String validatorCriteria = null;
     private String bannerID = null;
@@ -18,14 +18,13 @@ public class PasswordHistoryPolicy implements IPasswordPolicyValidation{
     }
 
     @Override
-    public boolean isPasswordValid(String password) {
-
+    public boolean isPasswordValid(String password)
+    {
         IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
-
         List<String> passwordHistoryList = activePasswordPolicyDB.getPasswords(this.bannerID,Integer.parseInt(criteria));
         IPasswordEncryption passwordEncryption = SystemConfig.instance().getPasswordEncryption();
 
-        for(int i=0;i<passwordHistoryList.size();i++)
+        for(int i=0; i<passwordHistoryList.size(); i++)
         {
             if(passwordEncryption.matches(password,passwordHistoryList.get(i)))
             {
@@ -36,7 +35,8 @@ public class PasswordHistoryPolicy implements IPasswordPolicyValidation{
     }
 
     @Override
-    public String getValidationCriteria() {
+    public String getValidationCriteria()
+    {
         return "Last "+this.criteria+" passwords cannot be used";
     }
 

@@ -28,16 +28,12 @@ public class Course
 		title = "";
 		userRoleDecider = new CourseUserRelationship();
 	}
-	
-	// I don't want to name this method this way, but unfortunately Spring and Thymeleaf are
-	// full of magical underneath the hood connection mechanisms that force me to name it this way.
+
 	public void setId(long id)
 	{
 		this.id = id;
 	}
-	
-	// I don't want to name this method this way, but unfortunately Spring and Thymeleaf are
-	// full of magical underneath the hood connection mechanisms that force me to name it this way.
+
 	public long getId()
 	{
 		return id;

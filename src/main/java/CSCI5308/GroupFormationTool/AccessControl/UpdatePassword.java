@@ -2,12 +2,12 @@ package CSCI5308.GroupFormationTool.AccessControl;
 
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 import CSCI5308.GroupFormationTool.SystemConfig;
-
 import java.util.List;
 
-public class UpdatePassword implements IUpdatePassword{
+public class UpdatePassword implements IUpdatePassword
+{
     @Override
-    public boolean updatePassword(List<String> failedPasswordValidationList , User user)
+    public boolean updatePassword(List<String> failedPasswordValidationList, User user)
     {
         if (failedPasswordValidationList.size() == 0)
         {

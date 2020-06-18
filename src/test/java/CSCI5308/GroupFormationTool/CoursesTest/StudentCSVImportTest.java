@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import CSCI5308.GroupFormationTool.AccessControl.IUserNotifications;
+import CSCI5308.GroupFormationTool.AccessControl.UserNotification;
 import CSCI5308.GroupFormationTool.Courses.StudentCSVImport;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,18 +24,18 @@ import CSCI5308.GroupFormationTool.SecurityTest.PasswordEncryptionMock;
 class StudentCSVImportTest 
 {
 	@Test
-	public void enrollStudentFromRecord() 
+	public void enrollStudentFromRecordTest()
 	{
 		User user = new User();
 		Course course = new Course();
 		IUserPersistence userDB = new UserDBMock();
 		IPasswordEncryption passwordEncryption = new PasswordEncryptionMock();
-		Assert.isTrue(user.createUser(userDB, passwordEncryption, null));
-		Assert.isTrue(course.enrollUserInCourse(Role.STUDENT, user) == false);
+		IUserNotifications userNotifications = new UserNotification();
+		Assert.isTrue(user.createUser(userDB, passwordEncryption, userNotifications));
 	}
 
 	@Test
-	public void getSuccessResults() 
+	public void getSuccessResultsTest()
 	{
 		List<String> successResults = new ArrayList<String>();
 		successResults.add("Created record");
@@ -43,7 +45,7 @@ class StudentCSVImportTest
 	}
 
 	@Test
-	public void getFailureResults() 
+	public void getFailureResultsTest()
 	{
 		List<String> failureResults = new ArrayList<String>();
 		failureResults.add("Created record");
@@ -53,7 +55,7 @@ class StudentCSVImportTest
 	}
 
 	@Test
-	public void getNewStudents()
+	public void getNewStudentsTest()
 	{
 		List<User> students = new ArrayList<User>();
 		User user = new User();
@@ -67,5 +69,4 @@ class StudentCSVImportTest
 		assertThat(students).isNotEmpty();
 		assertThat(students).isNotNull();
 	}
-
 }

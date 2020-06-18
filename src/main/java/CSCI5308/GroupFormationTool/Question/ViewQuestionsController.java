@@ -11,36 +11,49 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class ViewQuestionsController {
-
+public class ViewQuestionsController
+{
     private IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
 
     @RequestMapping("/viewQuestions")
-    public String viewQuestions(Model model, @RequestParam(value = "id") String instructorId,
-                                @RequestParam(value = "order", required = false) String order) {
+    public String viewQuestions
+    (
+        Model model,
+        @RequestParam(value = "id") String instructorId,
+        @RequestParam(value = "order", required = false) String order
+    )
+    {
         List<List<String>> questionList;
-        try {
+        try
+        {
             questionList = questionPersistence.getQuestionsByInstructorID(instructorId, order);
             model.addAttribute("questionList", questionList);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             return "error";
         }
         return "question/viewQuestions";
     }
 
     @RequestMapping("/viewQuestionsSorted")
-    public String viewQuestionsSorted(Model model, @RequestParam("order") String order) {
+    public String viewQuestionsSorted(Model model, @RequestParam("order") String order)
+    {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return "redirect:/viewQuestions?id=" + authentication.getName() + "&order=" + order;
     }
 
     @RequestMapping("/deleteQuestion")
-    public String deleteQuestion(Model model, @RequestParam("questionId") String questionId) {
+    public String deleteQuestion(Model model, @RequestParam("questionId") String questionId)
+    {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
-        try {
+        try
+        {
             questionPersistence.removeQuestionFromDatabase(questionId);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             return "error";
         }
         return "redirect:/viewQuestions?id=" + id + "&order";

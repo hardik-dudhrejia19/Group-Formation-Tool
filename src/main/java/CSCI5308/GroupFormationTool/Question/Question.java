@@ -11,8 +11,7 @@ public class Question
 	private List<Option> answerOptions;
 	private String dateCreated;
 	
-	
-	public Question() 
+	public Question()
 	{
 		setDefaults();
 	}
@@ -26,53 +25,63 @@ public class Question
 		answerOptions = null;
 	}
 	
-	public long getId() 
+	public long getId()
 	{
 		return id;
 	}
+
 	public void setId(long id) 
 	{
 		this.id = id;
 	}
+
 	public String getTitle() 
 	{
 		return title;
 	}
+
 	public void setTitle(String title) 
 	{
 		this.title = title;
 	}
+
 	public String getQuestion() 
 	{
 		return question;
 	}
+
 	public void setQuestion(String question) 
 	{
 		this.question = question;
 	}
+
 	public String getType() 
 	{
 		return type;
 	}
+
 	public void setType(String type) 
 	{
 		this.type = type;
 	}
 
-	public List<Option> getAnswerOptions() {
+	public List<Option> getAnswerOptions()
+	{
 		return answerOptions;
 	}
 
-	public void setAnswerOptions(List<Option> answerOptions) {
+	public void setAnswerOptions(List<Option> answerOptions)
+	{
 		this.answerOptions = answerOptions;
 	}
 
-	public String getDateCreated() {
+	public String getDateCreated()
+	{
 		return dateCreated;
 	}
 
-	public void setDateCreated(String dateCreated) {
+	public void setDateCreated(String dateCreated)
+	{
 		this.dateCreated = dateCreated;
 	}
-	
 }

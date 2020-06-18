@@ -2,7 +2,6 @@ package CSCI5308.GroupFormationTool.AccessControl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 
 public class UserDB implements IUserPersistence
@@ -75,7 +74,6 @@ public class UserDB implements IUserPersistence
 				proc.cleanup();
 			}
 		}
-		// If we found the ID load the full details.
 		if (userID > -1)
 		{
 			loadUserByID(userID, user);
@@ -139,7 +137,8 @@ public class UserDB implements IUserPersistence
 	}
 
 	@Override
-	public boolean isAlreadyUser(String bannerID) {
+	public boolean isAlreadyUser(String bannerID)
+	{
 		CallStoredProcedure proc = null;
 		boolean existingUser = false;
 		try
