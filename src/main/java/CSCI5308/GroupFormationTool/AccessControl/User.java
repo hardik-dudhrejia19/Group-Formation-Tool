@@ -1,21 +1,14 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
-import CSCI5308.GroupFormationTool.SystemConfig;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
-public class User {
-    // This regex comes from here:
-    // https://howtodoinjava.com/regex/java-regex-validate-email-address/
+public class User
+{
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-
-
     private long id;
     private String password;
     private String bannerID;
@@ -23,21 +16,25 @@ public class User {
     private String lastName;
     private String email;
 
-    public User() {
+    public User()
+    {
         setDefaults();
     }
 
-    public User(long id, IUserPersistence persistence) {
+    public User(long id, IUserPersistence persistence)
+    {
         setDefaults();
         persistence.loadUserByID(id, this);
     }
 
-    public User(String bannerID, IUserPersistence persistence) {
+    public User(String bannerID, IUserPersistence persistence)
+    {
         setDefaults();
         persistence.loadUserByBannerID(bannerID, this);
     }
 
-    public void setDefaults() {
+    public void setDefaults()
+    {
         id = -1;
         password = "";
         bannerID = "";
@@ -46,129 +43,153 @@ public class User {
         email = "";
     }
 
-    public void setID(long id) {
+    public void setID(long id)
+    {
         this.id = id;
     }
 
-    public long getID() {
+    public long getID()
+    {
         return id;
     }
 
-    // These are here for the Thymeleaf / Spring binding nonsense.
-    public void setId(long id) {
+    public void setId(long id)
+    {
         this.id = id;
     }
 
-    public long getId() {
+    public long getId()
+    {
         return id;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
-    public void setBannerID(String bannerID) {
+    public void setBannerID(String bannerID)
+    {
         this.bannerID = bannerID;
     }
 
-    public String getBannerID() {
+    public String getBannerID()
+    {
         return bannerID;
     }
 
-    // Also here for Thymeleaf nonsense.
-    public String getBanner() {
+    public String getBanner()
+    {
         return bannerID;
     }
 
-    public void setFirstName(String name) {
+    public void setFirstName(String name)
+    {
         firstName = name;
     }
 
-    public String getFirstName() {
+    public String getFirstName()
+    {
         return firstName;
     }
 
-    public void setLastName(String name) {
+    public void setLastName(String name)
+    {
         lastName = name;
     }
 
-    public String getLastName() {
+    public String getLastName()
+    {
         return lastName;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public boolean isValidUser() {
+    public boolean isValidUser()
+    {
         return id != -1;
     }
 
-    public boolean createUser(
-            IUserPersistence userDB,
-            IPasswordEncryption passwordEncryption,
-            IUserNotifications notification) {
+    public boolean createUser
+    (
+        IUserPersistence userDB,
+        IPasswordEncryption passwordEncryption,
+        IUserNotifications notification
+    )
+    {
         String rawPassword = password;
         this.password = passwordEncryption.encryptPassword(this.password);
         boolean success = userDB.createUser(this);
-        if (success && (null != notification)) {
+
+        if (success && (null != notification))
+        {
             notification.sendUserLoginCredentials(this, rawPassword);
         }
         return success;
     }
 
-    public boolean updateUser(IUserPersistence userDB) {
-        return userDB.updateUser(this);
-    }
-
-    private static boolean isStringNullOrEmpty(String s) {
-        if (null == s) {
+    private static boolean isStringNullOrEmpty(String s)
+    {
+        if (null == s)
+        {
             return true;
         }
         return s.isEmpty();
     }
 
-    public static boolean isBannerIDValid(String bannerID) {
+    public static boolean isBannerIDValid(String bannerID)
+    {
         return !isStringNullOrEmpty(bannerID);
     }
 
-    public static boolean isFirstNameValid(String name) {
+    public static boolean isFirstNameValid(String name)
+    {
         return !isStringNullOrEmpty(name);
     }
 
-    public static boolean isLastNameValid(String name) {
+    public static boolean isLastNameValid(String name)
+    {
         return !isStringNullOrEmpty(name);
     }
 
-    public static boolean isEmailValid(String email) {
-        if (isStringNullOrEmpty(email)) {
+    public static boolean isEmailValid(String email)
+    {
+        if (isStringNullOrEmpty(email))
+        {
             return false;
         }
-
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    public static List<String> failedPasswordValidationList(String password, IActivePasswordPolicyListBuilder listBuilder){
-
-        listBuilder.createActivePasswordPolicyList();
+    public static List<String> failedPasswordValidationList
+    (
+        User user,
+        IActivePasswordPolicyListBuilder listBuilder
+    )
+    {
+        listBuilder.createActivePasswordPolicyList(user);
         List<IPasswordPolicyValidation> activePasswordPolicyList = listBuilder.getActivePasswordPolicyList();
-
         List<String> failedValidationCriteriaList = new ArrayList<>();
-
         failedValidationCriteriaList.clear();
+
         for (int i=0; i<activePasswordPolicyList.size(); i++)
         {
-            if(!activePasswordPolicyList.get(i).isPasswordValid(password))
+            if(!activePasswordPolicyList.get(i).isPasswordValid(user.getPassword()))
             {
                 failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
             }

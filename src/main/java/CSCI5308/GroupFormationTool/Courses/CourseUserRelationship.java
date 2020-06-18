@@ -1,7 +1,6 @@
 package CSCI5308.GroupFormationTool.Courses;
 
 import java.util.List;
-
 import CSCI5308.GroupFormationTool.AccessControl.*;
 import CSCI5308.GroupFormationTool.SystemConfig;
 
@@ -21,8 +20,10 @@ public class CourseUserRelationship implements ICourseUserRelationship
 		{
 			return false;
 		}
+
 		ICourseUserRelationshipPersistence userCourseRelationshipDB = SystemConfig.instance().getCourseUserRelationshipDB();
 		List<Role> roles = userCourseRelationshipDB.loadUserRolesForCourse(course, user);
+
 		if (null != roles && roles.contains(role))
 		{
 			return true;

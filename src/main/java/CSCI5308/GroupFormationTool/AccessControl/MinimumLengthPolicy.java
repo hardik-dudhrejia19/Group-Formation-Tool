@@ -1,7 +1,7 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
-public class MinimumLengthPolicy implements IPasswordPolicyValidation {
-
+public class MinimumLengthPolicy implements IPasswordPolicyValidation
+{
     private String criteria = null;
     private String validatorCriteria = null;
 
@@ -12,9 +12,9 @@ public class MinimumLengthPolicy implements IPasswordPolicyValidation {
     }
 
     @Override
-    public boolean isPasswordValid(String password) {
-
-        if(password.length()>=Integer.parseInt(this.criteria))
+    public boolean isPasswordValid(String password)
+    {
+        if(password.length() >= Integer.parseInt(this.criteria))
         {
             return true;
         }
@@ -25,7 +25,8 @@ public class MinimumLengthPolicy implements IPasswordPolicyValidation {
     }
 
     @Override
-    public String getValidationCriteria() {
+    public String getValidationCriteria()
+    {
         return this.validatorCriteria+" "+this.criteria;
     }
 }

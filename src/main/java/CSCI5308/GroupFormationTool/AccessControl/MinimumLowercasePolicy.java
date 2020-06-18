@@ -1,7 +1,7 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
-public class MinimumLowercasePolicy implements IPasswordPolicyValidation {
-
+public class MinimumLowercasePolicy implements IPasswordPolicyValidation
+{
     private String criteria = null;
     private String validatorCriteria = null;
 
@@ -12,19 +12,20 @@ public class MinimumLowercasePolicy implements IPasswordPolicyValidation {
     }
 
     @Override
-    public boolean isPasswordValid(String password) {
+    public boolean isPasswordValid(String password)
+    {
         Integer lowercase = 0;
         char[] charArray = password.toCharArray();
 
-        for (int i=0; i<charArray.length;i++)
+        for(int i=0; i<charArray.length; i++)
         {
-            if( Character.isLowerCase( charArray[i] ))
+            if(Character.isLowerCase(charArray[i]))
             {
                 lowercase++;
             }
         }
 
-        if(lowercase>=Integer.parseInt(this.criteria))
+        if(lowercase >= Integer.parseInt(this.criteria))
         {
             return true;
         }
@@ -35,7 +36,8 @@ public class MinimumLowercasePolicy implements IPasswordPolicyValidation {
     }
 
     @Override
-    public String getValidationCriteria() {
+    public String getValidationCriteria()
+    {
         return this.validatorCriteria+" "+this.criteria;
     }
 }

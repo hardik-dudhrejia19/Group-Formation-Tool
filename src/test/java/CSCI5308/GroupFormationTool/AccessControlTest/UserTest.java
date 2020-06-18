@@ -8,7 +8,6 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @SpringBootTest
 @SuppressWarnings("deprecation")
 public class UserTest
@@ -155,10 +154,13 @@ public class UserTest
 	}
 
 	@Test
-	public void failedPasswordValidationListTest(){
-		String password = "abcd";
+	public void failedPasswordValidationListTest()
+	{
+		User u = new User();
+		u.setPassword("abcd");
+		u.setBannerID("B00123456");
 		IActivePasswordPolicyListBuilder listBuilder = new ActivePasswordPolicyListBuilderMock();
-		listBuilder.createActivePasswordPolicyList();
+		listBuilder.createActivePasswordPolicyList(u);
 		List<IPasswordPolicyValidation> activePasswordPolicyList = listBuilder.getActivePasswordPolicyList();
 
 		List<String> failedValidationCriteriaList = new ArrayList<>();
@@ -166,26 +168,25 @@ public class UserTest
 		failedValidationCriteriaList.clear();
 		for (int i=0; i<activePasswordPolicyList.size(); i++)
 		{
-			if(!activePasswordPolicyList.get(i).isPasswordValid(password))
+			if(!activePasswordPolicyList.get(i).isPasswordValid(u.getPassword()))
 			{
 				failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
 			}
 		}
-
 		Assertions.assertEquals(2,failedValidationCriteriaList.size());
 
-		password = "abcdefghi";
-		listBuilder.createActivePasswordPolicyList();
+		u.setPassword("abcdefghi");
+		u.setBannerID("B00123456");
+		listBuilder.createActivePasswordPolicyList(u);
 
 		failedValidationCriteriaList.clear();
 		for (int i=0; i<activePasswordPolicyList.size(); i++)
 		{
-			if(!activePasswordPolicyList.get(i).isPasswordValid(password))
+			if(!activePasswordPolicyList.get(i).isPasswordValid(u.getPassword()))
 			{
 				failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
 			}
 		}
-
 		Assertions.assertEquals(1,failedValidationCriteriaList.size());
 	}
 }

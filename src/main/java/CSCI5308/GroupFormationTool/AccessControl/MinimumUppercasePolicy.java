@@ -1,7 +1,7 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
-public class MinimumUppercasePolicy implements IPasswordPolicyValidation {
-
+public class MinimumUppercasePolicy implements IPasswordPolicyValidation
+{
     private String criteria = null;
     private String validatorCriteria = null;
 
@@ -12,20 +12,20 @@ public class MinimumUppercasePolicy implements IPasswordPolicyValidation {
     }
 
     @Override
-    public boolean isPasswordValid(String password) {
-
+    public boolean isPasswordValid(String password)
+    {
         Integer uppercase = 0;
         char[] charArray = password.toCharArray();
 
-        for (int i=0; i<charArray.length;i++)
+        for (int i=0; i<charArray.length; i++)
         {
-            if( Character.isUpperCase( charArray[i] ))
+            if(Character.isUpperCase(charArray[i]))
             {
                 uppercase++;
             }
         }
 
-        if(uppercase>=Integer.parseInt(this.criteria))
+        if(uppercase >= Integer.parseInt(this.criteria))
         {
             return true;
         }
@@ -36,7 +36,8 @@ public class MinimumUppercasePolicy implements IPasswordPolicyValidation {
     }
 
     @Override
-    public String getValidationCriteria() {
+    public String getValidationCriteria()
+    {
         return this.validatorCriteria+" "+this.criteria;
     }
 }

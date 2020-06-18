@@ -10,7 +10,8 @@ public class QuestionDbMock implements IQuestionPersistence {
 
 	private List<List<String>> questionList = new ArrayList<List<String>>();
 
-	public QuestionDbMock() {
+	public QuestionDbMock()
+	{
 		List<String> mockList = new ArrayList<String>();
 		mockList.add("123456");
 		mockList.add("Mock Question Title");
@@ -21,34 +22,37 @@ public class QuestionDbMock implements IQuestionPersistence {
 	}
 
 	@Override
-	public Boolean saveQuestion(Question question, String id) {
-
+	public Boolean saveQuestion(Question question, String id)
+	{
 		question.setTitle("Tell us more");
 		question.setType("FREE_TEXT");
 		return true;
 	}
 
 	@Override
-	public Integer getQuestionIdByTitleTextType(Question question) {
+	public Integer getQuestionIdByTitleTextType(Question question)
+	{
 		question.setId(3);
 		return 3;
 	}
 
 	@Override
-	public List<List<String>> getQuestionsByInstructorID(String instructorId, String order) {
-		if (instructorId.equals("B-444444") && order != null) {
+	public List<List<String>> getQuestionsByInstructorID(String instructorId, String order)
+	{
+		if (instructorId.equals("B-444444") && order != null)
+		{
 			return questionList;
 		}
 		return null;
 	}
 
 	@Override
-	public boolean removeQuestionFromDatabase(String questionID) {
-		if (questionID != null && questionID.equals("123456")) {
+	public boolean removeQuestionFromDatabase(String questionID)
+	{
+		if (questionID != null && questionID.equals("123456"))
+		{
 			return true;
 		}
 		return false;
 	}
-
-
 }
