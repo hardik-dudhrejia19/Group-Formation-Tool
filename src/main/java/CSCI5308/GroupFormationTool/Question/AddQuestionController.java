@@ -124,7 +124,7 @@ public class AddQuestionController
 		questionObject.setType(type);
 		
 		List<Option> optionList = null;
-		if (!CollectionUtils.isEmpty(option)) 
+		if (CollectionUtils.isEmpty(option)==false)
 		{
 			optionList = new ArrayList<Option>();
 			int index = 0;

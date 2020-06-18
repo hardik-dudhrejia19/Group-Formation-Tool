@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence
 {
+	private Logger log = LoggerFactory.getLogger(ActivePasswordPolicyDB.class);
+	
     @Override
     public HashMap<String, String> getActivePasswordPolicy()
     {
@@ -30,7 +35,8 @@ public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence
         }
         catch (SQLException e)
         {
-            // Logging needed.
+        	log.error("Error occured in getting active passwordpPolicy: " + e.getMessage());
+			e.printStackTrace();
             return policyCriteriaMap;
         }
         finally
@@ -65,7 +71,8 @@ public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence
         }
         catch (SQLException e)
         {
-            // Logging needed.
+        	log.error("Error occured in getting passwords: " + e.getMessage());
+			e.printStackTrace();
             return passwordList;
         }
         finally

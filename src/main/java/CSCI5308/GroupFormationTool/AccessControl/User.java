@@ -130,7 +130,7 @@ public class User
         IUserNotifications notification
     )
     {
-        String rawPassword = password;
+        String rawPassword = this.bannerID;
         this.password = passwordEncryption.encryptPassword(this.password);
         boolean success = userDB.createUser(this);
 
@@ -152,17 +152,17 @@ public class User
 
     public static boolean isBannerIDValid(String bannerID)
     {
-        return !isStringNullOrEmpty(bannerID);
+        return isStringNullOrEmpty(bannerID)==false;
     }
 
     public static boolean isFirstNameValid(String name)
     {
-        return !isStringNullOrEmpty(name);
+        return isStringNullOrEmpty(name)==false;
     }
 
     public static boolean isLastNameValid(String name)
     {
-        return !isStringNullOrEmpty(name);
+        return isStringNullOrEmpty(name)==false;
     }
 
     public static boolean isEmailValid(String email)
@@ -189,7 +189,7 @@ public class User
 
         for (int i=0; i<activePasswordPolicyList.size(); i++)
         {
-            if(!activePasswordPolicyList.get(i).isPasswordValid(user.getPassword()))
+            if(activePasswordPolicyList.get(i).isPasswordValid(user.getPassword()) == false)
             {
                 failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
             }

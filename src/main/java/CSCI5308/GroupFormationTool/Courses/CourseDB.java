@@ -1,6 +1,10 @@
 package CSCI5308.GroupFormationTool.Courses;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +12,8 @@ import java.util.ArrayList;
 
 public class CourseDB implements ICoursePersistence
 {
+	private Logger log = LoggerFactory.getLogger(CourseDB.class);
+	
 	public List<Course> loadAllCourses()
 	{
 		List<Course> courses = new ArrayList<Course>();
@@ -31,7 +37,8 @@ public class CourseDB implements ICoursePersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed.
+			log.error("Error occured while loading all courses " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -63,7 +70,8 @@ public class CourseDB implements ICoursePersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed.
+			log.error("Error occured while loading course by id: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -86,7 +94,8 @@ public class CourseDB implements ICoursePersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured while creating course: " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		finally
@@ -110,7 +119,8 @@ public class CourseDB implements ICoursePersistence
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured while deleting course: " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		finally

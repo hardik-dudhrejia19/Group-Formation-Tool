@@ -24,10 +24,12 @@ public class StudentCSVImport
 		userDB = SystemConfig.instance().getUserDB();
 		passwordEncryption = SystemConfig.instance().getPasswordEncryption();
 		this.parser = parser;
+		enrollStudentFromRecord();
 	}
 
 	public void enrollStudentFromRecord()
 	{
+		this.studentList = parser.parseCSVFile(failureResults);
 		for(User u : this.studentList)
 		{
 			String bannerID = u.getBanner();
@@ -38,7 +40,7 @@ public class StudentCSVImport
 			User user = new User();
 			userDB.loadUserByBannerID(bannerID, user);
 
-			if (!user.isValidUser())
+			if (user.isValidUser() == false)
 			{
 				user.setBannerID(bannerID);
 				user.setFirstName(firstName);
@@ -74,7 +76,7 @@ public class StudentCSVImport
 		this.studentList = parser.parseCSVFile(failureResults);
 		for (User student : this.studentList)
 		{
-			if(!userDB.isAlreadyUser(student.getBannerID()))
+			if(userDB.isAlreadyUser(student.getBannerID())==false)
 			{
 				newStudents.add(student);
 			}

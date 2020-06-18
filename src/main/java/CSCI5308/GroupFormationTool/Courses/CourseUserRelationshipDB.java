@@ -4,11 +4,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CSCI5308.GroupFormationTool.AccessControl.User;
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 
 public class CourseUserRelationshipDB implements ICourseUserRelationshipPersistence
 {
+	private Logger log = LoggerFactory.getLogger(CourseUserRelationshipDB.class);
+
 	public List<User> findAllUsersWithoutCourseRole(Role role, long courseID)
 	{
 		List<User> users = new ArrayList<User>();
@@ -38,7 +44,8 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 		}
 		catch (SQLException e)
 		{
-			// Logging needed.
+			log.error("Error occured while finding all users without course role: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -73,7 +80,8 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 		}
 		catch (SQLException e)
 		{
-			// Logging needed.
+			log.error("Error occured while finding all users with course role: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -98,7 +106,8 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 		}
 		catch (SQLException e)
 		{
-			// Logging needed
+			log.error("Error occured in enrollUser: " + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		finally
@@ -132,7 +141,8 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 		}
 		catch (SQLException e)
 		{
-			// Logging needed.
+			log.error("Error occured in while loading User roles for Course: " + e.getMessage());
+			e.printStackTrace();
 		}
 		finally
 		{
