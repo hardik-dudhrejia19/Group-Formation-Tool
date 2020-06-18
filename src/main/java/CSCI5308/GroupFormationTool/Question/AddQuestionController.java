@@ -1,8 +1,6 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import CSCI5308.GroupFormationTool.SystemConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -14,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
-public class AddQuestionController 
-{
-	private static final String VIEW_QUES_PAGE = "/viewQuestions";
+public class AddQuestionController {
+	private static final String VIEW_QUES_PAGE = "viewQuestions";
 	private static final String CREATE_QUES_PAGE = "question/createQuestion";
 	private static final String MULTIPLE_CHOICE__PAGE = "question/multipleChoiceQuestion";
 	private static final String SURVEY_VIEW_NUMERIC_QUES = "question/surveyViewOfNumericQuestion";
@@ -28,7 +26,7 @@ public class AddQuestionController
 	private static final String SURVEY_VIEW_FREE_TEXT = "question/surveryViewOfFreeText";
 
 	private static final Logger log = LoggerFactory.getLogger(AddQuestionController.class);
-	
+
 	@GetMapping("/question/create")
 	public String addQuestion(Model model)
 	{
