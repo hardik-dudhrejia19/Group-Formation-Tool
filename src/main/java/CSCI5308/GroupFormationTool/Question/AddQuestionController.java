@@ -19,7 +19,7 @@ import CSCI5308.GroupFormationTool.SystemConfig;
 @Controller
 public class AddQuestionController 
 {
-	private static final String VIEW_QUES_PAGE = "question/viewQuestions";
+	private static final String VIEW_QUES_PAGE = "/viewQuestions";
 	private static final String CREATE_QUES_PAGE = "question/createQuestion";
 	private static final String MULTIPLE_CHOICE__PAGE = "question/multipleChoiceQuestion";
 	private static final String SURVEY_VIEW_NUMERIC_QUES = "question/surveyViewOfNumericQuestion";
