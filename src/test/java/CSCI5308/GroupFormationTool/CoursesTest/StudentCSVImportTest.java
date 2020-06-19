@@ -31,7 +31,7 @@ class StudentCSVImportTest
 		IUserPersistence userDB = new UserDBMock();
 		IPasswordEncryption passwordEncryption = new PasswordEncryptionMock();
 		IUserNotifications userNotifications = new UserNotification();
-		Assert.isTrue(user.createUser(userDB, passwordEncryption, userNotifications));
+		Assert.isTrue(user.createUser(userDB, passwordEncryption, null));
 	}
 
 	@Test
