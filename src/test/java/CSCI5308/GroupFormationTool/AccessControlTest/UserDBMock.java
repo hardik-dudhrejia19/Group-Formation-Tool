@@ -11,7 +11,7 @@ public class UserDBMock implements IUserPersistence
 		user.setPassword("Pass@123");
 		user.setFirstName("Rob");
 		user.setLastName("Hawkey");
-		user.setEmail("rhawkey@dal.ca");
+		user.setEmail("rhawkey123@dal.ca");
 	}
 
 	public void loadUserByBannerID(String bannerID, User user)
@@ -21,7 +21,7 @@ public class UserDBMock implements IUserPersistence
 		user.setPassword("Pass@123");
 		user.setFirstName("Rob");
 		user.setLastName("Hawkey");
-		user.setEmail("rhawkey@dal.ca");
+		user.setEmail("rhawkey123@dal.ca");
 	}
 	
 	public boolean createUser(User user)
@@ -31,7 +31,7 @@ public class UserDBMock implements IUserPersistence
 		user.setPassword("Pass@123");
 		user.setFirstName("Rob");
 		user.setLastName("Hawkey");
-		user.setEmail("rhawkey@dal.ca");
+		user.setEmail("rhawkey123@dal.ca");
 		return true;
 	}
 
