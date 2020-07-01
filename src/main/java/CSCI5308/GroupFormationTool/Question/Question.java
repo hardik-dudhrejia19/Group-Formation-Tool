@@ -1,5 +1,7 @@
 package CSCI5308.GroupFormationTool.Question;
 
+import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
+
 import java.util.List;
 
 public class Question 
@@ -83,5 +85,17 @@ public class Question
 	public void setDateCreated(String dateCreated)
 	{
 		this.dateCreated = dateCreated;
+	}
+
+	public List<Question> getAlreadyAddedQuestionsInSurvey(Long CourseId, ISurveyPersistence surveyDB)
+	{
+		List<Question> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(CourseId);
+		return alreadyAddedQuestionList;
+	}
+
+	public List<Question> getNotAddedQuestionsInSurvey(Long CourseId, String bannerId, ISurveyPersistence surveyDB)
+	{
+		List<Question> alreadyAddedQuestionList = surveyDB.getNotAddedQuestions(CourseId,bannerId);
+		return alreadyAddedQuestionList;
 	}
 }

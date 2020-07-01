@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>CSCI5308 - Group Formation Tool</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h1>Questions Not Added to Survey</h1>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Question</th>
+                    <th></th>
+                </tr>
+                <tr th:each="question : ${notAddedQuestions}">
+                    <td><h4 th:text="${question.title}"></h4></td>
+                    <td><h4 th:text="${question.question}"></h4></td>
+                    <td>
+                        <form th:action="@{/survey/addquestion}" th:method="post">
+                            <input type="hidden" th:value="${question.id}" name="questionId"/>
+                            <input type="hidden" th:value="${courseId}" name="courseId"/>
+                            <input type="hidden" th:value="${#httpServletRequest.remoteUser}" name="bannerId"/>
+                            <input type="submit" value="Add Question to Survey"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div>
+            <h1>Questions Already Added to the Survey</h1>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Question</th>
+                </tr>
+                <tr th:each="question : ${alreadyAddedQuestions}">
+                    <td><h4 th:text="${question.title}"></h4></td>
+                    <td><h4 th:text="${question.question}"></h4></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
