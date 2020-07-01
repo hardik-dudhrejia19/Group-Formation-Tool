@@ -97,6 +97,87 @@ public class SurveyDB implements ISurveyPersistence
     @Override
     public boolean addQuestionToSurvey(Long questionId, Long courseId)
     {
+        CallStoredProcedure proc = null;
+        try
+        {
+            proc = new CallStoredProcedure("spAddQuestionToSurvey(?,?)");
+            proc.setParameter(1, questionId);
+            proc.setParameter(2,courseId);
+            proc.execute();
+        }
+        catch (SQLException e)
+        {
+            log.error("Error occured in Adding question to survey : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
         return true;
+    }
+
+    @Override
+    public boolean publishSurvey(Long courseId)
+    {
+        CallStoredProcedure proc = null;
+        try
+        {
+            proc = new CallStoredProcedure("spPublishSurvey(?)");
+            proc.setParameter(1,courseId);
+            proc.execute();
+        }
+        catch (SQLException e)
+        {
+            log.error("Error occured in Adding question to survey : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isSurveyPublished(Long courseId)
+    {
+        CallStoredProcedure proc = null;
+        try
+        {
+            proc = new CallStoredProcedure("spIsSurveyPublished(?)");
+            proc.setParameter(1,courseId);
+            ResultSet results = proc.executeWithResults();
+            if (results.next())
+            {
+                Long status = results.getLong("Status");
+                if(status == 0)
+                    return false;
+                else
+                    return true;
+            }
+        }
+        catch (SQLException e)
+        {
+            log.error("Error occured in Adding question to survey : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
+        return false;
     }
 }

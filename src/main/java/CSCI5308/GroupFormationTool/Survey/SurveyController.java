@@ -1,13 +1,14 @@
 package CSCI5308.GroupFormationTool.Survey;
 
+import CSCI5308.GroupFormationTool.Courses.Course;
+import CSCI5308.GroupFormationTool.Courses.ICoursePersistence;
 import CSCI5308.GroupFormationTool.Question.Question;
+import CSCI5308.GroupFormationTool.SystemConfig;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.List;
 
 @Controller
@@ -23,12 +24,22 @@ public class SurveyController
     {
         ISurveyPersistence surveyDB = new SurveyDB();
         Question question = new Question();
-        List<Question> alreadyAddedQuestionList = question.getAlreadyAddedQuestionsInSurvey(courseId,surveyDB);
-        List<Question> notAddedQuestionList = question.getNotAddedQuestionsInSurvey(courseId,bannerId,surveyDB);
         ModelAndView modelAndView = new ModelAndView("createsurvey");
-        modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
-        modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
-        modelAndView.addObject("courseId",courseId);
+        if(surveyDB.isSurveyPublished(courseId) == false)
+        {
+            modelAndView.addObject("surveynotpublished",true);
+            List<Question> alreadyAddedQuestionList = question.getAlreadyAddedQuestionsInSurvey(courseId,surveyDB);
+            List<Question> notAddedQuestionList = question.getNotAddedQuestionsInSurvey(courseId,bannerId,surveyDB);
+
+            modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
+            modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
+            modelAndView.addObject("courseId",courseId);
+        }
+        else
+        {
+            modelAndView.addObject("surveypublished",true);
+        }
+
         return modelAndView;
     }
 
@@ -38,15 +49,25 @@ public class SurveyController
                                     @RequestParam(name = BANNER) String bannerId)
     {
         ISurveyPersistence surveyDB = new SurveyDB();
-        ModelAndView modelAndView = new ModelAndView("redirect:/servey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
-        if(surveyDB.addQuestionToSurvey(questionId, courseId))
-        {
-            modelAndView.addObject("questionAdded",true);
-        }
-        else
-        {
-            modelAndView.addObject("questionAddFailed",true);
-        }
+        ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
+        surveyDB.addQuestionToSurvey(questionId, courseId);
+//        if(surveyDB.addQuestionToSurvey(questionId, courseId))
+//        {
+//            modelAndView.addObject("questionAdded",true);
+//        }
+//        else
+//        {
+//            modelAndView.addObject("questionAddFailed",true);
+//        }
+        return modelAndView;
+    }
+
+    @PostMapping("/survey/publish")
+    public ModelAndView publishSurvey(@RequestParam(name = COURSEID) long courseId)
+    {
+        ISurveyPersistence surveyDB = new SurveyDB();
+        surveyDB.publishSurvey(courseId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
         return modelAndView;
     }
 }

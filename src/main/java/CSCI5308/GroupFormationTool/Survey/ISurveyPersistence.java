@@ -11,4 +11,8 @@ public interface ISurveyPersistence
     public List<Question> getNotAddedQuestions(Long courseId, String bannerId);
 
     public boolean addQuestionToSurvey(Long questionId, Long courseId);
+
+    public boolean publishSurvey(Long courseId);
+
+    public boolean isSurveyPublished(Long courseId);
 }
