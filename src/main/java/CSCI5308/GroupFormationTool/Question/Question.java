@@ -87,15 +87,4 @@ public class Question
 		this.dateCreated = dateCreated;
 	}
 
-	public List<Question> getAlreadyAddedQuestionsInSurvey(Long CourseId, ISurveyPersistence surveyDB)
-	{
-		List<Question> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(CourseId);
-		return alreadyAddedQuestionList;
-	}
-
-	public List<Question> getNotAddedQuestionsInSurvey(Long CourseId, String bannerId, ISurveyPersistence surveyDB)
-	{
-		List<Question> alreadyAddedQuestionList = surveyDB.getNotAddedQuestions(CourseId,bannerId);
-		return alreadyAddedQuestionList;
-	}
 }

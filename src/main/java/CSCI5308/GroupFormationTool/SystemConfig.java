@@ -11,6 +11,8 @@ import CSCI5308.GroupFormationTool.Database.DefaultDatabaseConfiguration;
 import CSCI5308.GroupFormationTool.Database.IDatabaseConfiguration;
 import CSCI5308.GroupFormationTool.Security.BCryptPasswordEncryption;
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
+import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
+import CSCI5308.GroupFormationTool.Survey.SurveyDB;
 
 public class SystemConfig
 {
@@ -23,6 +25,7 @@ public class SystemConfig
 	private IQuestionPersistence questionDB;
 	private IActivePasswordPolicyPersistence activePasswordPolicyDB;
 	private IActivePasswordPolicyListBuilder activePasswordPolicyListBuilder;
+	private ISurveyPersistence surveyDB;
 
 	private SystemConfig()
 	{
@@ -34,6 +37,7 @@ public class SystemConfig
 		questionDB = new QuestionDB();
 		activePasswordPolicyDB = new ActivePasswordPolicyDB();
 		activePasswordPolicyListBuilder = new ActivePasswordPolicyListBuilder();
+		surveyDB = new SurveyDB();
 	}
 
 	public static SystemConfig instance()
@@ -43,6 +47,11 @@ public class SystemConfig
 			uniqueInstance = new SystemConfig();
 		}
 		return uniqueInstance;
+	}
+
+	public ISurveyPersistence getSurveyDB()
+	{
+		return surveyDB;
 	}
 
 	public IActivePasswordPolicyListBuilder getActivePasswordPolicyListBuilder()

@@ -22,14 +22,13 @@ public class SurveyController
     public ModelAndView createSurvey(@RequestParam(name = COURSEID) long courseId,
                                      @RequestParam(name = BANNER) String bannerId)
     {
-        ISurveyPersistence surveyDB = new SurveyDB();
-        Question question = new Question();
+        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("createsurvey");
         if(surveyDB.isSurveyPublished(courseId) == false)
         {
             modelAndView.addObject("surveynotpublished",true);
-            List<Question> alreadyAddedQuestionList = question.getAlreadyAddedQuestionsInSurvey(courseId,surveyDB);
-            List<Question> notAddedQuestionList = question.getNotAddedQuestionsInSurvey(courseId,bannerId,surveyDB);
+            List<Question> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(courseId);
+            List<Question> notAddedQuestionList = surveyDB.getNotAddedQuestions(courseId,bannerId);
 
             modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
             modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
@@ -48,24 +47,16 @@ public class SurveyController
                                     @RequestParam(name = QUESTIONID) long questionId,
                                     @RequestParam(name = BANNER) String bannerId)
     {
-        ISurveyPersistence surveyDB = new SurveyDB();
+        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
         surveyDB.addQuestionToSurvey(questionId, courseId);
-//        if(surveyDB.addQuestionToSurvey(questionId, courseId))
-//        {
-//            modelAndView.addObject("questionAdded",true);
-//        }
-//        else
-//        {
-//            modelAndView.addObject("questionAddFailed",true);
-//        }
         return modelAndView;
     }
 
     @PostMapping("/survey/publish")
     public ModelAndView publishSurvey(@RequestParam(name = COURSEID) long courseId)
     {
-        ISurveyPersistence surveyDB = new SurveyDB();
+        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         surveyDB.publishSurvey(courseId);
         ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
         return modelAndView;
