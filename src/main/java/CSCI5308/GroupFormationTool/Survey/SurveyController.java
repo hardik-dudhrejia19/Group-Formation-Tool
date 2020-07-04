@@ -68,4 +68,15 @@ public class SurveyController
         ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
         return modelAndView;
     }
+
+    @PostMapping("/survey/deletequestion")
+    public ModelAndView deleteQuestion(@RequestParam(name = COURSEID) long courseId,
+                                       @RequestParam(name = QUESTIONID) long questionId,
+                                       @RequestParam(name = BANNER) String bannerId)
+    {
+        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
+        surveyDB.deleteQuestionFromSurvey(questionId, courseId);
+        return modelAndView;
+    }
 }

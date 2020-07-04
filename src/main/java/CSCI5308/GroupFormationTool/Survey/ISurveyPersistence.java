@@ -12,6 +12,8 @@ public interface ISurveyPersistence
 
     public boolean addQuestionToSurvey(Long questionId, Long courseId);
 
+    public boolean deleteQuestionFromSurvey(Long questionId, Long courseId);
+
     public boolean publishSurvey(Long courseId);
 
     public boolean disableSurvey(Long courseId);

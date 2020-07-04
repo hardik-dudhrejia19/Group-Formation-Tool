@@ -55,10 +55,19 @@
                 <tr>
                     <th>Title</th>
                     <th>Question</th>
+                    <th></th>
                 </tr>
                 <tr th:each="question : ${alreadyAddedQuestions}">
                     <td><h4 th:text="${question.title}"></h4></td>
                     <td><h4 th:text="${question.question}"></h4></td>
+                    <td>
+                        <form th:action="@{/survey/deletequestion}" th:method="post">
+                            <input type="hidden" th:value="${question.id}" name="questionId"/>
+                            <input type="hidden" th:value="${courseId}" name="courseId"/>
+                            <input type="hidden" th:value="${#httpServletRequest.remoteUser}" name="bannerId"/>
+                            <input type="submit" value="Delete Question from Survey"/>
+                        </form>
+                    </td>
                 </tr>
             </table>
         </div>
