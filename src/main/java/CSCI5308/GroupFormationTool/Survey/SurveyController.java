@@ -1,7 +1,5 @@
 package CSCI5308.GroupFormationTool.Survey;
 
-import CSCI5308.GroupFormationTool.Courses.Course;
-import CSCI5308.GroupFormationTool.Courses.ICoursePersistence;
 import CSCI5308.GroupFormationTool.Question.Question;
 import CSCI5308.GroupFormationTool.SystemConfig;
 import org.springframework.stereotype.Controller;
@@ -58,6 +56,15 @@ public class SurveyController
     {
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         surveyDB.publishSurvey(courseId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
+        return modelAndView;
+    }
+
+    @PostMapping("/survey/disablesurvey")
+    public ModelAndView disableSurvey(@RequestParam(name = COURSEID) long courseId)
+    {
+        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        surveyDB.disableSurvey(courseId);
         ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
         return modelAndView;
     }

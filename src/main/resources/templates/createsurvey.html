@@ -8,8 +8,12 @@
     <title>CSCI5308 - Group Formation Tool</title>
 </head>
 <body>
-    <div>
-        <h2 class="errorInfo" th:if="${surveypublished}">Survey Already Published. It cannot be edited now</h2>
+    <div th:if="${surveypublished}">
+        <h2 class="errorInfo">Survey Already Published. It cannot be edited now</h2>
+        <form th:action="@{/survey/disablesurvey}" th:method="post">
+            <input type="hidden" th:value="${courseId}" name="courseId"/>
+            <input type="submit" value="Disable Survey">
+        </form>
     </div>
     <div th:if="${surveynotpublished}">
         <div>

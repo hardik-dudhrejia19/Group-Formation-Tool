@@ -148,6 +148,31 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
+    public boolean disableSurvey(Long courseId) {
+        CallStoredProcedure proc = null;
+        try
+        {
+            proc = new CallStoredProcedure("spDisableSurvey(?)");
+            proc.setParameter(1,courseId);
+            proc.execute();
+        }
+        catch (SQLException e)
+        {
+            log.error("Error occured in Disabling the survey : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
+        return true;
+    }
+
+    @Override
     public boolean isSurveyPublished(Long courseId)
     {
         CallStoredProcedure proc = null;
