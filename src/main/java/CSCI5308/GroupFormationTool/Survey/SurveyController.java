@@ -22,6 +22,7 @@ public class SurveyController
     {
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("createsurvey");
+        modelAndView.addObject("courseId",courseId);
         if(surveyDB.isSurveyPublished(courseId) == false)
         {
             modelAndView.addObject("surveynotpublished",true);
@@ -30,7 +31,6 @@ public class SurveyController
 
             modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
             modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
-            modelAndView.addObject("courseId",courseId);
         }
         else
         {

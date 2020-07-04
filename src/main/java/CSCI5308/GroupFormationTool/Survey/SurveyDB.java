@@ -30,8 +30,10 @@ public class SurveyDB implements ISurveyPersistence
                 while (results.next())
                 {
                     Question question = new Question();
+                    Long id = results.getLong("id");
                     String title = results.getString("title");
                     String text = results.getString("text");
+                    question.setId(id);
                     question.setTitle(title);
                     question.setQuestion(text);
                     alreadyAddedQuestionList.add(question);
