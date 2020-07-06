@@ -23,14 +23,14 @@ public class SurveyController
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("createsurvey");
         modelAndView.addObject("courseId",courseId);
+        List<Question> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(courseId);
+        List<Question> notAddedQuestionList = surveyDB.getNotAddedQuestions(courseId,bannerId);
+        modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
+        modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
+
         if(surveyDB.isSurveyPublished(courseId) == false)
         {
             modelAndView.addObject("surveynotpublished",true);
-            List<Question> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(courseId);
-            List<Question> notAddedQuestionList = surveyDB.getNotAddedQuestions(courseId,bannerId);
-
-            modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
-            modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
         }
         else
         {
