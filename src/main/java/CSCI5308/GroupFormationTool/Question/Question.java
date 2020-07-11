@@ -86,5 +86,12 @@ public class Question
 	{
 		this.dateCreated = dateCreated;
 	}
+	
+	public void saveQuestion(IQuestionPersistence questionPersistence, String id)
+	{
+		boolean questionSaved = false;
+		questionSaved = questionPersistence.saveQuestion(this, id);
+		System.out.println(questionSaved);
+	}
 
 }

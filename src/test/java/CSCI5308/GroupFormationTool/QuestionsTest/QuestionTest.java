@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
+import CSCI5308.GroupFormationTool.Question.IQuestionPersistence;
 import CSCI5308.GroupFormationTool.Question.Option;
 import CSCI5308.GroupFormationTool.Question.Question;
 
@@ -126,5 +127,17 @@ public class QuestionTest {
 		optionList.add(option);
 		question.setAnswerOptions(optionList);
 		Assert.isTrue(!question.getAnswerOptions().isEmpty());
+	}
+	
+	@Test
+	public void saveQuestionTest()
+	{
+		IQuestionPersistence questionPersistence = new QuestionDbMock();
+		Question question = new Question();
+		question.setTitle("How many hours of credits required");
+		question.setType("NUMERIC");
+		questionPersistence.saveQuestion(question, "B-000000");
+		Assert.isTrue(question.getType().equals("FREE_TEXT"));
+		Assert.isTrue(question.getTitle().equals("Tell us more"));
 	}
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
-public class QuestionManagerTest
+public class QuestionDBMockTest
 {
 	@Test
 	public void saveQuestionTest()
