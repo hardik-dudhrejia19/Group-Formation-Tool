@@ -2,6 +2,7 @@ package CSCI5308.GroupFormationTool.Survey;
 
 import CSCI5308.GroupFormationTool.AccessControl.UserDB;
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
+import CSCI5308.GroupFormationTool.Question.Option;
 import CSCI5308.GroupFormationTool.Question.Question;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,24 +12,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurveyDB implements ISurveyPersistence
-{
+public class SurveyDB implements ISurveyPersistence {
     private Logger log = LoggerFactory.getLogger(UserDB.class);
 
     @Override
-    public List<Question> getAlreadyAddedQuestions(Long courseId)
-    {
+    public List<Question> getAlreadyAddedQuestions(Long courseId) {
         List<Question> alreadyAddedQuestionList = new ArrayList<>();
         CallStoredProcedure proc = null;
-        try
-        {
+        try {
             proc = new CallStoredProcedure("spAlreadyAddedQuestions(?)");
             proc.setParameter(1, courseId);
             ResultSet results = proc.executeWithResults();
-            if (null != results)
-            {
-                while (results.next())
-                {
+            if (null != results) {
+                while (results.next()) {
                     Question question = new Question();
                     Long id = results.getLong("id");
                     String title = results.getString("title");
@@ -39,16 +35,11 @@ public class SurveyDB implements ISurveyPersistence
                     alreadyAddedQuestionList.add(question);
                 }
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             log.error("Error occured in loading Already added questions : " + e.getMessage());
             e.printStackTrace();
-        }
-        finally
-        {
-            if (null != proc)
-            {
+        } finally {
+            if (null != proc) {
                 proc.cleanup();
             }
         }
@@ -56,20 +47,16 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
-    public List<Question> getNotAddedQuestions(Long courseId, String bannerId)
-    {
+    public List<Question> getNotAddedQuestions(Long courseId, String bannerId) {
         List<Question> notAddedQuestionList = new ArrayList<>();
         CallStoredProcedure proc = null;
-        try
-        {
+        try {
             proc = new CallStoredProcedure("spNotAddedQuestions(?,?)");
             proc.setParameter(1, courseId);
-            proc.setParameter(2,bannerId);
+            proc.setParameter(2, bannerId);
             ResultSet results = proc.executeWithResults();
-            if (null != results)
-            {
-                while (results.next())
-                {
+            if (null != results) {
+                while (results.next()) {
                     Question question = new Question();
                     Long id = results.getLong("id");
                     String title = results.getString("title");
@@ -80,16 +67,11 @@ public class SurveyDB implements ISurveyPersistence
                     notAddedQuestionList.add(question);
                 }
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             log.error("Error occured in loading Not added questions : " + e.getMessage());
             e.printStackTrace();
-        }
-        finally
-        {
-            if (null != proc)
-            {
+        } finally {
+            if (null != proc) {
                 proc.cleanup();
             }
         }
@@ -97,26 +79,19 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
-    public boolean addQuestionToSurvey(Long questionId, Long courseId)
-    {
+    public boolean addQuestionToSurvey(Long questionId, Long courseId) {
         CallStoredProcedure proc = null;
-        try
-        {
+        try {
             proc = new CallStoredProcedure("spAddQuestionToSurvey(?,?)");
             proc.setParameter(1, questionId);
-            proc.setParameter(2,courseId);
+            proc.setParameter(2, courseId);
             proc.execute();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             log.error("Error occured in Adding question to survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        }
-        finally
-        {
-            if (null != proc)
-            {
+        } finally {
+            if (null != proc) {
                 proc.cleanup();
             }
         }
@@ -124,26 +99,19 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
-    public boolean deleteQuestionFromSurvey(Long questionId, Long courseId)
-    {
+    public boolean deleteQuestionFromSurvey(Long questionId, Long courseId) {
         CallStoredProcedure proc = null;
-        try
-        {
+        try {
             proc = new CallStoredProcedure("spDeleteQuestionFromSurvey(?,?)");
             proc.setParameter(1, questionId);
-            proc.setParameter(2,courseId);
+            proc.setParameter(2, courseId);
             proc.execute();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             log.error("Error occured in Deleting question from survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        }
-        finally
-        {
-            if (null != proc)
-            {
+        } finally {
+            if (null != proc) {
                 proc.cleanup();
             }
         }
@@ -151,25 +119,18 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
-    public boolean publishSurvey(Long courseId)
-    {
+    public boolean publishSurvey(Long courseId) {
         CallStoredProcedure proc = null;
-        try
-        {
+        try {
             proc = new CallStoredProcedure("spPublishSurvey(?)");
-            proc.setParameter(1,courseId);
+            proc.setParameter(1, courseId);
             proc.execute();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             log.error("Error occured in Adding question to survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        }
-        finally
-        {
-            if (null != proc)
-            {
+        } finally {
+            if (null != proc) {
                 proc.cleanup();
             }
         }
@@ -177,25 +138,18 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
-    public boolean disableSurvey(Long courseId)
-    {
+    public boolean disableSurvey(Long courseId) {
         CallStoredProcedure proc = null;
-        try
-        {
+        try {
             proc = new CallStoredProcedure("spDisableSurvey(?)");
-            proc.setParameter(1,courseId);
+            proc.setParameter(1, courseId);
             proc.execute();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             log.error("Error occured in Disabling the survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        }
-        finally
-        {
-            if (null != proc)
-            {
+        } finally {
+            if (null != proc) {
                 proc.cleanup();
             }
         }
@@ -203,36 +157,106 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
-    public boolean isSurveyPublished(Long courseId)
-    {
+    public boolean isSurveyPublished(Long courseId) {
         CallStoredProcedure proc = null;
-        try
-        {
+        try {
             proc = new CallStoredProcedure("spIsSurveyPublished(?)");
-            proc.setParameter(1,courseId);
+            proc.setParameter(1, courseId);
             ResultSet results = proc.executeWithResults();
-            if (results.next())
-            {
+            if (results.next()) {
                 Long status = results.getLong("Status");
-                if(status == 0)
+                if (status == 0)
                     return false;
                 else
                     return true;
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             log.error("Error occured in Adding question to survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        }
-        finally
-        {
-            if (null != proc)
-            {
+        } finally {
+            if (null != proc) {
                 proc.cleanup();
             }
         }
         return false;
+    }
+
+    @Override
+    public List<Question> getSurveyQuestions(Long courseId) {
+        CallStoredProcedure proc = null;
+        List<Question> questionList = new ArrayList<Question>();
+        try {
+            proc = new CallStoredProcedure("spSurveyQuestionsByCourseId(?)");
+            proc.setParameter(1, courseId);
+            ResultSet results = proc.executeWithResults();
+
+            while (results.next()) {
+                Question question = new Question();
+                question.setId(results.getLong(1));
+                question.setTitle(results.getString(2));
+                question.setQuestion(results.getString(3));
+                question.setType(results.getString(4));
+                question.setDateCreated(results.getString(5));
+                questionList.add(question);
+            }
+        } catch (SQLException e) {
+            log.error("Error while retriving questions for survey : " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (null != proc) {
+                proc.cleanup();
+            }
+        }
+        return questionList;
+    }
+
+    @Override
+    public List<Option> getSurveyQuestionOptions(Long questionId) {
+        CallStoredProcedure proc = null;
+        List<Option> optionList = new ArrayList<Option>();
+        try {
+            proc = new CallStoredProcedure("spSurveyQuestionOptionsByQuestionId(?)");
+            proc.setParameter(1, questionId);
+            ResultSet results = proc.executeWithResults();
+
+            while (results.next()) {
+                Option option = new Option();
+                option.setValue(results.getString(3));
+                option.setText(results.getString(2));
+                optionList.add(option);
+            }
+
+        } catch (SQLException e) {
+            log.error("Error while retriving options for question : " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (null != proc) {
+                proc.cleanup();
+            }
+        }
+        return optionList;
+    }
+
+    @Override
+    public boolean storeResponses(Response response, int index) {
+        CallStoredProcedure proc = null;
+        try {
+            proc = new CallStoredProcedure("spStoreSurveyResponse(?, ?, ?, ?)");
+            proc.setParameter(1, response.getQuestionId());
+            proc.setParameter(2, response.getBannerId());
+            proc.setParameter(3, response.getCourseId());
+            proc.setParameter(4, response.getResponseList()[index]);
+            proc.execute();
+        } catch (SQLException e) {
+            log.error("Error while inserting survey responses: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (null != proc) {
+                proc.cleanup();
+            }
+        }
+        return true;
     }
 }
