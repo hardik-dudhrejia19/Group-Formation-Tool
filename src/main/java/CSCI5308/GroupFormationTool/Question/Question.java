@@ -1,11 +1,13 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
-
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Question 
 {
+	private static Logger log = LoggerFactory.getLogger(Question.class);
 	private long id;
 	private String title;
 	private String question;
@@ -85,6 +87,14 @@ public class Question
 	public void setDateCreated(String dateCreated)
 	{
 		this.dateCreated = dateCreated;
+	}
+	
+	public void saveQuestion(IQuestionPersistence questionPersistence, String id)
+	{
+		log.debug("Saving question with title " + this.getTitle() + " for instructor with id " + id);
+		boolean questionSaved = false;
+		questionSaved = questionPersistence.saveQuestion(this, id);
+		log.debug("Question saved to database " + questionSaved);
 	}
 
 }

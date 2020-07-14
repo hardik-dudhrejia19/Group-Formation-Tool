@@ -39,7 +39,7 @@ public class QuestionDB implements IQuestionPersistence
 				proc.cleanup();
 			}
 		}
-		
+		log.info("Question successfully saved");
 		Integer questionId = getQuestionIdByTitleTextType(question);
 		if (null != questionId)
 		{
@@ -90,6 +90,7 @@ public class QuestionDB implements IQuestionPersistence
 				proc.cleanup();
 			}
 		}
+		log.info("Question successfully added to instructor database");
 		return true;
 	}
 	
@@ -107,7 +108,9 @@ public class QuestionDB implements IQuestionPersistence
 			{
 				while (results.next())
 				{
-					return results.getInt(1);
+					Integer questionId = results.getInt(1);
+					log.info("Questionid of question with title: " + question.getTitle() + " is: " + questionId);
+					return questionId;
 				}
 			}
 			
@@ -151,12 +154,14 @@ public class QuestionDB implements IQuestionPersistence
 				proc.cleanup();
 			}
 		}
+		log.info("QuestionOption successfully saved");
 		return true;
 	}
 
 	@Override
 	public List<List<String>> getQuestionsByInstructorID(String instructorId, String order)
 	{
+		log.debug("Get questions for instructor whith id " + instructorId);
 		List<List<String>> questionList = new ArrayList<List<String>>();
 		CallStoredProcedure proc = null;
 		try
@@ -206,12 +211,14 @@ public class QuestionDB implements IQuestionPersistence
 				proc.cleanup();
 			}
 		}
+		log.info("Instructor with id: " + instructorId + " has " + questionList.size() + " questions");
 		return questionList;
 	}
 
 	@Override
 	public boolean removeQuestionFromDatabase(String questionID)
 	{
+		log.debug("Removing question with id " + questionID + " from database");
 		boolean flag = false;
 		CallStoredProcedure proc = null;
 		try
