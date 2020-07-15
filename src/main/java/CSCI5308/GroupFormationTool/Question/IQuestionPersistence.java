@@ -10,5 +10,5 @@ public interface IQuestionPersistence
 
     public List<List<String>> getQuestionsByInstructorID(String instructorId, String order);
 
-    public boolean removeQuestionFromDatabase(String questionID);  
+    public boolean removeQuestionFromDatabase(String questionID);
 }

@@ -12,6 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<!-- I got the idea for how to do this from https://www.thymeleaf.org/doc/articles/springsecurity.html -->
 <div sec:authorize="isAuthenticated()">
     <h4 th:inline="text">BannerID: [[${#httpServletRequest.remoteUser}]]</h4>
     <form th:action="@{/logout}" method="post">

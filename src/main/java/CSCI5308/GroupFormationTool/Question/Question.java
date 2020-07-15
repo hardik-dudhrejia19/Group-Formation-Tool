@@ -1,7 +1,5 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
-
 import java.util.List;
 
 public class Question 
@@ -86,5 +84,4 @@ public class Question
 	{
 		this.dateCreated = dateCreated;
 	}
-
 }
