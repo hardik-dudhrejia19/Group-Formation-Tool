@@ -8,6 +8,7 @@
 		<title>CSCI5308 - Group Formation Tool</title>
 	</head>
 	<body>
+		<!-- I got the idea for how to do this from https://www.thymeleaf.org/doc/articles/springsecurity.html -->
 	  	<div sec:authorize="isAuthenticated()">
 			<h4 th:inline="text">BannerID: [[${#httpServletRequest.remoteUser}]]</h4>
 			<form th:action="@{/logout}" method="post">
@@ -22,6 +23,11 @@
 		<div th:if="${instructor}">
 			<br/>
 			<a th:href="@{/viewQuestions(id=${instructorId},order)}">Survey Questions</a>
+		</div>
+		<div th:if="${student}">
+			<br/>
+			<a th:if="${isSurveyPublished}" th:href="@{/survey/takeSurvey(courseId=${course.id})}">Take Survey</a>
+			<h4 th:if="${!isSurveyPublished}">No Survey currently available</h4>
 		</div>
 	</body>
 </html>
