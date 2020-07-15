@@ -19,4 +19,8 @@ public interface ISurveyPersistence
     public boolean disableSurvey(Long courseId);
 
     public boolean isSurveyPublished(Long courseId);
+    
+    public List<Long> getSurveyQuestionsForCourse(Long courseId);
+    
+    public Question getSurveyQuestion(Long questionId);
 }
