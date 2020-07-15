@@ -77,4 +77,14 @@ public class SurveyDBMock implements ISurveyPersistence {
         response.setResponseList(new String[index]);
         return true;
     }
+    
+    @Override
+    public List<Long> getSurveyQuestionsForCourse(Long courseId){
+        return null;
+    }
+    
+    @Override
+    public Question getSurveyQuestion(Long questionId){
+        return null;
+    }
 }
