@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SurveyDB implements ISurveyPersistence
@@ -235,4 +236,76 @@ public class SurveyDB implements ISurveyPersistence
         }
         return false;
     }
+
+	@Override
+	public List<Long> getSurveyQuestionsForCourse(Long courseId) {
+		
+		CallStoredProcedure proc = null;
+		List<Long> questionIdList = null;
+        try
+        {
+            proc = new CallStoredProcedure("spGetSurveyQuestionIdByCourseId(?)");
+            proc.setParameter(1,courseId);
+            ResultSet results = proc.executeWithResults();
+            if (null != results)
+            {
+            	questionIdList = new LinkedList<Long>();
+                while (results.next())
+                {
+                    Long id = results.getLong("QuestionID");
+                    questionIdList.add(results.getLong("QuestionID"));
+                    
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            log.error("Error in getting question lists of survey : " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
+        return questionIdList;
+	}
+	
+	@Override
+	public Question getSurveyQuestion(Long questionId) 
+	{
+		CallStoredProcedure proc = null;
+		Question question = null;
+        try
+        {
+            proc = new CallStoredProcedure("spGetQuestionTextAndTypeByQuestionId(?)");
+            proc.setParameter(1,questionId);
+            ResultSet results = proc.executeWithResults();
+            if (results.next())
+            {
+            	question = new Question();
+            	question.setTitle(results.getString("title"));
+                question.setType(results.getString("type"));
+            }
+        }
+        catch (SQLException e)
+        {
+            log.error("Error occured in getting question type of survey question: " + e.getMessage());
+            e.printStackTrace();
+            
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
+        return question;
+	}
+    
+    
 }
