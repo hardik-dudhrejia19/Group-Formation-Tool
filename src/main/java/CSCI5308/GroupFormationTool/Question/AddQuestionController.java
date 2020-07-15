@@ -1,6 +1,8 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -12,8 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
+import CSCI5308.GroupFormationTool.SystemConfig;
 
 @Controller
 public class AddQuestionController {
@@ -32,6 +33,7 @@ public class AddQuestionController {
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
+        log.debug("Entered AddQuestionController.addQuestion creating question with id " + id);
 		QuestionTypes []questionTypes = QuestionTypes.values();
 		model.addAttribute("questionTypes", questionTypes);
 		model.addAttribute("instructorId", id);
@@ -48,6 +50,7 @@ public class AddQuestionController {
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
+        log.debug("Entered AddQuestionController.setQuestionType with title: " + title + " question: " + question + " type: " + type + " with id: " + id);
 		model.addAttribute("title", title);
 		model.addAttribute("question", question);
 		model.addAttribute("type", type);
@@ -82,9 +85,9 @@ public class AddQuestionController {
 		Model model
 	)
 	{
-		log.info("Entered submitQuestion");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
+        log.debug("Entered AddQuestionController.submitQuestion with title: " + title + " question: " + question + " type: " + type + " with id: " + id);
 		model.addAttribute("title", title);
 		model.addAttribute("question", question);
 		model.addAttribute("type", type);
@@ -115,6 +118,7 @@ public class AddQuestionController {
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
+        log.debug("Entered AddQuestionController.saveQuestion with title: " + title + " question: " + question + " type: " + type + " with id: " + id);
 		Question questionObject = new Question();
 		
 		questionObject.setTitle(title);
@@ -136,9 +140,8 @@ public class AddQuestionController {
 			}
 		}
 		questionObject.setAnswerOptions(optionList);
-		IQuestionManager questionManager = new QuestionManager();
 		IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
-		questionManager.saveQuestion(questionObject, questionPersistence, id);
+		questionObject.saveQuestion(questionPersistence, id);
         
 		return "redirect:/" + VIEW_QUES_PAGE + "?id=" + id + "&order";
 	}

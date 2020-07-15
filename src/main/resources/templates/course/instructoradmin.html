@@ -58,5 +58,7 @@
 		<a th:href="@{/course/enrollta(id=${course.id})}">Enroll TAs</a>
 		<br/>
 		<a th:href="@{/survey/create(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}">Create Survey</a>
+		<br/>
+		<a th:href="@{/survey/creategroups(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}">Create Groups</a>
 	</body>
 </html>
