@@ -17,6 +17,7 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 
 	public List<User> findAllUsersWithoutCourseRole(Role role, long courseID)
 	{
+		log.info("Finding all Users without Course Role in database with courseId: " + courseID);
 		List<User> users = new ArrayList<User>();
 		CallStoredProcedure proc = null;
 		try
@@ -59,6 +60,7 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 
 	public List<User> findAllUsersWithCourseRole(Role role, long courseID)
 	{
+		log.info("Finding all Users with Course Role in database with courseId: " + courseID);
 		List<User> users = new ArrayList<User>();
 		CallStoredProcedure proc = null;
 		try
@@ -95,6 +97,7 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 	
 	public boolean enrollUser(Course course, User user, Role role)
 	{
+		log.info("Enrolling user: " + user.getID() + " to course with courseId: " + course.getId() + " and role " + role.toString());
 		CallStoredProcedure proc = null;
 		try
 		{
@@ -122,6 +125,7 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 
 	public List<Role> loadUserRolesForCourse(Course course, User user)
 	{
+		log.info("Loading Roles for  user: " + user.getID() + " in course with courseId: " + course.getId());
 		List<Role> roles = new ArrayList<Role>();
 		CallStoredProcedure proc = null;
 		try

@@ -2,6 +2,9 @@ package CSCI5308.GroupFormationTool.Courses;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import CSCI5308.GroupFormationTool.AccessControl.CurrentUser;
 import CSCI5308.GroupFormationTool.AccessControl.User;
 
@@ -10,6 +13,8 @@ public class Course
 	private long id;
 	private String title;
 	private ICourseUserRelationship userRoleDecider;
+	
+	private Logger log = LoggerFactory.getLogger(Course.class);
 	
 	public Course()
 	{
@@ -77,6 +82,7 @@ public class Course
 	
 	public List<Role> getAllRolesForCurrentUserInCourse()
 	{
+		log.debug("Entering getAllRolesForCurrentUserInCourse");
 		return userRoleDecider.loadAllRoluesForUserInCourse(CurrentUser.instance().getCurrentAuthenticatedUser(), this);
 	}
 }

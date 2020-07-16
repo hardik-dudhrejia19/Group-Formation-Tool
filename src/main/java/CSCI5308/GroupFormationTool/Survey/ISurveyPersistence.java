@@ -23,4 +23,8 @@ public interface ISurveyPersistence
     public List<Long> getSurveyQuestionsForCourse(Long courseId);
     
     public Question getSurveyQuestion(Long questionId);
+    
+    public List<String> getStudentBannersWhoFilledSurvey(long courseId);
+    
+    public Response getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId);
 }
