@@ -104,11 +104,13 @@ public class SurveyController
 
     @GetMapping("/survey/takeSurvey")
     public ModelAndView takeSurvey(Model model,
-                                   @RequestParam(name = COURSEID) long courseId) {
+                                   @RequestParam(name = COURSEID) long courseId)
+    {
         ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("takesurvey");
         List<IQuestion> questionList = surveyDB.getSurveyQuestions(courseId);
-        for (IQuestion question : questionList) {
+        for (IQuestion question : questionList)
+        {
             question.setAnswerOptions(surveyDB.getSurveyQuestionOptions(question.getId()));
         }
         modelAndView.addObject("response", new Response());
@@ -120,29 +122,27 @@ public class SurveyController
 
     @GetMapping("/survey/submitSurvey")
     public String submitSurvey(@ModelAttribute(name = RESPONSE) Response response,
-                               @RequestParam(name = COURSEID) long courseId, Model model) {
+                               @RequestParam(name = COURSEID) long courseId, Model model)
+    {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         List<IQuestion> questionList = surveyDB.getSurveyQuestions(courseId);
         boolean surveySaved = false;
-        for (int i = 0; i < response.getResponseList().length; i++) {
+        for (int i = 0; i < response.getResponseList().length; i++)
+        {
             response.setQuestionId(questionList.get(i).getId());
             response.setBannerId(authentication.getName());
             response.setCourseId(courseId);
             surveySaved = surveyDB.storeResponses(response, i);
+            if (surveySaved == false)
+            {
+                model.addAttribute("error", "Failed to save survey. Kindly try again");
+                model.addAttribute("linkMessage", "Take survey again");
+                model.addAttribute("url", "/survey/takeSurvey?id="+ courseId);
+                return "errorpage";
+            }
         }
-        if (surveySaved)
-        {
-        	return "redirect:/course/course?id="+ courseId;
-        }
-        else
-        {
-        	model.addAttribute("error", "Failed to save survey. Kindly try again");
-        	model.addAttribute("linkMessage", "Take survey again");
-        	model.addAttribute("url", "/survey/takeSurvey?id="+ courseId);
-        	return "errorpage";
-        }
-        
+        return "redirect:/course/course?id="+ courseId;
     }
     
     @GetMapping("/survey/creategroups")
@@ -163,7 +163,9 @@ public class SurveyController
 			{
 				question.setId(i++);
 			}
-		} else {
+		}
+		else
+        {
 			log.info("Question list is null");
 		}
 
