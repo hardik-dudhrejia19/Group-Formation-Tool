@@ -1,7 +1,5 @@
 package CSCI5308.GroupFormationTool.Courses;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -25,7 +23,7 @@ public class CourseController
 	public String course(Model model, @RequestParam(name = ID) long courseID)
 	{
 		log.info("Received request at CourseController.course with courseId: " + courseID);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("instructorId", authentication.getName());
 		model.addAttribute("isSurveyPublished", true);

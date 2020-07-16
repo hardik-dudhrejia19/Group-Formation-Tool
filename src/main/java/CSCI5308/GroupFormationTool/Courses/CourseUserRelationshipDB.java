@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +16,10 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 {
 	private Logger log = LoggerFactory.getLogger(CourseUserRelationshipDB.class);
 
-	public List<User> findAllUsersWithoutCourseRole(Role role, long courseID)
+	public List<IUser> findAllUsersWithoutCourseRole(Role role, long courseID)
 	{
 		log.info("Finding all Users without Course Role in database with courseId: " + courseID);
-		List<User> users = new ArrayList<User>();
+		List<IUser> users = new ArrayList<>();
 		CallStoredProcedure proc = null;
 		try
 		{
@@ -58,10 +59,10 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 		return users;
 	}
 
-	public List<User> findAllUsersWithCourseRole(Role role, long courseID)
+	public List<IUser> findAllUsersWithCourseRole(Role role, long courseID)
 	{
 		log.info("Finding all Users with Course Role in database with courseId: " + courseID);
-		List<User> users = new ArrayList<User>();
+		List<IUser> users = new ArrayList<>();
 		CallStoredProcedure proc = null;
 		try
 		{
@@ -95,7 +96,7 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 		return users;
 	}
 	
-	public boolean enrollUser(Course course, User user, Role role)
+	public boolean enrollUser(ICourse course, IUser user, Role role)
 	{
 		log.info("Enrolling user: " + user.getID() + " to course with courseId: " + course.getId() + " and role " + role.toString());
 		CallStoredProcedure proc = null;
@@ -123,7 +124,7 @@ public class CourseUserRelationshipDB implements ICourseUserRelationshipPersiste
 		return true;
 	}
 
-	public List<Role> loadUserRolesForCourse(Course course, User user)
+	public List<Role> loadUserRolesForCourse(ICourse course, IUser user)
 	{
 		log.info("Loading Roles for  user: " + user.getID() + " in course with courseId: " + course.getId());
 		List<Role> roles = new ArrayList<Role>();

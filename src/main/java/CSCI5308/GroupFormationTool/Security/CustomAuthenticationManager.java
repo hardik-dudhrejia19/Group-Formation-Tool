@@ -13,7 +13,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import CSCI5308.GroupFormationTool.SystemConfig;
 import CSCI5308.GroupFormationTool.AccessControl.*;
 
 public class CustomAuthenticationManager implements AuthenticationManager
@@ -21,7 +20,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
 	private static final String ADMIN_BANNER_ID = "B-000000";
 	private Logger log = LoggerFactory.getLogger(CustomAuthenticationManager.class);
 	
-	private Authentication checkAdmin(String password, User u, Authentication authentication) throws AuthenticationException
+	private Authentication checkAdmin(String password, IUser u, Authentication authentication) throws AuthenticationException
 	{
 		if (password.equals(u.getPassword()))
 		{
@@ -38,9 +37,9 @@ public class CustomAuthenticationManager implements AuthenticationManager
 		}
 	}
 	
-	private Authentication checkNormal(String password, User u, Authentication authentication) throws AuthenticationException
+	private Authentication checkNormal(String password, IUser u, Authentication authentication) throws AuthenticationException
 	{
-		IPasswordEncryption passwordEncryption = SystemConfig.instance().getPasswordEncryption();
+		IPasswordEncryption passwordEncryption = SecurityAbstractFactory.instance().getPasswordEncryption();
 		if (passwordEncryption.matches(password, u.getPassword()))
 		{
 			List<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
@@ -61,8 +60,8 @@ public class CustomAuthenticationManager implements AuthenticationManager
 		String bannerID = authentication.getPrincipal().toString();
 		String password = authentication.getCredentials().toString();
 		log.debug("Authentication user with bannerId: " + bannerID);
-		IUserPersistence userDB = SystemConfig.instance().getUserDB();
-		User user;
+		IUserPersistence userDB = AccessControlAbstractFactory.instance().getUserDB();
+		IUser user;
 		try
 		{
 			user = new User(bannerID, userDB);

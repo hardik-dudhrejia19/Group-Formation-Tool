@@ -1,7 +1,9 @@
 package CSCI5308.GroupFormationTool.QuestionsTest;
 
+import CSCI5308.GroupFormationTool.Question.IQuestion;
 import CSCI5308.GroupFormationTool.Question.IQuestionPersistence;
 import CSCI5308.GroupFormationTool.Question.Question;
+import CSCI5308.GroupFormationTool.Question.QuestionAbstractFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
@@ -15,8 +17,8 @@ public class QuestionDBMockTest
 	@Test
 	public void saveQuestionTest()
 	{
-		IQuestionPersistence questionPersistence = new QuestionDbMock();
-		Question question = new Question();
+		IQuestionPersistence questionPersistence = QuestionAbstractFactoryMock.instance().getQuestionDBMock();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		question.setTitle("How many hours of credits required");
 		question.setType("NUMERIC");
 		questionPersistence.saveQuestion(question, "B-000000");
@@ -27,8 +29,8 @@ public class QuestionDBMockTest
 	@Test
 	public void getQuestionIdByTitleTextTypeText()
 	{
-		IQuestionPersistence questionPersistence = new QuestionDbMock();
-		Question question = new Question();
+		IQuestionPersistence questionPersistence = QuestionAbstractFactoryMock.instance().getQuestionDBMock();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		question.setTitle("How many hours of credits required");
 		question.setType("NUMERIC");
 		questionPersistence.getQuestionIdByTitleTextType(question);
@@ -38,7 +40,7 @@ public class QuestionDBMockTest
 	@Test
 	public void getQuestionsByInstructorID()
 	{
-		IQuestionPersistence questionPersistence = new QuestionDbMock();
+		IQuestionPersistence questionPersistence = QuestionAbstractFactoryMock.instance().getQuestionDBMock();
 		String instructorId = "B-444444";
 		String order = "Mock Order";
 		List<List<String>> questionList = questionPersistence.getQuestionsByInstructorID(instructorId, order);
@@ -48,7 +50,7 @@ public class QuestionDBMockTest
 	@Test
 	public void removeQuestionFromDatabase()
 	{
-		IQuestionPersistence questionPersistence = new QuestionDbMock();
+		IQuestionPersistence questionPersistence = QuestionAbstractFactoryMock.instance().getQuestionDBMock();
 		String questionId = "123456";
 		boolean isQuestionDeleted = questionPersistence.removeQuestionFromDatabase(questionId);
 		Assert.isTrue(isQuestionDeleted);

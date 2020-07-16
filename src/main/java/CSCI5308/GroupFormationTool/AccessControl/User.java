@@ -1,12 +1,14 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
+import CSCI5308.GroupFormationTool.PasswordPolicy.Context;
+import CSCI5308.GroupFormationTool.PasswordPolicy.IPasswordPolicyContextListBuilder;
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User
+public class User implements IUser
 {
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     private long id;
@@ -141,7 +143,7 @@ public class User
         return success;
     }
 
-    private static boolean isStringNullOrEmpty(String s)
+    public boolean isStringNullOrEmpty(String s)
     {
         if (null == s)
         {
@@ -150,22 +152,22 @@ public class User
         return s.isEmpty();
     }
 
-    public static boolean isBannerIDValid(String bannerID)
+    public boolean isBannerIDValid(String bannerID)
     {
         return isStringNullOrEmpty(bannerID)==false;
     }
 
-    public static boolean isFirstNameValid(String name)
+    public boolean isFirstNameValid(String name)
     {
         return isStringNullOrEmpty(name)==false;
     }
 
-    public static boolean isLastNameValid(String name)
+    public boolean isLastNameValid(String name)
     {
         return isStringNullOrEmpty(name)==false;
     }
 
-    public static boolean isEmailValid(String email)
+    public boolean isEmailValid(String email)
     {
         if (isStringNullOrEmpty(email))
         {
@@ -176,24 +178,24 @@ public class User
         return matcher.matches();
     }
 
-    public static List<String> failedPasswordValidationList
+    public List<String> failedPasswordValidationList
     (
-        User user,
-        IActivePasswordPolicyListBuilder listBuilder
+        IUser user,
+        IPasswordPolicyContextListBuilder listBuilder
     )
     {
-        listBuilder.createActivePasswordPolicyList(user);
-        List<IPasswordPolicyValidation> activePasswordPolicyList = listBuilder.getActivePasswordPolicyList();
         List<String> failedValidationCriteriaList = new ArrayList<>();
-        failedValidationCriteriaList.clear();
 
-        for (int i=0; i<activePasswordPolicyList.size(); i++)
+        List<Context> allPasswordPolicyList = listBuilder.createAllPasswordPolicyList(user);
+
+        for (int i=0; i<allPasswordPolicyList.size(); i++)
         {
-            if(activePasswordPolicyList.get(i).isPasswordValid(user.getPassword()) == false)
+            if(allPasswordPolicyList.get(i).executeStrategy(user.getPassword()) == false)
             {
-                failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
+                failedValidationCriteriaList.add(allPasswordPolicyList.get(i).getStrategy().getValidationCriteria());
             }
         }
+
         return failedValidationCriteriaList;
     }
 }

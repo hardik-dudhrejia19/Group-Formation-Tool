@@ -1,6 +1,6 @@
 package CSCI5308.GroupFormationTool.AccessControlTest;
 
-import CSCI5308.GroupFormationTool.AccessControl.IActivePasswordPolicyPersistence;
+import CSCI5308.GroupFormationTool.PasswordPolicy.IActivePasswordPolicyPersistence;
 
 import java.util.ArrayList;
 import java.util.HashMap;

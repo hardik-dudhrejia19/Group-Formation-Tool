@@ -1,7 +1,7 @@
 package CSCI5308.GroupFormationTool.AccessControlTest;
 
 import CSCI5308.GroupFormationTool.AccessControl.IUpdatePassword;
-import CSCI5308.GroupFormationTool.AccessControl.User;
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,10 @@ public class UpdatePasswordTest {
     public void updatePasswordTest()
     {
         List<String> failedPasswordValidationList = new ArrayList<>();
-        User user = new User();
+        IUser user = AccessControlAbstractFactoryMock.instance().getUser();
         user.setBannerID("B00123456");
         user.setPassword("aaaabbbb");
-        IUpdatePassword updatePassword = new UpdatePasswordMock();
+        IUpdatePassword updatePassword = AccessControlAbstractFactoryMock.instance().getUpdatePasswordMock();
         assertTrue(updatePassword.updatePassword(failedPasswordValidationList,user));
 
         failedPasswordValidationList.add("max length");

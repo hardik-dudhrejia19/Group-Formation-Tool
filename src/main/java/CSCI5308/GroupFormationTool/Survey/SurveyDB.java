@@ -2,8 +2,9 @@ package CSCI5308.GroupFormationTool.Survey;
 
 import CSCI5308.GroupFormationTool.AccessControl.UserDB;
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
-import CSCI5308.GroupFormationTool.Question.Option;
+import CSCI5308.GroupFormationTool.Question.IQuestion;
 import CSCI5308.GroupFormationTool.Question.Question;
+import CSCI5308.GroupFormationTool.Question.QuestionAbstractFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.ResultSet;
@@ -17,16 +18,19 @@ public class SurveyDB implements ISurveyPersistence {
     private Logger log = LoggerFactory.getLogger(SurveyDB.class);
 
     @Override
-    public List<Question> getAlreadyAddedQuestions(Long courseId) {
-        List<Question> alreadyAddedQuestionList = new ArrayList<>();
+    public List<IQuestion> getAlreadyAddedQuestions(Long courseId)
+    {
+        List<IQuestion> alreadyAddedQuestionList = new ArrayList<>();
         CallStoredProcedure proc = null;
         try {
             proc = new CallStoredProcedure("spAlreadyAddedQuestions(?)");
             proc.setParameter(1, courseId);
             ResultSet results = proc.executeWithResults();
-            if (null != results) {
-                while (results.next()) {
-                    Question question = new Question();
+            if (null != results)
+            {
+                while (results.next())
+                {
+                    IQuestion question = QuestionAbstractFactory.instance().getQuestion();
                     Long id = results.getLong("id");
                     String title = results.getString("title");
                     String text = results.getString("text");
@@ -48,8 +52,9 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public List<Question> getNotAddedQuestions(Long courseId, String bannerId) {
-        List<Question> notAddedQuestionList = new ArrayList<>();
+    public List<IQuestion> getNotAddedQuestions(Long courseId, String bannerId)
+    {
+        List<IQuestion> notAddedQuestionList = new ArrayList<>();
         CallStoredProcedure proc = null;
         try {
             proc = new CallStoredProcedure("spNotAddedQuestions(?,?)");

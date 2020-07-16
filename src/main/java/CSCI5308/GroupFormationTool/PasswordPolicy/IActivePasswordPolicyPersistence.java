@@ -1,4 +1,4 @@
-package CSCI5308.GroupFormationTool.AccessControl;
+package CSCI5308.GroupFormationTool.PasswordPolicy;
 
 import java.util.HashMap;
 import java.util.List;

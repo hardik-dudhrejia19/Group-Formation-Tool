@@ -1,7 +1,5 @@
 package CSCI5308.GroupFormationTool.Courses;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,8 +26,8 @@ public class InstructorAdminController
 	public String instructorAdmin(Model model, @RequestParam(name = ID) long courseID)
 	{
 		log.info("Received request at instructor admin with course id: " + courseID);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 
 		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR))
@@ -62,8 +60,8 @@ public class InstructorAdminController
 	)
 	{
 		log.info("Received request at instructor admin /course/instructoradminresult with course id: " + courseID + " and displayResults " + displayResults);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 		model.addAttribute("course", course);
 		model.addAttribute("displayresults", false);
@@ -87,8 +85,8 @@ public class InstructorAdminController
 	public String enrollTA(Model model, @RequestParam(name = ID) long courseID)
 	{
 		log.info("Received request to enrollTA for courseID: " + courseID);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 		model.addAttribute("course", course);
 		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR) ||
@@ -107,8 +105,8 @@ public class InstructorAdminController
 	public ModelAndView upload(@RequestParam(name = FILE) MultipartFile file, @RequestParam(name = ID) long courseID)
 	{
 		log.info("Received request at upload to upload CSV file for courseID: " + courseID);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 	   	IStudentCSVParser parser = new StudentCSVParser(file);
 	   	StudentCSVImport importer = new StudentCSVImport(parser, course);

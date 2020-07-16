@@ -2,11 +2,9 @@ package CSCI5308.GroupFormationTool.Courses;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import CSCI5308.GroupFormationTool.SystemConfig;
+import CSCI5308.GroupFormationTool.Security.SecurityAbstractFactory;
 import CSCI5308.GroupFormationTool.AccessControl.*;
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 
@@ -14,21 +12,20 @@ public class StudentCSVImport
 {
 	private List<String> successResults;
 	private List<String> failureResults;
-	private Course course;
+	private ICourse course;
 	private IUserPersistence userDB;
 	private IPasswordEncryption passwordEncryption;
 	private IStudentCSVParser parser;
-	private List<User> studentList;
-	
+	private List<IUser> studentList;
 	private Logger log = LoggerFactory.getLogger(StudentCSVImport.class);
 
-	public StudentCSVImport(IStudentCSVParser parser, Course course)
+	public StudentCSVImport(IStudentCSVParser parser, ICourse course)
 	{
 		this.course = course;
 		successResults = new ArrayList<String>();
 		failureResults = new ArrayList<String>();
-		userDB = SystemConfig.instance().getUserDB();
-		passwordEncryption = SystemConfig.instance().getPasswordEncryption();
+		userDB = AccessControlAbstractFactory.instance().getUserDB();
+		passwordEncryption = SecurityAbstractFactory.instance().getPasswordEncryption();
 		this.parser = parser;
 		enrollStudentFromRecord();
 	}
@@ -37,7 +34,7 @@ public class StudentCSVImport
 	{
 		log.info("Enroll students from record");
 		this.studentList = parser.parseCSVFile(failureResults);
-		for(User u : this.studentList)
+		for(IUser u : this.studentList)
 		{
 			String bannerID = u.getBanner();
 			String firstName = u.getFirstName();
@@ -45,7 +42,7 @@ public class StudentCSVImport
 			String email = u.getEmail();
 			String userDetails = bannerID + " " + firstName + " " + lastName +" " + email;
 			User user = new User();
-			log.info("Loading User details from database using bannerId:" + bannerID);
+			IUser user = AccessControlAbstractFactory.instance().getUser();
 			userDB.loadUserByBannerID(bannerID, user);
 
 			if (user.isValidUser() == false)
@@ -55,7 +52,7 @@ public class StudentCSVImport
 				user.setFirstName(firstName);
 				user.setLastName(lastName);
 				user.setEmail(email);
-				IUserNotifications userNotifications = new UserNotification();
+				IUserNotifications userNotifications = AccessControlAbstractFactory.instance().getUserNotifications();
 
 				log.info("Creating user with bannerId: "+ bannerID + " firstName: " + firstName + " lastName: " + lastName + " email:" + email);
 				if (user.createUser(userDB, passwordEncryption, userNotifications))
@@ -83,12 +80,12 @@ public class StudentCSVImport
 		}
 	}
 
-	public List<User> getNewStudents()
+	public List<IUser> getNewStudents()
 	{
-		List<User> newStudents= new ArrayList<User>();
-		IUserPersistence userDB =  SystemConfig.instance().getUserDB();
+		List<IUser> newStudents= new ArrayList();
+		IUserPersistence userDB =  AccessControlAbstractFactory.instance().getUserDB();
 		this.studentList = parser.parseCSVFile(failureResults);
-		for (User student : this.studentList)
+		for (IUser student : this.studentList)
 		{
 			if(userDB.isAlreadyUser(student.getBannerID())==false)
 			{

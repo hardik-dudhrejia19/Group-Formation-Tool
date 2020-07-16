@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import CSCI5308.GroupFormationTool.AccessControl.AccessControlAbstractFactory;
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import CSCI5308.GroupFormationTool.SystemConfig;
 import CSCI5308.GroupFormationTool.AccessControl.User;
 
 @Controller
@@ -28,8 +28,8 @@ public class CourseAdminController
 	public String course(Model model)
 	{
 		log.info("Recieved request at CourseAdminController.course");
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		List<Course> allCourses = courseDB.loadAllCourses();
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		List<ICourse> allCourses = courseDB.loadAllCourses();
 		model.addAttribute("courses", allCourses);
 		return "admin/course";
 	}
@@ -38,12 +38,12 @@ public class CourseAdminController
 	public String assignInstructor(Model model, @RequestParam(name = ID) long courseID)
 	{
 		log.info("Recieved request at assignInstructor for course: " + courseID);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course c = new Course();
-		courseDB.loadCourseByID(courseID, c);
-		model.addAttribute("course", c);
-		ICourseUserRelationshipPersistence courseUserRelationshipDB = SystemConfig.instance().getCourseUserRelationshipDB();
-		List<User> allUsersNotCurrentlyInstructors = courseUserRelationshipDB.findAllUsersWithoutCourseRole(Role.INSTRUCTOR, courseID);
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
+		courseDB.loadCourseByID(courseID, course);
+		model.addAttribute("course", course);
+		ICourseUserRelationshipPersistence courseUserRelationshipDB = CoursesAbstractFactory.instance().getCourseUserRelationshipDB();
+		List<IUser> allUsersNotCurrentlyInstructors = courseUserRelationshipDB.findAllUsersWithoutCourseRole(Role.INSTRUCTOR, courseID);
 		model.addAttribute("users", allUsersNotCurrentlyInstructors);
 		return "admin/assigninstructor";
 	}
@@ -52,10 +52,10 @@ public class CourseAdminController
 	public ModelAndView deleteCourse(@RequestParam(name = ID) long courseID)
 	{
 		log.info("Recieved request at deleteCourse for course: " + courseID);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course c = new Course();
-		c.setId(courseID);
-		c.delete(courseDB);
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
+		course.setId(courseID);
+		course.delete(courseDB);
 		ModelAndView mav = new ModelAndView("redirect:/admin/course");
 		return mav;
 	}
@@ -64,10 +64,10 @@ public class CourseAdminController
 	public ModelAndView createCourse(@RequestParam(name = TITLE) String title)
 	{
 		log.info("Recieved request at createCourse with title: " + title);
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course c = new Course();
-		c.setTitle(title);
-		c.createCourse(courseDB);
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
+		course.setTitle(title);
+		course.createCourse(courseDB);
 		ModelAndView mav = new ModelAndView("redirect:/admin/course");
 		return mav;
 	}
@@ -80,16 +80,16 @@ public class CourseAdminController
 	)
 	{
 		log.info("Recieved request at assignInstructorToCourse for course: " + courseID);
-		Course c = new Course();
-		c.setId(courseID);
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
+		course.setId(courseID);
 		Iterator<Integer> iter = instructor.iterator();
-		ICourseUserRelationshipPersistence courseUserRelationshipDB = SystemConfig.instance().getCourseUserRelationshipDB();
+		ICourseUserRelationshipPersistence courseUserRelationshipDB = CoursesAbstractFactory.instance().getCourseUserRelationshipDB();
 
 		while (iter.hasNext())
 		{
-			User u = new User();
-			u.setId(iter.next().longValue());
-			courseUserRelationshipDB.enrollUser(c, u, Role.INSTRUCTOR);
+			IUser user = AccessControlAbstractFactory.instance().getUser();
+			user.setId(iter.next().longValue());
+			courseUserRelationshipDB.enrollUser(course, user, Role.INSTRUCTOR);
 		}
 		ModelAndView mav = new ModelAndView("redirect:/admin/course");
 		return mav;
