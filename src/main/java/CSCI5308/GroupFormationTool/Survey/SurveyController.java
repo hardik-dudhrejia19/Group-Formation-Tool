@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +32,7 @@ public class SurveyController
     private static final String RESPONSELIST = "responseList";
     private static final String GROUP_CREATION_VIEW = "creategroups";
     private static final String RESPONSE = "response";
+    private static final String DISPLAY_GROUPS = "displaygroups";
 
     @GetMapping("/survey/create")
     public ModelAndView createSurvey(@RequestParam(name = COURSEID) long courseId,
@@ -175,7 +178,7 @@ public class SurveyController
     	List<GroupCreationResponse> surveyQuestionResponseList = new LinkedList<GroupCreationResponse>();
     	ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
 		List<Question> groupFormationQuestions = new LinkedList<Question>();
-		ModelAndView modelAndView = new ModelAndView(GROUP_CREATION_VIEW);
+		ModelAndView modelAndView = new ModelAndView(DISPLAY_GROUPS);
 		
 		ISurveyQuestions surveyQuestion = new SurveyQuestions();
 		groupFormationQuestions = surveyQuestion.fetchSurveyQuestions(surveyDB, courseId);
@@ -204,11 +207,12 @@ public class SurveyController
     			}
     		}
     		surveyQuestionResponseList.add(response);
-    		
     	}
     	
     	Group formGroups = new Group();
-    	formGroups.createGroups(surveyQuestionResponseList, courseId, groupSize, surveyDB);
+        List<Group> allGroups = new ArrayList<>();
+    	allGroups = formGroups.createGroups(surveyQuestionResponseList, courseId, groupSize, surveyDB);
+    	modelAndView.addObject("Group",allGroups);
     	log.info("Groups created");
     	
     	return modelAndView;
