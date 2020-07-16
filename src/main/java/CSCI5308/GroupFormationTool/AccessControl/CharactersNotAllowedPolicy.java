@@ -1,29 +1,40 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
+import CSCI5308.GroupFormationTool.SystemConfig;
+
+import java.util.HashMap;
+
 public class CharactersNotAllowedPolicy implements IPasswordPolicyValidation
 {
+    private static final String POLICY = "characters not allowed";
     private String criteria = null;
     private String validatorCriteria = null;
-
-    public CharactersNotAllowedPolicy(String criteria, String validatorCriteria)
-    {
-        this.criteria = criteria;
-        this.validatorCriteria = validatorCriteria;
-    }
 
     @Override
     public boolean isPasswordValid(String password)
     {
-        char[] passwordCharArray = password.toCharArray();
-        char[] criteriaCharArray = this.criteria.toCharArray();
+        IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
+        HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
 
-        for (int i=0; i<passwordCharArray.length; i++)
+        for (String policy : activePasswordPolicyList.keySet())
         {
-            for (int j=0; j<criteriaCharArray.length; j++)
+            if (policy.equals(POLICY))
             {
-                if(passwordCharArray[i] == criteriaCharArray[j])
+                this.criteria = activePasswordPolicyList.get(policy);
+                this.validatorCriteria = POLICY;
+
+                char[] passwordCharArray = password.toCharArray();
+                char[] criteriaCharArray = this.criteria.toCharArray();
+
+                for (int i = 0; i < passwordCharArray.length; i++)
                 {
-                    return false;
+                    for (int j = 0; j < criteriaCharArray.length; j++)
+                    {
+                        if (passwordCharArray[i] == criteriaCharArray[j])
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
         }

@@ -1,38 +1,50 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
+import CSCI5308.GroupFormationTool.SystemConfig;
+
+import java.util.HashMap;
+
 public class MinimumLowercasePolicy implements IPasswordPolicyValidation
 {
+    private static final String POLICY = "min no of lowercase";
     private String criteria = null;
     private String validatorCriteria = null;
-
-    public MinimumLowercasePolicy(String criteria, String validatorCriteria)
-    {
-        this.criteria = criteria;
-        this.validatorCriteria = validatorCriteria;
-    }
 
     @Override
     public boolean isPasswordValid(String password)
     {
-        Integer lowercase = 0;
-        char[] charArray = password.toCharArray();
+        IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
+        HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
 
-        for(int i=0; i<charArray.length; i++)
+        for (String policy : activePasswordPolicyList.keySet())
         {
-            if(Character.isLowerCase(charArray[i]))
+            if (policy.equals(POLICY))
             {
-                lowercase++;
+                this.criteria = activePasswordPolicyList.get(policy);
+                this.validatorCriteria = POLICY;
+
+                Integer lowercase = 0;
+                char[] charArray = password.toCharArray();
+
+                for (int i = 0; i < charArray.length; i++)
+                {
+                    if (Character.isLowerCase(charArray[i]))
+                    {
+                        lowercase++;
+                    }
+                }
+
+                if (lowercase >= Integer.parseInt(this.criteria))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
-
-        if(lowercase >= Integer.parseInt(this.criteria))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return true;
     }
 
     @Override

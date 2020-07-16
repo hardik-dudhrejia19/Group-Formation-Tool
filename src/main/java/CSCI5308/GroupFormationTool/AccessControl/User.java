@@ -182,18 +182,18 @@ public class User
         IActivePasswordPolicyListBuilder listBuilder
     )
     {
-        listBuilder.createActivePasswordPolicyList(user);
-        List<IPasswordPolicyValidation> activePasswordPolicyList = listBuilder.getActivePasswordPolicyList();
         List<String> failedValidationCriteriaList = new ArrayList<>();
-        failedValidationCriteriaList.clear();
 
-        for (int i=0; i<activePasswordPolicyList.size(); i++)
+        List<Context> allPasswordPolicyList = listBuilder.createAllPasswordPolicyList(user);
+
+        for (int i=0; i<allPasswordPolicyList.size(); i++)
         {
-            if(activePasswordPolicyList.get(i).isPasswordValid(user.getPassword()) == false)
+            if(allPasswordPolicyList.get(i).executeStrategy(user.getPassword()) == false)
             {
-                failedValidationCriteriaList.add(activePasswordPolicyList.get(i).getValidationCriteria());
+                failedValidationCriteriaList.add(allPasswordPolicyList.get(i).getStrategy().getValidationCriteria());
             }
         }
+
         return failedValidationCriteriaList;
     }
 }

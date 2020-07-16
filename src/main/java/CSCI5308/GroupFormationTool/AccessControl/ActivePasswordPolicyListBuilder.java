@@ -7,49 +7,37 @@ import java.util.List;
 
 public class ActivePasswordPolicyListBuilder implements IActivePasswordPolicyListBuilder
 {
-    List<IPasswordPolicyValidation> passwordPolicyValidationList = new ArrayList<>();
-
-    public void createActivePasswordPolicyList(User user)
+    public List<Context> createAllPasswordPolicyList(User user)
     {
-        passwordPolicyValidationList.clear();
-        IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
-        HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
+        List<Context> contextList = new ArrayList<>();
 
-        for (String policy : activePasswordPolicyList.keySet())
-        {
-            if(policy.equals("min length"))
-            {
-                passwordPolicyValidationList.add(new MinimumLengthPolicy(activePasswordPolicyList.get(policy),"min length"));
-            }
-            if(policy.equals("max length"))
-            {
-                passwordPolicyValidationList.add(new MaximumLengthPolicy(activePasswordPolicyList.get(policy),"max length"));
-            }
-            if(policy.equals("min no of uppercase"))
-            {
-                passwordPolicyValidationList.add(new MinimumUppercasePolicy(activePasswordPolicyList.get(policy),"min no of uppercase"));
-            }
-            if(policy.equals("min no of lowercase"))
-            {
-                passwordPolicyValidationList.add(new MinimumLowercasePolicy(activePasswordPolicyList.get(policy),"min no of lowercase"));
-            }
-            if(policy.equals("min no of special character"))
-            {
-                passwordPolicyValidationList.add(new MinimumSymbolOrSpecialCharacterPolicy(activePasswordPolicyList.get(policy),"min no of special character"));
-            }
-            if(policy.equals("characters not allowed"))
-            {
-                passwordPolicyValidationList.add(new CharactersNotAllowedPolicy(activePasswordPolicyList.get(policy),"characters not allowed"));
-            }
-            if(policy.equals("old x passwords not allowed"))
-            {
-                passwordPolicyValidationList.add(new PasswordHistoryPolicy(user, activePasswordPolicyList.get(policy),"old x passwords not allowed"));
-            }
-        }
-    }
+        Context minLengthPolicy = new Context();
+        minLengthPolicy.setStrategy(new MinimumLengthPolicy());
+        contextList.add(minLengthPolicy);
 
-    public List<IPasswordPolicyValidation> getActivePasswordPolicyList()
-    {
-        return passwordPolicyValidationList;
+        Context maxLengthPolicy = new Context();
+        maxLengthPolicy.setStrategy(new MaximumLengthPolicy());
+        contextList.add(maxLengthPolicy);
+
+        Context minLowercase = new Context();
+        minLowercase.setStrategy(new MinimumLowercasePolicy());
+        contextList.add(minLowercase);
+
+        Context minSymbolOrSpecialCharacter = new Context();
+        minSymbolOrSpecialCharacter.setStrategy(new MinimumSymbolOrSpecialCharacterPolicy());
+        contextList.add(minSymbolOrSpecialCharacter);
+
+        Context minUppercase = new Context();
+        minUppercase.setStrategy(new MinimumUppercasePolicy());
+        contextList.add(minUppercase);
+
+        Context passwordHistory = new Context();
+        passwordHistory.setStrategy(new PasswordHistoryPolicy(user));
+        contextList.add(passwordHistory);
+
+        Context charactersNotAllowed = new Context();
+        charactersNotAllowed.setStrategy(new CharactersNotAllowedPolicy());
+        contextList.add(charactersNotAllowed);
+        return contextList;
     }
 }
