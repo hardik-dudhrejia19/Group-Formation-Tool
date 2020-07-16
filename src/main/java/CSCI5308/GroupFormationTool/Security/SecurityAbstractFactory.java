@@ -12,7 +12,7 @@ import CSCI5308.GroupFormationTool.Question.QuestionDB;
 import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
 import CSCI5308.GroupFormationTool.Survey.SurveyDB;
 
-public class SecurityAbstractFactory
+public class SecurityAbstractFactory implements ISecurityAbstractFactory
 {
 	private static SecurityAbstractFactory uniqueInstance = null;
 	private IPasswordEncryption passwordEncryption;

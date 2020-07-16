@@ -3,14 +3,13 @@ package CSCI5308.GroupFormationTool.SurveyTest;
 import java.util.LinkedList;
 import java.util.List;
 
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
+import CSCI5308.GroupFormationTool.Survey.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 import CSCI5308.GroupFormationTool.AccessControl.User;
-import CSCI5308.GroupFormationTool.Survey.Group;
-import CSCI5308.GroupFormationTool.Survey.GroupCreationResponse;
-import CSCI5308.GroupFormationTool.Survey.Response;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
@@ -19,7 +18,7 @@ public class GroupTest {
 	@Test
 	public void ConstructorTests() 
 	{
-		Group group = new Group();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
 		Assert.isTrue(group.getGroupId() == -1);
 		Assert.isTrue(group.getThreshold() == -1);
 		Assert.isTrue(group.getCurrentSize() == -1);
@@ -30,7 +29,7 @@ public class GroupTest {
 	@Test
 	public void setGroupIdTest() 
 	{
-		Group group = new Group();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
 		group.setGroupId(1);
 		Assert.isTrue(group.getGroupId() == 1);
 	}
@@ -38,7 +37,7 @@ public class GroupTest {
 	@Test
 	public void getGroupIdTest() 
 	{
-		Group group = new Group();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
 		group.setGroupId(2);
 		Assert.isTrue(group.getGroupId() == 2);
 	}
@@ -46,7 +45,7 @@ public class GroupTest {
 	@Test
 	public void setThresholdTest() 
 	{
-		Group group = new Group();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
 		group.setThreshold(90);
 		Assert.isTrue(group.getThreshold() == 90);
 	}
@@ -54,7 +53,7 @@ public class GroupTest {
 	@Test
 	public void getThresholdTest() 
 	{
-		Group group = new Group();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
 		group.setThreshold(80);
 		Assert.isTrue(group.getThreshold() == 80);
 	}
@@ -62,7 +61,7 @@ public class GroupTest {
 	@Test
 	public void setCurrentSizeTest() 
 	{
-		Group group = new Group();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
 		group.setCurrentSize(3);
 		Assert.isTrue(group.getCurrentSize() == 3);
 	}
@@ -70,7 +69,7 @@ public class GroupTest {
 	@Test
 	public void getCurrentSizeTest() 
 	{
-		Group group = new Group();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
 		group.setCurrentSize(2);
 		Assert.isTrue(group.getCurrentSize() == 2);
 	}
@@ -78,8 +77,8 @@ public class GroupTest {
 	@Test
 	public void setUserResponsesTest() 
 	{
-		Group group = new Group();
-		List<List<Response>> userResponses = new LinkedList<List<Response>>();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
+		List<List<IResponse>> userResponses = new LinkedList<List<IResponse>>();
 		group.setUserResponses(userResponses);
 		Assert.isTrue(group.getUserResponses().size() == 0);
 	}
@@ -87,8 +86,8 @@ public class GroupTest {
 	@Test
 	public void getUserResponsesTest() 
 	{
-		Group group = new Group();
-		List<List<Response>> userResponses = new LinkedList<List<Response>>();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
+		List<List<IResponse>> userResponses = new LinkedList<List<IResponse>>();
 		group.setUserResponses(userResponses);
 		Assert.isTrue(group.getUserResponses() != null);
 	}
@@ -96,8 +95,8 @@ public class GroupTest {
 	@Test
 	public void setUsersTest() 
 	{
-		Group group = new Group();
-		List<User> users = new LinkedList<User>();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
+		List<IUser> users = new LinkedList<IUser>();
 		group.setUsers(users);
 		Assert.isTrue(group.getUsers().size() == 0);
 	}
@@ -105,10 +104,9 @@ public class GroupTest {
 	@Test
 	public void getUsersTest() 
 	{
-		Group group = new Group();
-		List<User> users = new LinkedList<User>();
+		IGroup group = SurveyAbstractFactoryMock.instance().getGroup();
+		List<IUser> users = new LinkedList<IUser>();
 		group.setUsers(users);
 		Assert.isTrue(group.getUsers() != null);
 	}
-	
 }

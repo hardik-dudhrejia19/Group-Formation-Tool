@@ -1,16 +1,15 @@
 package CSCI5308.GroupFormationTool.Survey;
 
-import CSCI5308.GroupFormationTool.AccessControl.UserDB;
+import CSCI5308.GroupFormationTool.AccessControl.AccessControlAbstractFactory;
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
+import CSCI5308.GroupFormationTool.Question.IOption;
 import CSCI5308.GroupFormationTool.Question.IQuestion;
-import CSCI5308.GroupFormationTool.Question.Question;
 import CSCI5308.GroupFormationTool.Question.QuestionAbstractFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,11 +39,16 @@ public class SurveyDB implements ISurveyPersistence {
                     alreadyAddedQuestionList.add(question);
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error occured in loading Already added questions : " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -61,9 +65,11 @@ public class SurveyDB implements ISurveyPersistence {
             proc.setParameter(1, courseId);
             proc.setParameter(2, bannerId);
             ResultSet results = proc.executeWithResults();
-            if (null != results) {
-                while (results.next()) {
-                    Question question = new Question();
+            if (null != results)
+            {
+                while (results.next())
+                {
+                    IQuestion question = QuestionAbstractFactory.instance().getQuestion();
                     Long id = results.getLong("id");
                     String title = results.getString("title");
                     String text = results.getString("text");
@@ -73,11 +79,16 @@ public class SurveyDB implements ISurveyPersistence {
                     notAddedQuestionList.add(question);
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error occured in loading Not added questions : " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -85,19 +96,26 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public boolean addQuestionToSurvey(Long questionId, Long courseId) {
+    public boolean addQuestionToSurvey(Long questionId, Long courseId)
+    {
         CallStoredProcedure proc = null;
-        try {
+        try
+        {
             proc = new CallStoredProcedure("spAddQuestionToSurvey(?,?)");
             proc.setParameter(1, questionId);
             proc.setParameter(2, courseId);
             proc.execute();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error occured in Adding question to survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -105,19 +123,26 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public boolean deleteQuestionFromSurvey(Long questionId, Long courseId) {
+    public boolean deleteQuestionFromSurvey(Long questionId, Long courseId)
+    {
         CallStoredProcedure proc = null;
-        try {
+        try
+        {
             proc = new CallStoredProcedure("spDeleteQuestionFromSurvey(?,?)");
             proc.setParameter(1, questionId);
             proc.setParameter(2, courseId);
             proc.execute();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error occured in Deleting question from survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -125,18 +150,25 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public boolean publishSurvey(Long courseId) {
+    public boolean publishSurvey(Long courseId)
+    {
         CallStoredProcedure proc = null;
-        try {
+        try
+        {
             proc = new CallStoredProcedure("spPublishSurvey(?)");
             proc.setParameter(1, courseId);
             proc.execute();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error occured in Adding question to survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -146,15 +178,20 @@ public class SurveyDB implements ISurveyPersistence {
     @Override
     public boolean disableSurvey(Long courseId) {
         CallStoredProcedure proc = null;
-        try {
+        try
+        {
             proc = new CallStoredProcedure("spDisableSurvey(?)");
             proc.setParameter(1, courseId);
             proc.execute();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error occured in Disabling the survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        } finally {
+        }
+        finally
+        {
             if (null != proc) {
                 proc.cleanup();
             }
@@ -163,24 +200,31 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public boolean isSurveyPublished(Long courseId) {
+    public boolean isSurveyPublished(Long courseId)
+    {
         CallStoredProcedure proc = null;
-        try {
+        try
+        {
             proc = new CallStoredProcedure("spIsSurveyPublished(?)");
             proc.setParameter(1, courseId);
             ResultSet results = proc.executeWithResults();
-            if (results.next()) {
+            if (results.next())
+            {
                 Long status = results.getLong("Status");
                 if (status == 0)
                     return false;
                 else
                     return true;
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error occured in Adding question to survey : " + e.getMessage());
             e.printStackTrace();
             return false;
-        } finally {
+        }
+        finally
+        {
             if (null != proc) {
                 proc.cleanup();
             }
@@ -189,16 +233,19 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public List<Question> getSurveyQuestions(Long courseId) {
+    public List<IQuestion> getSurveyQuestions(Long courseId)
+    {
         CallStoredProcedure proc = null;
-        List<Question> questionList = new ArrayList<Question>();
-        try {
+        List<IQuestion> questionList = new ArrayList<>();
+        try
+        {
             proc = new CallStoredProcedure("spSurveyQuestionsByCourseId(?)");
             proc.setParameter(1, courseId);
             ResultSet results = proc.executeWithResults();
 
-            while (results.next()) {
-                Question question = new Question();
+            while (results.next())
+            {
+                IQuestion question = QuestionAbstractFactory.instance().getQuestion();
                 question.setId(results.getLong(1));
                 question.setTitle(results.getString(2));
                 question.setQuestion(results.getString(3));
@@ -206,11 +253,16 @@ public class SurveyDB implements ISurveyPersistence {
                 question.setDateCreated(results.getString(5));
                 questionList.add(question);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error while retriving questions for survey : " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -218,26 +270,34 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public List<Option> getSurveyQuestionOptions(Long questionId) {
+    public List<IOption> getSurveyQuestionOptions(Long questionId)
+    {
         CallStoredProcedure proc = null;
-        List<Option> optionList = new ArrayList<Option>();
-        try {
+        List<IOption> optionList = new ArrayList<IOption>();
+        try
+        {
             proc = new CallStoredProcedure("spSurveyQuestionOptionsByQuestionId(?)");
             proc.setParameter(1, questionId);
             ResultSet results = proc.executeWithResults();
 
-            while (results.next()) {
-                Option option = new Option();
+            while (results.next())
+            {
+                IOption option = QuestionAbstractFactory.instance().getOption();
                 option.setValue(results.getString(3));
                 option.setText(results.getString(2));
                 optionList.add(option);
             }
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error while retriving options for question : " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -245,21 +305,28 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
     @Override
-    public boolean storeResponses(Response response, int index) {
+    public boolean storeResponses(IResponse response, int index)
+    {
         CallStoredProcedure proc = null;
-        try {
+        try
+        {
             proc = new CallStoredProcedure("spStoreSurveyResponse(?, ?, ?, ?)");
             proc.setParameter(1, response.getQuestionId());
             proc.setParameter(2, response.getBannerId());
             proc.setParameter(3, response.getCourseId());
             proc.setParameter(4, response.getResponseList()[index]);
             proc.execute();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             log.error("Error while inserting survey responses: " + e.getMessage());
             e.printStackTrace();
             return false;
-        } finally {
-            if (null != proc) {
+        }
+        finally
+        {
+            if (null != proc)
+            {
                 proc.cleanup();
             }
         }
@@ -267,8 +334,8 @@ public class SurveyDB implements ISurveyPersistence {
     }
 
 	@Override
-	public List<Long> getSurveyQuestionsForCourse(Long courseId) {
-		
+	public List<Long> getSurveyQuestionsForCourse(Long courseId)
+    {
 		CallStoredProcedure proc = null;
 		List<Long> questionIdList = null;
         try
@@ -304,10 +371,10 @@ public class SurveyDB implements ISurveyPersistence {
 	}
 	
 	@Override
-	public Question getSurveyQuestion(Long questionId) 
+	public IQuestion getSurveyQuestion(Long questionId)
 	{
 		CallStoredProcedure proc = null;
-		Question question = null;
+		IQuestion question = null;
         try
         {
             proc = new CallStoredProcedure("spGetQuestionTextAndTypeByQuestionId(?)");
@@ -315,7 +382,7 @@ public class SurveyDB implements ISurveyPersistence {
             ResultSet results = proc.executeWithResults();
             if (results.next())
             {
-            	question = new Question();
+            	question = QuestionAbstractFactory.instance().getQuestion();
             	question.setTitle(results.getString("title"));
                 question.setType(results.getString("type"));
             }
@@ -324,7 +391,6 @@ public class SurveyDB implements ISurveyPersistence {
         {
             log.error("Error occured in getting question type of survey question: " + e.getMessage());
             e.printStackTrace();
-            
         }
         finally
         {
@@ -352,7 +418,6 @@ public class SurveyDB implements ISurveyPersistence {
                 while (results.next())
                 {
                     studentBannerList.add(results.getString("bannerId"));
-                    
                 }
             }
         }
@@ -373,12 +438,12 @@ public class SurveyDB implements ISurveyPersistence {
 	}
 	
 	@Override
-	public Response getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId)
+	public IResponse getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId)
 	{
-		Response response = null;
+		IResponse response = null;
 		
 		CallStoredProcedure proc = null;
-		Question question = null;
+		IQuestion question = null;
         try
         {
             proc = new CallStoredProcedure("spGetSurveyResponseQuestionIdCourseIdStudentId(?, ?, ?)");
@@ -388,7 +453,7 @@ public class SurveyDB implements ISurveyPersistence {
             ResultSet results = proc.executeWithResults();
             if (results.next())
             {
-            	response = new Response();
+            	response = SurveyAbstractFactory.instance().getResponse();
             	response.setBannerId(bannerId);
             	response.setCourseId(courseId);
             	String questionResponse = results.getString("response");
@@ -400,7 +465,6 @@ public class SurveyDB implements ISurveyPersistence {
         {
             log.error("Error occured in getting student response for Question " + qId + " due to: " + e.getMessage());
             e.printStackTrace();
-            
         }
         finally
         {
@@ -409,8 +473,6 @@ public class SurveyDB implements ISurveyPersistence {
                 proc.cleanup();
             }
         }
-		
 		return response;
 	}
-
 }

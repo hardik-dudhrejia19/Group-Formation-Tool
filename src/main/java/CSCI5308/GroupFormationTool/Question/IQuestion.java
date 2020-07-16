@@ -29,4 +29,6 @@ public interface IQuestion
     public String getDateCreated();
 
     public void setDateCreated(String dateCreated);
+
+    public void saveQuestion(IQuestionPersistence questionPersistence, String id);
 }

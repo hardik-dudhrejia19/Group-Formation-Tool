@@ -27,7 +27,7 @@ public class CourseController
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("instructorId", authentication.getName());
 		model.addAttribute("isSurveyPublished", true);
-		Course course = new Course();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 		model.addAttribute("course", course);
 

@@ -8,7 +8,7 @@ import CSCI5308.GroupFormationTool.Security.SecurityAbstractFactory;
 import CSCI5308.GroupFormationTool.AccessControl.*;
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 
-public class StudentCSVImport
+public class StudentCSVImport implements IStudentCSVImport
 {
 	private List<String> successResults;
 	private List<String> failureResults;
@@ -41,13 +41,11 @@ public class StudentCSVImport
 			String lastName = u.getLastName();
 			String email = u.getEmail();
 			String userDetails = bannerID + " " + firstName + " " + lastName +" " + email;
-			User user = new User();
 			IUser user = AccessControlAbstractFactory.instance().getUser();
 			userDB.loadUserByBannerID(bannerID, user);
 
 			if (user.isValidUser() == false)
 			{
-				
 				user.setBannerID(bannerID);
 				user.setFirstName(firstName);
 				user.setLastName(lastName);

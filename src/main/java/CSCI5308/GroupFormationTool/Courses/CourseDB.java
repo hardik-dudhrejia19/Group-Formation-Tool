@@ -28,7 +28,7 @@ public class CourseDB implements ICoursePersistence
 				{
 					long id = results.getLong(1);
 					String title = results.getString(2);
-					Course c = new Course();
+					ICourse c = CoursesAbstractFactory.instance().getCourse();
 					c.setId(id);
 					c.setTitle(title);
 					courses.add(c);

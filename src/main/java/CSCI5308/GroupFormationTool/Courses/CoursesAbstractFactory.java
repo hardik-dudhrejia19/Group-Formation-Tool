@@ -1,16 +1,8 @@
 package CSCI5308.GroupFormationTool.Courses;
 
-import CSCI5308.GroupFormationTool.AccessControl.*;
-import CSCI5308.GroupFormationTool.Database.DefaultDatabaseConfiguration;
-import CSCI5308.GroupFormationTool.Database.IDatabaseConfiguration;
-import CSCI5308.GroupFormationTool.Question.IQuestionPersistence;
-import CSCI5308.GroupFormationTool.Question.QuestionDB;
-import CSCI5308.GroupFormationTool.Security.BCryptPasswordEncryption;
-import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
-import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
-import CSCI5308.GroupFormationTool.Survey.SurveyDB;
+import org.springframework.web.multipart.MultipartFile;
 
-public class CoursesAbstractFactory
+public class CoursesAbstractFactory implements ICoursesAbstractFactory
 {
 	private static CoursesAbstractFactory uniqueInstance = null;
 	private ICoursePersistence courseDB;
@@ -51,5 +43,15 @@ public class CoursesAbstractFactory
 	public ICourse getCourse()
 	{
 		return new Course();
+	}
+
+	public IStudentCSVParser getCSVParser(MultipartFile file)
+	{
+		return new StudentCSVParser(file);
+	}
+
+	public IStudentCSVImport getCSVImport(IStudentCSVParser parser, ICourse course)
+	{
+		return new StudentCSVImport(parser, course);
 	}
 }

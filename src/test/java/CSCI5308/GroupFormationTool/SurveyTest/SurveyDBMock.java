@@ -3,19 +3,19 @@ package CSCI5308.GroupFormationTool.SurveyTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import CSCI5308.GroupFormationTool.Question.Option;
-import CSCI5308.GroupFormationTool.Question.Question;
+import CSCI5308.GroupFormationTool.Question.IOption;
+import CSCI5308.GroupFormationTool.Question.IQuestion;
+import CSCI5308.GroupFormationTool.QuestionsTest.QuestionAbstractFactoryMock;
+import CSCI5308.GroupFormationTool.Survey.IResponse;
 import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
-import CSCI5308.GroupFormationTool.Survey.Response;
 
-public class SurveyDBMock implements ISurveyPersistence 
+public class SurveyDBMock implements ISurveyPersistence
 {
-
     @Override
-    public List<Question> getAlreadyAddedQuestions(Long courseId) 
+    public List<IQuestion> getAlreadyAddedQuestions(Long courseId)
     {
-    	 List<Question> questionList = new ArrayList<>();
-         Question question = new Question();
+    	 List<IQuestion> questionList = new ArrayList<>();
+         IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
          question.setId(10);
          question.setTitle("Mock Title");
          questionList.add(question);
@@ -24,10 +24,10 @@ public class SurveyDBMock implements ISurveyPersistence
     }
 
     @Override
-    public List<Question> getNotAddedQuestions(Long courseId, String bannerId) 
+    public List<IQuestion> getNotAddedQuestions(Long courseId, String bannerId)
     {
-    	List<Question> questionList = new ArrayList<>();
-        Question question = new Question();
+    	List<IQuestion> questionList = new ArrayList<>();
+        IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
         question.setId(10);
         question.setTitle("Mock Title");
         questionList.add(question);
@@ -38,7 +38,7 @@ public class SurveyDBMock implements ISurveyPersistence
     @Override
     public boolean addQuestionToSurvey(Long questionId, Long courseId)
     {
-    	Question question = getSurveyQuestion(questionId);
+    	IQuestion question = getSurveyQuestion(questionId);
     	if (question != null)
     	{
     		return true;
@@ -67,22 +67,22 @@ public class SurveyDBMock implements ISurveyPersistence
     }
 
     @Override
-    public List<Question> getSurveyQuestions(Long courseId) {
-        List<Question> questionList = new ArrayList<>();
-        Question question = new Question();
+    public List<IQuestion> getSurveyQuestions(Long courseId) {
+        List<IQuestion> questionList = new ArrayList<>();
+        IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
         question.setId(10);
         question.setTitle("Mock Title");
         question.setQuestion("Mock Question");
         question.setDateCreated("Mock Date");
-        question.setAnswerOptions(new ArrayList<Option>());
+        question.setAnswerOptions(new ArrayList<IOption>());
         questionList.add(question);
         return questionList;
     }
 
     @Override
-    public List<Option> getSurveyQuestionOptions(Long questionId) {
-        List<Option> optionList = new ArrayList<>();
-        Option option = new Option();
+    public List<IOption> getSurveyQuestionOptions(Long questionId) {
+        List<IOption> optionList = new ArrayList<>();
+        IOption option = QuestionAbstractFactoryMock.instance().getOption();
         option.setText("Mock text");
         option.setValue("Mock value");
         optionList.add(option);
@@ -90,7 +90,7 @@ public class SurveyDBMock implements ISurveyPersistence
     }
 
     @Override
-    public boolean storeResponses(Response response, int index) {
+    public boolean storeResponses(IResponse response, int index) {
         response.setQuestionId(10);
         response.setBannerId("B-555555");
         response.setCourseId(10);
@@ -106,8 +106,8 @@ public class SurveyDBMock implements ISurveyPersistence
     }
     
     @Override
-    public Question getSurveyQuestion(Long questionId){
-    	Question question = new Question();
+    public IQuestion getSurveyQuestion(Long questionId){
+    	IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
     	question.setId(questionId);
     	question.setTitle("Provide your feedback");
         return question;
@@ -121,8 +121,8 @@ public class SurveyDBMock implements ISurveyPersistence
 	}
 
 	@Override
-	public Response getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId) {
-		Response response = new Response();
+	public IResponse getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId) {
+		IResponse response = SurveyAbstractFactoryMock.instance().getResponse();
 		response.setQuestionId(qId);
 		response.setCourseId(courseId);
 		response.setBannerId(bannerId);

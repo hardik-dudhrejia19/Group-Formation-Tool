@@ -6,12 +6,10 @@ public class QuestionAbstractFactoryMock
 {
 	private static QuestionAbstractFactoryMock uniqueInstance = null;
 	private IQuestionPersistence questionDB;
-	private IQuestionManager questionManager;
 
 	private QuestionAbstractFactoryMock()
 	{
 		questionDB = new QuestionDbMock();
-		questionManager = new QuestionManager();
 	}
 
 	public static QuestionAbstractFactoryMock instance()
@@ -26,11 +24,6 @@ public class QuestionAbstractFactoryMock
 	public IQuestionPersistence getQuestionDBMock()
 	{
 		return questionDB;
-	}
-
-	public IQuestionManager getQuestionManager()
-	{
-		return questionManager;
 	}
 
 	public IQuestion getQuestion()

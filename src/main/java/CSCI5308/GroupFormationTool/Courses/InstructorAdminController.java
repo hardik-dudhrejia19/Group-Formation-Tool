@@ -108,8 +108,8 @@ public class InstructorAdminController
 		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
 		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
-	   	IStudentCSVParser parser = new StudentCSVParser(file);
-	   	StudentCSVImport importer = new StudentCSVImport(parser, course);
+	   	IStudentCSVParser parser = CoursesAbstractFactory.instance().getCSVParser(file);
+	   	IStudentCSVImport importer = CoursesAbstractFactory.instance().getCSVImport(parser,course);
 
 	   	ModelAndView mav = new ModelAndView("redirect:/course/instructoradminresults?id=" + Long.toString(courseID));
 	   	mav.addObject("successful", importer.getSuccessResults());

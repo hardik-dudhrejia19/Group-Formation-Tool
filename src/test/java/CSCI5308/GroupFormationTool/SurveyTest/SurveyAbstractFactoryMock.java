@@ -1,25 +1,27 @@
-package CSCI5308.GroupFormationTool.Survey;
+package CSCI5308.GroupFormationTool.SurveyTest;
 
-public class SurveyAbstractFactory implements ISurveyAbstractFactory
+import CSCI5308.GroupFormationTool.Survey.*;
+
+public class SurveyAbstractFactoryMock
 {
-	private static SurveyAbstractFactory uniqueInstance = null;
+	private static SurveyAbstractFactoryMock uniqueInstance = null;
 	private ISurveyPersistence surveyDB;
 
-	private SurveyAbstractFactory()
+	private SurveyAbstractFactoryMock()
 	{
-		surveyDB = new SurveyDB();
+		surveyDB = new SurveyDBMock();
 	}
 
-	public static SurveyAbstractFactory instance()
+	public static SurveyAbstractFactoryMock instance()
 	{
 		if (null == uniqueInstance)
 		{
-			uniqueInstance = new SurveyAbstractFactory();
+			uniqueInstance = new SurveyAbstractFactoryMock();
 		}
 		return uniqueInstance;
 	}
 
-	public ISurveyPersistence getSurveyDB()
+	public ISurveyPersistence getSurveyDBMock()
 	{
 		return surveyDB;
 	}

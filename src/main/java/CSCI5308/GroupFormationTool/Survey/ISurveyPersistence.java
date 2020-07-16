@@ -1,5 +1,6 @@
 package CSCI5308.GroupFormationTool.Survey;
 
+import CSCI5308.GroupFormationTool.Question.IOption;
 import CSCI5308.GroupFormationTool.Question.IQuestion;
 
 import java.util.List;
@@ -20,17 +21,17 @@ public interface ISurveyPersistence
 
     public boolean isSurveyPublished(Long courseId);
 
-    public List<Question> getSurveyQuestions(Long courseId);
+    public List<IQuestion> getSurveyQuestions(Long courseId);
 
-    public List<Option> getSurveyQuestionOptions(Long questionId);
+    public List<IOption> getSurveyQuestionOptions(Long questionId);
 
-    public boolean storeResponses(Response response, int index);
+    public boolean storeResponses(IResponse response, int index);
     
     public List<Long> getSurveyQuestionsForCourse(Long courseId);
     
-    public Question getSurveyQuestion(Long questionId);
+    public IQuestion getSurveyQuestion(Long questionId);
     
     public List<String> getStudentBannersWhoFilledSurvey(long courseId);
     
-    public Response getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId);
+    public IResponse getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId);
 }

@@ -1,6 +1,7 @@
 package CSCI5308.GroupFormationTool.Survey;
 
 import CSCI5308.GroupFormationTool.Question.IQuestion;
+import CSCI5308.GroupFormationTool.Question.QuestionTypes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.slf4j.Logger;
@@ -45,9 +46,12 @@ public class SurveyController
         modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
         modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
 
-        if (surveyDB.isSurveyPublished(courseId) == false) {
+        if (surveyDB.isSurveyPublished(courseId) == false)
+        {
             modelAndView.addObject("surveynotpublished", true);
-        } else {
+        }
+        else
+        {
             modelAndView.addObject("surveypublished", true);
         }
 
@@ -101,10 +105,10 @@ public class SurveyController
     @GetMapping("/survey/takeSurvey")
     public ModelAndView takeSurvey(Model model,
                                    @RequestParam(name = COURSEID) long courseId) {
-        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("takesurvey");
-        List<Question> questionList = surveyDB.getSurveyQuestions(courseId);
-        for (Question question : questionList) {
+        List<IQuestion> questionList = surveyDB.getSurveyQuestions(courseId);
+        for (IQuestion question : questionList) {
             question.setAnswerOptions(surveyDB.getSurveyQuestionOptions(question.getId()));
         }
         modelAndView.addObject("response", new Response());
@@ -118,8 +122,8 @@ public class SurveyController
     public String submitSurvey(@ModelAttribute(name = RESPONSE) Response response,
                                @RequestParam(name = COURSEID) long courseId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
-        List<Question> questionList = surveyDB.getSurveyQuestions(courseId);
+        ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
+        List<IQuestion> questionList = surveyDB.getSurveyQuestions(courseId);
         for (int i = 0; i < response.getResponseList().length; i++) {
             response.setQuestionId(questionList.get(i).getId());
             response.setBannerId(authentication.getName());
@@ -136,14 +140,14 @@ public class SurveyController
     	log.info("Received request at createGroups with courseId: " + courseId + " , bannerId: " + bannerId );
     	ModelAndView modelAndView = new ModelAndView(GROUP_CREATION_VIEW);
     	
-    	ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
-		List<Question> groupFormationQuestions = new LinkedList<Question>();
-		ISurveyQuestions surveyQuestions = new SurveyQuestions();
+    	ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
+		List<IQuestion> groupFormationQuestions = new LinkedList<IQuestion>();
+		ISurveyQuestions surveyQuestions = SurveyAbstractFactory.instance().getSurveyQuestions();
 		groupFormationQuestions = surveyQuestions.fetchSurveyQuestions(surveyDB, courseId);
 		long i = 0;
 		if (groupFormationQuestions != null && groupFormationQuestions.size() > 0)
 		{
-			for (Question question : groupFormationQuestions)
+			for (IQuestion question : groupFormationQuestions)
 			{
 				question.setId(i++);
 			}
@@ -173,16 +177,16 @@ public class SurveyController
     		log.info("Group size cannot be less than 2");
     		return new ModelAndView("redirect:/survey/creategroups?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
     	}
-    	List<GroupCreationResponse> surveyQuestionResponseList = new LinkedList<GroupCreationResponse>();
-    	ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
-		List<Question> groupFormationQuestions = new LinkedList<Question>();
+    	List<IGroupCreationResponse> surveyQuestionResponseList = new LinkedList<>();
+    	ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
+		List<IQuestion> groupFormationQuestions = new LinkedList<IQuestion>();
 		ModelAndView modelAndView = new ModelAndView(DISPLAY_GROUPS);
 		
-		ISurveyQuestions surveyQuestion = new SurveyQuestions();
+		ISurveyQuestions surveyQuestion = SurveyAbstractFactory.instance().getSurveyQuestions();
 		groupFormationQuestions = surveyQuestion.fetchSurveyQuestions(surveyDB, courseId);
     	for (int i = 0; i < questionCount; i++)
     	{
-    		GroupCreationResponse response = new GroupCreationResponse();
+    		IGroupCreationResponse response = SurveyAbstractFactory.instance().getGroupCreationResponse();
     		response.setId(groupFormationQuestions.get(i).getId());
     		response.setResponse(Integer.parseInt(request.getParameter("" + i).toString()));
     		if (groupFormationQuestions.get(i).getType().equals(QuestionTypes.NUMERIC.name()))
@@ -207,8 +211,8 @@ public class SurveyController
     		surveyQuestionResponseList.add(response);
     	}
     	
-    	Group formGroups = new Group();
-        List<Group> allGroups = new ArrayList<>();
+    	IGroup formGroups = SurveyAbstractFactory.instance().getGroup();
+        List<IGroup> allGroups = new ArrayList<>();
     	allGroups = formGroups.createGroups(surveyQuestionResponseList, courseId, groupSize, surveyDB);
     	modelAndView.addObject("Group",allGroups);
     	log.info("Groups created");

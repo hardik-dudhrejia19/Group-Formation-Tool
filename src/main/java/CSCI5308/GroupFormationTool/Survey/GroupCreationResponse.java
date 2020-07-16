@@ -1,7 +1,7 @@
 package CSCI5308.GroupFormationTool.Survey;
 
-public class GroupCreationResponse {
-
+public class GroupCreationResponse implements IGroupCreationResponse
+{
 	private long id;
 	private int response;
 	private int xValue;
@@ -22,46 +22,54 @@ public class GroupCreationResponse {
 		includeMinOneWithValueLessThanX = false;
 	}
 	
-	public long getId() {
+	public long getId()
+	{
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(long id)
+	{
 		this.id = id;
 	}
 	
-	public int getResponse() {
+	public int getResponse()
+	{
 		return response;
 	}
 	
-	public void setResponse(int response) {
+	public void setResponse(int response)
+	{
 		this.response = response;
 	}
 	
-	public int getxValue() {
+	public int getxValue()
+	{
 		return xValue;
 	}
 	
-	public void setxValue(int xValue) {
+	public void setxValue(int xValue)
+	{
 		this.xValue = xValue;
 	}
 	
-	public boolean isIncludeMinOneWithValueGreaterThanX() {
+	public boolean isIncludeMinOneWithValueGreaterThanX()
+	{
 		return includeMinOneWithValueGreaterThanX;
 	}
 	
-	public void setIncludeMinOneWithValueGreaterThanX(boolean includeMinOneWithValueGreaterThanX) {
+	public void setIncludeMinOneWithValueGreaterThanX(boolean includeMinOneWithValueGreaterThanX)
+	{
 		this.includeMinOneWithValueGreaterThanX = includeMinOneWithValueGreaterThanX;
 	}
 	
-	public boolean isIncludeMinOneWithValueLessThanX() {
+	public boolean isIncludeMinOneWithValueLessThanX()
+	{
 		return includeMinOneWithValueLessThanX;
 	}
 	
-	public void setIncludeMinOneWithValueLessThanX(boolean includeMinOneWithValueLessThanX) {
+	public void setIncludeMinOneWithValueLessThanX(boolean includeMinOneWithValueLessThanX)
+	{
 		this.includeMinOneWithValueLessThanX = includeMinOneWithValueLessThanX;
 	}
-	
-	
-	
+
 }

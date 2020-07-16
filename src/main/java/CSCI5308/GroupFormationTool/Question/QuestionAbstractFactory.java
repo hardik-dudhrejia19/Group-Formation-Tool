@@ -1,15 +1,13 @@
 package CSCI5308.GroupFormationTool.Question;
 
-public class QuestionAbstractFactory
+public class QuestionAbstractFactory implements IQuestionAbstractFactory
 {
 	private static QuestionAbstractFactory uniqueInstance = null;
 	private IQuestionPersistence questionDB;
-	private IQuestionManager questionManager;
 
 	private QuestionAbstractFactory()
 	{
 		questionDB = new QuestionDB();
-		questionManager = new QuestionManager();
 	}
 
 	public static QuestionAbstractFactory instance()
@@ -26,10 +24,6 @@ public class QuestionAbstractFactory
 		return questionDB;
 	}
 
-	public IQuestionManager getQuestionManager()
-	{
-		return questionManager;
-	}
 	public IQuestion getQuestion()
 	{
 		return new Question();

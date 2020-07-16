@@ -1,6 +1,5 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
-import CSCI5308.GroupFormationTool.Courses.Course;
 import CSCI5308.GroupFormationTool.Courses.CoursesAbstractFactory;
 import CSCI5308.GroupFormationTool.Courses.ICourse;
 import CSCI5308.GroupFormationTool.Courses.ICoursePersistence;

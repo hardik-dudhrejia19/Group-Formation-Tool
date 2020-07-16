@@ -1,6 +1,6 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
-public class AccessControlAbstractFactory
+public class AccessControlAbstractFactory implements IAccessControlAbstractFactory
 {
 	private static AccessControlAbstractFactory uniqueInstance = null;
 	private IUserPersistence userDB;

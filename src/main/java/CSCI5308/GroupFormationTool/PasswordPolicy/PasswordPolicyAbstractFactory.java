@@ -2,7 +2,7 @@ package CSCI5308.GroupFormationTool.PasswordPolicy;
 
 import CSCI5308.GroupFormationTool.AccessControl.IUser;
 
-public class PasswordPolicyAbstractFactory
+public class PasswordPolicyAbstractFactory implements IPasswordPolicyAbstractFactory
 {
 	private static PasswordPolicyAbstractFactory uniqueInstance = null;
 	private IActivePasswordPolicyPersistence activePasswordPolicyDB;
