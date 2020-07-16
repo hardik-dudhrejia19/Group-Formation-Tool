@@ -120,17 +120,29 @@ public class SurveyController
 
     @GetMapping("/survey/submitSurvey")
     public String submitSurvey(@ModelAttribute(name = RESPONSE) Response response,
-                               @RequestParam(name = COURSEID) long courseId) {
+                               @RequestParam(name = COURSEID) long courseId, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         List<IQuestion> questionList = surveyDB.getSurveyQuestions(courseId);
+        boolean surveySaved = false;
         for (int i = 0; i < response.getResponseList().length; i++) {
             response.setQuestionId(questionList.get(i).getId());
             response.setBannerId(authentication.getName());
             response.setCourseId(courseId);
-            surveyDB.storeResponses(response, i);
+            surveySaved = surveyDB.storeResponses(response, i);
         }
-        return "redirect:/course/course?id="+ courseId;
+        if (surveySaved)
+        {
+        	return "redirect:/course/course?id="+ courseId;
+        }
+        else
+        {
+        	model.addAttribute("error", "Failed to save survey. Kindly try again");
+        	model.addAttribute("linkMessage", "Take survey again");
+        	model.addAttribute("url", "/survey/takeSurvey?id="+ courseId);
+        	return "errorpage";
+        }
+        
     }
     
     @GetMapping("/survey/creategroups")
