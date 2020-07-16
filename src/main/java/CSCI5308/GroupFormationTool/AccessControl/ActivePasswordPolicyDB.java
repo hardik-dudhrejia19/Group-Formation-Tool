@@ -17,6 +17,7 @@ public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence
     @Override
     public HashMap<String, String> getActivePasswordPolicy()
     {
+    	log.debug("Getting ActivePassword Policy");
         HashMap<String, String> policyCriteriaMap = new HashMap<String, String>();
         CallStoredProcedure proc = null;
         try
@@ -52,6 +53,7 @@ public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence
     @Override
     public List<String> getPasswords(String bannerID, Integer criteria)
     {
+    	log.debug("Getting Password for user with bannerId: " + bannerID);
         List<String> passwordList = new ArrayList<>();
         CallStoredProcedure proc = null;
         try
@@ -71,7 +73,7 @@ public class ActivePasswordPolicyDB implements IActivePasswordPolicyPersistence
         }
         catch (SQLException e)
         {
-        	log.error("Error occured in getting passwords: " + e.getMessage());
+        	log.error("Error occured in getting passwords for user with bannerId: " +  bannerID + " due to: " + e.getMessage());
 			e.printStackTrace();
             return passwordList;
         }

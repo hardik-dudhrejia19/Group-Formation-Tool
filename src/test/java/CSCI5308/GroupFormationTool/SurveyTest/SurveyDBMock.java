@@ -1,49 +1,69 @@
 package CSCI5308.GroupFormationTool.SurveyTest;
 
-import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
+import java.util.ArrayList;
+import java.util.List;
+
 import CSCI5308.GroupFormationTool.Question.Option;
 import CSCI5308.GroupFormationTool.Question.Question;
 import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
 import CSCI5308.GroupFormationTool.Survey.Response;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SurveyDBMock implements ISurveyPersistence {
+public class SurveyDBMock implements ISurveyPersistence 
+{
 
     @Override
-    public List<Question> getAlreadyAddedQuestions(Long courseId) {
-        return null;
+    public List<Question> getAlreadyAddedQuestions(Long courseId) 
+    {
+    	 List<Question> questionList = new ArrayList<>();
+         Question question = new Question();
+         question.setId(10);
+         question.setTitle("Mock Title");
+         questionList.add(question);
+         
+        return questionList;
     }
 
     @Override
-    public List<Question> getNotAddedQuestions(Long courseId, String bannerId) {
-        return null;
+    public List<Question> getNotAddedQuestions(Long courseId, String bannerId) 
+    {
+    	List<Question> questionList = new ArrayList<>();
+        Question question = new Question();
+        question.setId(10);
+        question.setTitle("Mock Title");
+        questionList.add(question);
+        
+       return questionList;
     }
 
     @Override
-    public boolean addQuestionToSurvey(Long questionId, Long courseId) {
+    public boolean addQuestionToSurvey(Long questionId, Long courseId)
+    {
+    	Question question = getSurveyQuestion(questionId);
+    	if (question != null)
+    	{
+    		return true;
+    	}
         return false;
     }
 
     @Override
     public boolean deleteQuestionFromSurvey(Long questionId, Long courseId) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean publishSurvey(Long courseId) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean disableSurvey(Long courseId) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isSurveyPublished(Long courseId) {
-        return false;
+        return true;
     }
 
     @Override
@@ -80,11 +100,32 @@ public class SurveyDBMock implements ISurveyPersistence {
     
     @Override
     public List<Long> getSurveyQuestionsForCourse(Long courseId){
-        return null;
+    	List<Long> surveyQuestions = new ArrayList<Long>();
+    	surveyQuestions.add(1111L);
+        return surveyQuestions;
     }
     
     @Override
     public Question getSurveyQuestion(Long questionId){
-        return null;
+    	Question question = new Question();
+    	question.setId(questionId);
+    	question.setTitle("Provide your feedback");
+        return question;
     }
+
+	@Override
+	public List<String> getStudentBannersWhoFilledSurvey(long courseId) {
+		List<String> studentList = new ArrayList<String>();
+		studentList.add("B-0000");
+        return studentList;
+	}
+
+	@Override
+	public Response getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId) {
+		Response response = new Response();
+		response.setQuestionId(qId);
+		response.setCourseId(courseId);
+		response.setBannerId(bannerId);
+		return response;
+	}
 }

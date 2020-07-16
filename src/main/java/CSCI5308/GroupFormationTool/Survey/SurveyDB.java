@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SurveyDB implements ISurveyPersistence {
-    private Logger log = LoggerFactory.getLogger(UserDB.class);
+    private Logger log = LoggerFactory.getLogger(SurveyDB.class);
 
     @Override
     public List<Question> getAlreadyAddedQuestions(Long courseId) {
