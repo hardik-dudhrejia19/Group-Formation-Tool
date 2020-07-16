@@ -24,5 +24,10 @@
 			<br/>
 			<a th:href="@{/viewQuestions(id=${instructorId},order)}">Survey Questions</a>
 		</div>
+		<div th:if="${student}">
+			<br/>
+			<a th:if="${isSurveyPublished}" th:href="@{/survey/takeSurvey(courseId=${course.id})}">Take Survey</a>
+			<h4 th:if="${!isSurveyPublished}">No Survey currently available</h4>
+		</div>
 	</body>
 </html>

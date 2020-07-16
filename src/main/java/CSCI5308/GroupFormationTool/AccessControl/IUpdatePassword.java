@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IUpdatePassword
 {
-    public boolean updatePassword(List<String> failedPasswordValidationList, User user);
+    public boolean updatePassword(List<String> failedPasswordValidationList, IUser user);
 }

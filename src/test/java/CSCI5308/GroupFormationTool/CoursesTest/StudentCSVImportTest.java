@@ -5,17 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
-import CSCI5308.GroupFormationTool.AccessControl.IUserNotifications;
-import CSCI5308.GroupFormationTool.AccessControl.UserNotification;
-import CSCI5308.GroupFormationTool.Courses.StudentCSVImport;
+import CSCI5308.GroupFormationTool.AccessControl.*;
+import CSCI5308.GroupFormationTool.AccessControlTest.AccessControlAbstractFactoryMock;
+import CSCI5308.GroupFormationTool.Courses.*;
+import CSCI5308.GroupFormationTool.SecurityTest.SecurityAbstractFactoryMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
-import CSCI5308.GroupFormationTool.AccessControl.IUserPersistence;
-import CSCI5308.GroupFormationTool.AccessControl.User;
 import CSCI5308.GroupFormationTool.AccessControlTest.UserDBMock;
-import CSCI5308.GroupFormationTool.Courses.Course;
-import CSCI5308.GroupFormationTool.Courses.Role;
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 import CSCI5308.GroupFormationTool.SecurityTest.PasswordEncryptionMock;
 
@@ -26,12 +23,10 @@ class StudentCSVImportTest
 	@Test
 	public void enrollStudentFromRecordTest()
 	{
-		User user = new User();
-		Course course = new Course();
-		IUserPersistence userDB = new UserDBMock();
-		IPasswordEncryption passwordEncryption = new PasswordEncryptionMock();
-		IUserNotifications userNotifications = new UserNotification();
-		Assert.isTrue(user.createUser(userDB, passwordEncryption, userNotifications));
+		IUser user = AccessControlAbstractFactoryMock.instance().getUser();
+		IUserPersistence userDB = AccessControlAbstractFactoryMock.instance().getUserDBMock();
+		IPasswordEncryption passwordEncryption = SecurityAbstractFactoryMock.instance().getPasswordEncryptionMock();
+		Assert.isTrue(user.createUser(userDB, passwordEncryption, null));
 	}
 
 	@Test
@@ -57,8 +52,8 @@ class StudentCSVImportTest
 	@Test
 	public void getNewStudentsTest()
 	{
-		List<User> students = new ArrayList<User>();
-		User user = new User();
+		List<IUser> students = new ArrayList<>();
+		IUser user = AccessControlAbstractFactoryMock.instance().getUser();
 		user.setBannerID("B-999333");
 		user.setFirstName("Tony");
 		user.setLastName("Stark");

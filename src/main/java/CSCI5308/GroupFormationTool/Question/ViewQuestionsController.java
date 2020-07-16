@@ -1,6 +1,7 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,8 @@ import java.util.List;
 @Controller
 public class ViewQuestionsController
 {
-    private IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
+    private static Logger log = LoggerFactory.getLogger(ViewQuestionsController.class); 
+    private IQuestionPersistence questionPersistence = QuestionAbstractFactory.instance().getQuestionDB();
 
     @RequestMapping("/viewQuestions")
     public String viewQuestions
@@ -23,6 +25,7 @@ public class ViewQuestionsController
         @RequestParam(value = "order", required = false) String order
     )
     {
+    	log.debug("Entered ViewQuestionController.vuewQuestion with instructorId: " + instructorId + " and order questions by : " + order);
         List<List<String>> questionList;
         try
         {
@@ -48,6 +51,7 @@ public class ViewQuestionsController
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
+        log.debug("Entered ViewQuestionController.deleteQuestion with questionId: " + questionId + " userId: " + id);
         try
         {
             questionPersistence.removeQuestionFromDatabase(questionId);

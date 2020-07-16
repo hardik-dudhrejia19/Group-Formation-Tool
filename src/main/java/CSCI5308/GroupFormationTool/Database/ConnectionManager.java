@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
-
-// Singleton for retrieving connections.
 public class ConnectionManager
 {
 	private static ConnectionManager uniqueInstance = null;
@@ -16,7 +13,7 @@ public class ConnectionManager
 	
 	public ConnectionManager()
 	{
-		IDatabaseConfiguration config = SystemConfig.instance().getDatabaseConfiguration();
+		IDatabaseConfiguration config = DatabaseAbstractFactory.instance().getDatabaseConfiguration();
 		dbURL = config.getDatabaseURL();
 		dbUserName = config.getDatabaseUserName();
 		dbPassword = config.getDatabasePassword();
