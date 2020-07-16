@@ -1,0 +1,30 @@
+2020-07-16 16:36:01.223 [restartedMain] INFO  C.G.GroupFormationToolApplication: Starting GroupFormationToolApplication on MacBook-Air-4.local with PID 89666 (/Users/patelpoojan/Desktop/group17/build/classes/java/main started by patelpoojan in /Users/patelpoojan/Desktop/group17)
+2020-07-16 16:36:01.224 [restartedMain] INFO  C.G.GroupFormationToolApplication: No active profile set, falling back to default profiles: default
+2020-07-16 16:36:02.312 [restartedMain] INFO  o.a.catalina.core.StandardService: Starting service [Tomcat]
+2020-07-16 16:36:02.312 [restartedMain] INFO  o.a.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-07-16 16:36:02.343 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
+2020-07-16 16:36:03.036 [restartedMain] INFO  C.G.GroupFormationToolApplication: Started GroupFormationToolApplication in 2.106 seconds (JVM running for 4705.971)
+2020-07-16 16:39:41.104 [main] INFO  C.G.AccessControlTest.UserTest: Starting UserTest on MacBook-Air-4.local with PID 91805 (started by patelpoojan in /Users/patelpoojan/Desktop/group17)
+2020-07-16 16:39:41.110 [main] INFO  C.G.AccessControlTest.UserTest: No active profile set, falling back to default profiles: default
+2020-07-16 16:39:45.108 [main] INFO  C.G.AccessControlTest.UserTest: Started UserTest in 5.065 seconds (JVM running for 7.909)
+2020-07-16 16:42:18.017 [restartedMain] INFO  C.G.GroupFormationToolApplication: Starting GroupFormationToolApplication on MacBook-Air-4.local with PID 91864 (/Users/patelpoojan/Desktop/group17/build/classes/java/main started by patelpoojan in /Users/patelpoojan/Desktop/group17)
+2020-07-16 16:42:18.022 [restartedMain] INFO  C.G.GroupFormationToolApplication: No active profile set, falling back to default profiles: default
+2020-07-16 16:42:20.404 [restartedMain] INFO  o.a.catalina.core.StandardService: Starting service [Tomcat]
+2020-07-16 16:42:20.405 [restartedMain] INFO  o.a.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-07-16 16:42:20.612 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
+2020-07-16 16:42:21.645 [restartedMain] INFO  C.G.GroupFormationToolApplication: Started GroupFormationToolApplication in 4.342 seconds (JVM running for 5.868)
+2020-07-16 17:52:52.799 [restartedMain] INFO  C.G.GroupFormationToolApplication: Starting GroupFormationToolApplication on MacBook-Air-4.local with PID 93701 (/Users/patelpoojan/Desktop/group17/build/classes/java/main started by patelpoojan in /Users/patelpoojan/Desktop/group17)
+2020-07-16 17:52:52.809 [restartedMain] INFO  C.G.GroupFormationToolApplication: No active profile set, falling back to default profiles: default
+2020-07-16 17:52:56.451 [restartedMain] INFO  o.a.catalina.core.StandardService: Starting service [Tomcat]
+2020-07-16 17:52:56.452 [restartedMain] INFO  o.a.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-07-16 17:52:56.694 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
+2020-07-16 17:52:58.222 [restartedMain] INFO  C.G.GroupFormationToolApplication: Started GroupFormationToolApplication in 7.22 seconds (JVM running for 10.636)
+2020-07-16 18:12:09.454 [restartedMain] INFO  C.G.GroupFormationToolApplication: Starting GroupFormationToolApplication on MacBook-Air-4.local with PID 93701 (/Users/patelpoojan/Desktop/group17/build/classes/java/main started by patelpoojan in /Users/patelpoojan/Desktop/group17)
+2020-07-16 18:12:09.455 [restartedMain] INFO  C.G.GroupFormationToolApplication: No active profile set, falling back to default profiles: default
+2020-07-16 18:12:10.641 [restartedMain] INFO  o.a.catalina.core.StandardService: Starting service [Tomcat]
+2020-07-16 18:12:10.653 [restartedMain] INFO  o.a.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/9.0.30]
+2020-07-16 18:12:10.701 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
+2020-07-16 18:12:11.397 [restartedMain] INFO  C.G.GroupFormationToolApplication: Started GroupFormationToolApplication in 2.19 seconds (JVM running for 1163.745)
+2020-07-16 18:22:20.858 [main] INFO  C.G.AccessControlTest.UserTest: Starting UserTest on MacBook-Air-4.local with PID 94424 (started by patelpoojan in /Users/patelpoojan/Desktop/group17)
+2020-07-16 18:22:20.863 [main] INFO  C.G.AccessControlTest.UserTest: No active profile set, falling back to default profiles: default
+2020-07-16 18:22:25.180 [main] INFO  C.G.AccessControlTest.UserTest: Started UserTest in 5.351 seconds (JVM running for 8.473)
