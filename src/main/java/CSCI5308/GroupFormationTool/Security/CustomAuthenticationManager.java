@@ -2,6 +2,9 @@ package CSCI5308.GroupFormationTool.Security;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +19,7 @@ import CSCI5308.GroupFormationTool.AccessControl.*;
 public class CustomAuthenticationManager implements AuthenticationManager
 {
 	private static final String ADMIN_BANNER_ID = "B-000000";
+	private Logger log = LoggerFactory.getLogger(CustomAuthenticationManager.class);
 	
 	private Authentication checkAdmin(String password, User u, Authentication authentication) throws AuthenticationException
 	{
@@ -29,6 +33,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
 		}
 		else
 		{
+			log.error("Bad credentials entered");
 			throw new BadCredentialsException("1000");
 		}
 	}
@@ -46,6 +51,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
 		}
 		else
 		{
+			log.error("Bad credentials entered");
 			throw new BadCredentialsException("1000");
 		}
 	}
@@ -54,6 +60,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
 	{
 		String bannerID = authentication.getPrincipal().toString();
 		String password = authentication.getCredentials().toString();
+		log.debug("Authentication user with bannerId: " + bannerID);
 		IUserPersistence userDB = SystemConfig.instance().getUserDB();
 		User user;
 		try
@@ -62,6 +69,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
 		}
 		catch (Exception e)
 		{
+			log.error("Failed while authenticating User due to " + e.getMessage());
 			throw new AuthenticationServiceException("1000");
 		}
 		if (user.isValidUser())
@@ -77,6 +85,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
 		}
 		else
 		{
+			log.error("Bad credentials entered");
 			throw new BadCredentialsException("1001");
 		}			
 	}

@@ -1,9 +1,13 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MinimumLowercasePolicy implements IPasswordPolicyValidation
 {
     private String criteria = null;
     private String validatorCriteria = null;
+    private Logger log = LoggerFactory.getLogger(MinimumLowercasePolicy.class);
 
     public MinimumLowercasePolicy(String criteria, String validatorCriteria)
     {
@@ -31,6 +35,7 @@ public class MinimumLowercasePolicy implements IPasswordPolicyValidation
         }
         else
         {
+        	log.warn("Password: " + password + " is invalid");
             return false;
         }
     }

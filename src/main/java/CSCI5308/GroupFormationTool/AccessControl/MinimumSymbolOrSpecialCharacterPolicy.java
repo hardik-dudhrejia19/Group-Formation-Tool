@@ -1,10 +1,14 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyValidation
 {
     private String criteria = null;
     private String validatorCriteria = null;
-
+    private Logger log = LoggerFactory.getLogger(MinimumSymbolOrSpecialCharacterPolicy.class);
+    
     public MinimumSymbolOrSpecialCharacterPolicy(String criteria, String validatorCriteria)
     {
         this.criteria = criteria;
@@ -23,6 +27,7 @@ public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyVal
         }
         else
         {
+        	log.warn("Password: " + password + " is invalid");
             return false;
         }
     }

@@ -1,9 +1,13 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MinimumLengthPolicy implements IPasswordPolicyValidation
 {
     private String criteria = null;
     private String validatorCriteria = null;
+    private Logger log = LoggerFactory.getLogger(MinimumLengthPolicy.class);
 
     public MinimumLengthPolicy(String criteria, String validatorCriteria)
     {
@@ -20,6 +24,7 @@ public class MinimumLengthPolicy implements IPasswordPolicyValidation
         }
         else
         {
+        	log.warn("Password: " + password + " is invalid");
             return false;
         }
     }

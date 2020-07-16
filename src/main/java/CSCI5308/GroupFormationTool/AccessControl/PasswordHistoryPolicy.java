@@ -4,11 +4,15 @@ import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
 import CSCI5308.GroupFormationTool.SystemConfig;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PasswordHistoryPolicy implements IPasswordPolicyValidation
 {
     private String criteria = null;
     private String validatorCriteria = null;
     private String bannerID = null;
+    private Logger log = LoggerFactory.getLogger(PasswordHistoryPolicy.class);
 
     public PasswordHistoryPolicy(User user, String criteria, String validatorCriteria)
     {
@@ -28,6 +32,7 @@ public class PasswordHistoryPolicy implements IPasswordPolicyValidation
         {
             if(passwordEncryption.matches(password,passwordHistoryList.get(i)))
             {
+            	log.warn("Password: " + password + " is invalid");
                 return false;
             }
         }

@@ -33,7 +33,9 @@ public class SurveyController
 
     @GetMapping("/survey/create")
     public ModelAndView createSurvey(@RequestParam(name = COURSEID) long courseId,
-                                     @RequestParam(name = BANNER) String bannerId) {
+                                     @RequestParam(name = BANNER) String bannerId)
+    {
+    	log.info("Received request at createSurvey with courseId: " + courseId + " and bannerId: " + bannerId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("createsurvey");
         modelAndView.addObject("courseId", courseId);
@@ -54,7 +56,9 @@ public class SurveyController
     @PostMapping("/survey/addquestion")
     public ModelAndView addQuestion(@RequestParam(name = COURSEID) long courseId,
                                     @RequestParam(name = QUESTIONID) long questionId,
-                                    @RequestParam(name = BANNER) String bannerId) {
+                                    @RequestParam(name = BANNER) String bannerId)
+    {
+    	log.info("Received request at addQuestion with courseId: " + courseId + " , bannerId: " + bannerId + " questionId: " + questionId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?" + COURSEID + "=" + courseId + "&" + BANNER + "=" + bannerId);
         surveyDB.addQuestionToSurvey(questionId, courseId);
@@ -62,7 +66,9 @@ public class SurveyController
     }
 
     @PostMapping("/survey/publish")
-    public ModelAndView publishSurvey(@RequestParam(name = COURSEID) long courseId) {
+    public ModelAndView publishSurvey(@RequestParam(name = COURSEID) long courseId)
+    {
+    	log.info("Received request at publish survey with courseId: " + courseId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         surveyDB.publishSurvey(courseId);
         ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id=" + courseId);
@@ -70,7 +76,9 @@ public class SurveyController
     }
 
     @PostMapping("/survey/disablesurvey")
-    public ModelAndView disableSurvey(@RequestParam(name = COURSEID) long courseId) {
+    public ModelAndView disableSurvey(@RequestParam(name = COURSEID) long courseId)
+    {
+    	log.info("Received request at disable survey with courseId: " + courseId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         surveyDB.disableSurvey(courseId);
         ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id=" + courseId);
@@ -80,7 +88,9 @@ public class SurveyController
     @PostMapping("/survey/deletequestion")
     public ModelAndView deleteQuestion(@RequestParam(name = COURSEID) long courseId,
                                        @RequestParam(name = QUESTIONID) long questionId,
-                                       @RequestParam(name = BANNER) String bannerId) {
+                                       @RequestParam(name = BANNER) String bannerId)
+    {
+    	log.info("Received request at deleteQuestion with courseId: " + courseId + " , bannerId: " + bannerId + " questionId: " + questionId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?" + COURSEID + "=" + courseId + "&" + BANNER + "=" + bannerId);
         surveyDB.deleteQuestionFromSurvey(questionId, courseId);
@@ -120,25 +130,21 @@ public class SurveyController
     
     @GetMapping("/survey/creategroups")
     public ModelAndView createGroups(@RequestParam(name = COURSEID) long courseId,
-            @RequestParam(name = BANNER) String bannerId) {
-    	
+            @RequestParam(name = BANNER) String bannerId) 
+    {
+    	log.info("Received request at createGroups with courseId: " + courseId + " , bannerId: " + bannerId );
     	ModelAndView modelAndView = new ModelAndView(GROUP_CREATION_VIEW);
     	
     	ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
-    	List<Long> surveyQuestionList = surveyDB.getSurveyQuestionsForCourse(courseId);
 		List<Question> groupFormationQuestions = new LinkedList<Question>();
+		ISurveyQuestions surveyQuestions = new SurveyQuestions();
+		groupFormationQuestions = surveyQuestions.fetchSurveyQuestions(surveyDB, courseId);
 		long i = 0;
-		if (surveyQuestionList != null)
+		if (groupFormationQuestions != null && groupFormationQuestions.size() > 0)
 		{
-			for (Long questionId : surveyQuestionList)
+			for (Question question : groupFormationQuestions)
 			{
-				Question question = surveyDB.getSurveyQuestion(questionId);
-				if (question != null)
-				{
-					question.setId(i++);
-					groupFormationQuestions.add(question);
-				}
-				
+				question.setId(i++);
 			}
 		} else {
 			log.info("Question list is null");
@@ -160,26 +166,19 @@ public class SurveyController
     		HttpServletRequest request,
     		@RequestParam(required = false) List<String> numericValues)
     {
+    	log.info("Received request at createGroupsFromAlgo with courseId: " + courseId + " , bannerId: " + bannerId + " groupSize: " + groupSize + " questions count: " + questionCount);
+    	if (groupSize < 2)
+    	{
+    		log.info("Group size cannot be less than 2");
+    		return new ModelAndView("redirect:/survey/creategroups?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
+    	}
     	List<GroupCreationResponse> surveyQuestionResponseList = new LinkedList<GroupCreationResponse>();
     	ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
-    	List<Long> surveyQuestionList = surveyDB.getSurveyQuestionsForCourse(courseId);
 		List<Question> groupFormationQuestions = new LinkedList<Question>();
 		ModelAndView modelAndView = new ModelAndView(GROUP_CREATION_VIEW);
-		if (surveyQuestionList != null)
-		{
-			for (Long questionId : surveyQuestionList)
-			{
-				Question question = surveyDB.getSurveyQuestion(questionId);
-				if (question != null)
-				{
-					groupFormationQuestions.add(question);
-				}
-				
-			}
-		} else {
-			log.info("Question list is null");
-			return modelAndView;
-		}
+		
+		ISurveyQuestions surveyQuestion = new SurveyQuestions();
+		groupFormationQuestions = surveyQuestion.fetchSurveyQuestions(surveyDB, courseId);
     	for (int i = 0; i < questionCount; i++)
     	{
     		GroupCreationResponse response = new GroupCreationResponse();
@@ -207,6 +206,11 @@ public class SurveyController
     		surveyQuestionResponseList.add(response);
     		
     	}
+    	
+    	Group formGroups = new Group();
+    	formGroups.createGroups(surveyQuestionResponseList, courseId, groupSize, surveyDB);
+    	log.info("Groups created");
+    	
     	return modelAndView;
     }
 }

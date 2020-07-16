@@ -1,6 +1,9 @@
 package CSCI5308.GroupFormationTool.Courses;
 
 import CSCI5308.GroupFormationTool.SystemConfig;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,9 +19,12 @@ public class CourseController
 {
 	private static final String ID = "id";
 	
+	private Logger log = LoggerFactory.getLogger(CourseController.class);
+	
 	@GetMapping("/course/course")
 	public String course(Model model, @RequestParam(name = ID) long courseID)
 	{
+		log.info("Received request at CourseController.course with courseId: " + courseID);
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("instructorId", authentication.getName());

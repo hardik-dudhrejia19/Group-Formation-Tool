@@ -3,6 +3,8 @@ package CSCI5308.GroupFormationTool.Courses;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +22,12 @@ public class CourseAdminController
 	private static final String ID = "id";
 	private static final String TITLE = "title";
 	private static final String INSTRUCTOR = "instructor";
+	private Logger log = LoggerFactory.getLogger(CourseAdminController.class);
 	
 	@GetMapping("/admin/course")
 	public String course(Model model)
 	{
+		log.info("Recieved request at CourseAdminController.course");
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		List<Course> allCourses = courseDB.loadAllCourses();
 		model.addAttribute("courses", allCourses);
@@ -33,6 +37,7 @@ public class CourseAdminController
 	@GetMapping("/admin/assigninstructor")
 	public String assignInstructor(Model model, @RequestParam(name = ID) long courseID)
 	{
+		log.info("Recieved request at assignInstructor for course: " + courseID);
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Course c = new Course();
 		courseDB.loadCourseByID(courseID, c);
@@ -46,6 +51,7 @@ public class CourseAdminController
 	@GetMapping("/admin/deletecourse")
 	public ModelAndView deleteCourse(@RequestParam(name = ID) long courseID)
 	{
+		log.info("Recieved request at deleteCourse for course: " + courseID);
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Course c = new Course();
 		c.setId(courseID);
@@ -57,6 +63,7 @@ public class CourseAdminController
 	@RequestMapping(value = "/admin/createcourse", method = RequestMethod.POST)
 	public ModelAndView createCourse(@RequestParam(name = TITLE) String title)
 	{
+		log.info("Recieved request at createCourse with title: " + title);
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Course c = new Course();
 		c.setTitle(title);
@@ -72,6 +79,7 @@ public class CourseAdminController
 		@RequestParam(name = ID) long courseID
 	)
 	{
+		log.info("Recieved request at assignInstructorToCourse for course: " + courseID);
 		Course c = new Course();
 		c.setId(courseID);
 		Iterator<Integer> iter = instructor.iterator();

@@ -9,11 +9,12 @@ import org.slf4j.LoggerFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SurveyDB implements ISurveyPersistence {
-    private Logger log = LoggerFactory.getLogger(UserDB.class);
+    private Logger log = LoggerFactory.getLogger(SurveyDB.class);
 
     @Override
     public List<Question> getAlreadyAddedQuestions(Long courseId) {
@@ -329,4 +330,82 @@ public class SurveyDB implements ISurveyPersistence {
         }
         return question;
 	}
+	
+	@Override
+	public List<String> getStudentBannersWhoFilledSurvey(long courseId)
+	{
+		CallStoredProcedure proc = null;
+		List<String> studentBannerList = null;
+        try
+        {
+            proc = new CallStoredProcedure("spGetAllStudentsOfSurveyByCourseId(?)");
+            proc.setParameter(1, courseId);
+            ResultSet results = proc.executeWithResults();
+            if (null != results)
+            {
+            	studentBannerList = new LinkedList<String>();
+                while (results.next())
+                {
+                    studentBannerList.add(results.getString("bannerId"));
+                    
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            log.error("Error in getting student list who filled the survey : " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
+        return studentBannerList;
+	}
+	
+	@Override
+	public Response getStudentResponseCorrespondingToQuestion(long qId, long courseId, String bannerId)
+	{
+		Response response = null;
+		
+		CallStoredProcedure proc = null;
+		Question question = null;
+        try
+        {
+            proc = new CallStoredProcedure("spGetSurveyResponseQuestionIdCourseIdStudentId(?, ?, ?)");
+            proc.setParameter(1,qId);
+            proc.setParameter(2, courseId);
+            proc.setParameter(3, bannerId);
+            ResultSet results = proc.executeWithResults();
+            if (results.next())
+            {
+            	response = new Response();
+            	response.setBannerId(bannerId);
+            	response.setCourseId(courseId);
+            	String questionResponse = results.getString("response");
+            	String []resArr = questionResponse.split(",");
+            	response.setResponseList(resArr);
+            }
+        }
+        catch (SQLException e)
+        {
+            log.error("Error occured in getting student response for Question " + qId + " due to: " + e.getMessage());
+            e.printStackTrace();
+            
+        }
+        finally
+        {
+            if (null != proc)
+            {
+                proc.cleanup();
+            }
+        }
+		
+		return response;
+	}
+
 }
