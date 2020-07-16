@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,6 +28,7 @@ public class CourseController
 		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("instructorId", authentication.getName());
+		model.addAttribute("isSurveyPublished", true);
 		Course course = new Course();
 		courseDB.loadCourseByID(courseID, course);
 		model.addAttribute("course", course);

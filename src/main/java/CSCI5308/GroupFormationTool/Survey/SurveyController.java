@@ -3,18 +3,19 @@ package CSCI5308.GroupFormationTool.Survey;
 import CSCI5308.GroupFormationTool.Question.Question;
 import CSCI5308.GroupFormationTool.Question.QuestionTypes;
 import CSCI5308.GroupFormationTool.SystemConfig;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -25,8 +26,10 @@ public class SurveyController
     private static final String QUESTIONID = "questionId";
     private static final String COURSEID = "courseId";
     private static final String BANNER = "bannerId";
-    
+    private static final String COUNT = "count";
+    private static final String RESPONSELIST = "responseList";
     private static final String GROUP_CREATION_VIEW = "creategroups";
+    private static final String RESPONSE = "response";
 
     @GetMapping("/survey/create")
     public ModelAndView createSurvey(@RequestParam(name = COURSEID) long courseId,
@@ -35,19 +38,16 @@ public class SurveyController
     	log.info("Received request at createSurvey with courseId: " + courseId + " and bannerId: " + bannerId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("createsurvey");
-        modelAndView.addObject("courseId",courseId);
+        modelAndView.addObject("courseId", courseId);
         List<Question> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(courseId);
-        List<Question> notAddedQuestionList = surveyDB.getNotAddedQuestions(courseId,bannerId);
+        List<Question> notAddedQuestionList = surveyDB.getNotAddedQuestions(courseId, bannerId);
         modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
         modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
 
-        if(surveyDB.isSurveyPublished(courseId) == false)
-        {
-            modelAndView.addObject("surveynotpublished",true);
-        }
-        else
-        {
-            modelAndView.addObject("surveypublished",true);
+        if (surveyDB.isSurveyPublished(courseId) == false) {
+            modelAndView.addObject("surveynotpublished", true);
+        } else {
+            modelAndView.addObject("surveypublished", true);
         }
 
         return modelAndView;
@@ -60,7 +60,7 @@ public class SurveyController
     {
     	log.info("Received request at addQuestion with courseId: " + courseId + " , bannerId: " + bannerId + " questionId: " + questionId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
-        ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?" + COURSEID + "=" + courseId + "&" + BANNER + "=" + bannerId);
         surveyDB.addQuestionToSurvey(questionId, courseId);
         return modelAndView;
     }
@@ -71,7 +71,7 @@ public class SurveyController
     	log.info("Received request at publish survey with courseId: " + courseId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         surveyDB.publishSurvey(courseId);
-        ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id=" + courseId);
         return modelAndView;
     }
 
@@ -81,7 +81,7 @@ public class SurveyController
     	log.info("Received request at disable survey with courseId: " + courseId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
         surveyDB.disableSurvey(courseId);
-        ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id=" + courseId);
         return modelAndView;
     }
 
@@ -92,9 +92,40 @@ public class SurveyController
     {
     	log.info("Received request at deleteQuestion with courseId: " + courseId + " , bannerId: " + bannerId + " questionId: " + questionId);
         ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
-        ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?" + COURSEID + "=" + courseId + "&" + BANNER + "=" + bannerId);
         surveyDB.deleteQuestionFromSurvey(questionId, courseId);
         return modelAndView;
+    }
+
+    @GetMapping("/survey/takeSurvey")
+    public ModelAndView takeSurvey(Model model,
+                                   @RequestParam(name = COURSEID) long courseId) {
+        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ModelAndView modelAndView = new ModelAndView("takesurvey");
+        List<Question> questionList = surveyDB.getSurveyQuestions(courseId);
+        for (Question question : questionList) {
+            question.setAnswerOptions(surveyDB.getSurveyQuestionOptions(question.getId()));
+        }
+        modelAndView.addObject("response", new Response());
+        modelAndView.addObject("courseId", courseId);
+        modelAndView.addObject("questionList", questionList);
+        modelAndView.addObject("listSize", questionList.size() - 1);
+        return modelAndView;
+    }
+
+    @GetMapping("/survey/submitSurvey")
+    public String submitSurvey(@ModelAttribute(name = RESPONSE) Response response,
+                               @RequestParam(name = COURSEID) long courseId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        List<Question> questionList = surveyDB.getSurveyQuestions(courseId);
+        for (int i = 0; i < response.getResponseList().length; i++) {
+            response.setQuestionId(questionList.get(i).getId());
+            response.setBannerId(authentication.getName());
+            response.setCourseId(courseId);
+            surveyDB.storeResponses(response, i);
+        }
+        return "redirect:/course/course?id="+ courseId;
     }
     
     @GetMapping("/survey/creategroups")
