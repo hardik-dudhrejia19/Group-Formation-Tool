@@ -1,6 +1,5 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,7 @@ import java.util.List;
 @Controller
 public class ViewQuestionsController
 {
-    private IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
+    private IQuestionPersistence questionPersistence = QuestionAbstractFactory.instance().getQuestionDB();
 
     @RequestMapping("/viewQuestions")
     public String viewQuestions

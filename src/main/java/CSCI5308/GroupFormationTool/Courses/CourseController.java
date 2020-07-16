@@ -1,6 +1,5 @@
 package CSCI5308.GroupFormationTool.Courses;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,7 @@ public class CourseController
 	@GetMapping("/course/course")
 	public String course(Model model, @RequestParam(name = ID) long courseID)
 	{
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("instructorId", authentication.getName());
 		Course course = new Course();

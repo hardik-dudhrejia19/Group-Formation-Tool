@@ -1,16 +1,16 @@
 package CSCI5308.GroupFormationTool.AccessControlTest;
 
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
 import CSCI5308.GroupFormationTool.AccessControl.IUserPersistence;
-import CSCI5308.GroupFormationTool.AccessControl.User;
 
 public class CurrentUserMock 
 {
-	public User getCurrentAuthenticatedUser() 
+	public IUser getCurrentAuthenticatedUser()
 	{
-		IUserPersistence userDB = new UserDBMock();
+		IUserPersistence userDB = AccessControlAbstractFactoryMock.instance().getUserDBMock();
 		String bannerID = "B00000000";
-		User u = new User();
-		userDB.loadUserByBannerID(bannerID, u);
-		return u;
+		IUser user = AccessControlAbstractFactoryMock.instance().getUser();
+		userDB.loadUserByBannerID(bannerID, user);
+		return user;
 	}
 }

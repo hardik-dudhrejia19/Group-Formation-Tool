@@ -15,7 +15,7 @@ public class QuestionDB implements IQuestionPersistence
 	private Logger log = LoggerFactory.getLogger(QuestionDB.class);
 	
 	@Override
-	public Boolean saveQuestion(Question question, String id) 
+	public Boolean saveQuestion(IQuestion question, String id)
 	{
 		CallStoredProcedure proc = null;
 		try
@@ -53,14 +53,14 @@ public class QuestionDB implements IQuestionPersistence
 		return true;
 	}
 	
-	private boolean saveMultipleOptions(Question question)
+	private boolean saveMultipleOptions(IQuestion question)
 	{
 		Integer id = getQuestionIdByTitleTextType(question);
 		if (id == null)
 		{
 			return false;
 		}
-		for(Option option : question.getAnswerOptions())
+		for(IOption option : question.getAnswerOptions())
 		{
 			saveQuestionOption(id, option);
 		}
@@ -93,7 +93,7 @@ public class QuestionDB implements IQuestionPersistence
 		return true;
 	}
 	
-	public Integer getQuestionIdByTitleTextType(Question question)
+	public Integer getQuestionIdByTitleTextType(IQuestion question)
 	{
 		CallStoredProcedure proc = null;
 		try
@@ -127,7 +127,7 @@ public class QuestionDB implements IQuestionPersistence
 		return null;
 	}
 	
-	private boolean saveQuestionOption(int id, Option option)
+	private boolean saveQuestionOption(int id, IOption option)
 	{
 		CallStoredProcedure proc = null;
 		try

@@ -1,7 +1,6 @@
 package CSCI5308.GroupFormationTool.Survey;
 
-import CSCI5308.GroupFormationTool.Question.Question;
-import CSCI5308.GroupFormationTool.SystemConfig;
+import CSCI5308.GroupFormationTool.Question.IQuestion;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +19,11 @@ public class SurveyController
     public ModelAndView createSurvey(@RequestParam(name = COURSEID) long courseId,
                                      @RequestParam(name = BANNER) String bannerId)
     {
-        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("createsurvey");
         modelAndView.addObject("courseId",courseId);
-        List<Question> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(courseId);
-        List<Question> notAddedQuestionList = surveyDB.getNotAddedQuestions(courseId,bannerId);
+        List<IQuestion> alreadyAddedQuestionList = surveyDB.getAlreadyAddedQuestions(courseId);
+        List<IQuestion> notAddedQuestionList = surveyDB.getNotAddedQuestions(courseId,bannerId);
         modelAndView.addObject("alreadyAddedQuestions", alreadyAddedQuestionList);
         modelAndView.addObject("notAddedQuestions", notAddedQuestionList);
 
@@ -45,7 +44,7 @@ public class SurveyController
                                     @RequestParam(name = QUESTIONID) long questionId,
                                     @RequestParam(name = BANNER) String bannerId)
     {
-        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
         surveyDB.addQuestionToSurvey(questionId, courseId);
         return modelAndView;
@@ -54,7 +53,7 @@ public class SurveyController
     @PostMapping("/survey/publish")
     public ModelAndView publishSurvey(@RequestParam(name = COURSEID) long courseId)
     {
-        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         surveyDB.publishSurvey(courseId);
         ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
         return modelAndView;
@@ -63,7 +62,7 @@ public class SurveyController
     @PostMapping("/survey/disablesurvey")
     public ModelAndView disableSurvey(@RequestParam(name = COURSEID) long courseId)
     {
-        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         surveyDB.disableSurvey(courseId);
         ModelAndView modelAndView = new ModelAndView("redirect:/course/course?id="+courseId);
         return modelAndView;
@@ -74,7 +73,7 @@ public class SurveyController
                                        @RequestParam(name = QUESTIONID) long questionId,
                                        @RequestParam(name = BANNER) String bannerId)
     {
-        ISurveyPersistence surveyDB = SystemConfig.instance().getSurveyDB();
+        ISurveyPersistence surveyDB = SurveyAbstractFactory.instance().getSurveyDB();
         ModelAndView modelAndView = new ModelAndView("redirect:/survey/create?"+COURSEID+"="+courseId+"&"+BANNER+"="+bannerId);
         surveyDB.deleteQuestionFromSurvey(questionId, courseId);
         return modelAndView;

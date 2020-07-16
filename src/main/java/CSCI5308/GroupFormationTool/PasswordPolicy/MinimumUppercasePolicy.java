@@ -1,19 +1,17 @@
-package CSCI5308.GroupFormationTool.AccessControl;
-
-import CSCI5308.GroupFormationTool.SystemConfig;
+package CSCI5308.GroupFormationTool.PasswordPolicy;
 
 import java.util.HashMap;
 
-public class MinimumLowercasePolicy implements IPasswordPolicyValidation
+public class MinimumUppercasePolicy implements IPasswordPolicyValidation
 {
-    private static final String POLICY = "min no of lowercase";
+    private static final String POLICY = "min no of uppercase";
     private String criteria = null;
     private String validatorCriteria = null;
 
     @Override
     public boolean isPasswordValid(String password)
     {
-        IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
+        IActivePasswordPolicyPersistence activePasswordPolicyDB = PasswordPolicyAbstractFactory.instance().getActivePasswordPolicyDB();
         HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
 
         for (String policy : activePasswordPolicyList.keySet())
@@ -23,18 +21,18 @@ public class MinimumLowercasePolicy implements IPasswordPolicyValidation
                 this.criteria = activePasswordPolicyList.get(policy);
                 this.validatorCriteria = POLICY;
 
-                Integer lowercase = 0;
+                Integer uppercase = 0;
                 char[] charArray = password.toCharArray();
 
                 for (int i = 0; i < charArray.length; i++)
                 {
-                    if (Character.isLowerCase(charArray[i]))
+                    if (Character.isUpperCase(charArray[i]))
                     {
-                        lowercase++;
+                        uppercase++;
                     }
                 }
 
-                if (lowercase >= Integer.parseInt(this.criteria))
+                if (uppercase >= Integer.parseInt(this.criteria))
                 {
                     return true;
                 }

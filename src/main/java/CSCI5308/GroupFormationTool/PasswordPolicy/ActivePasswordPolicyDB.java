@@ -1,4 +1,4 @@
-package CSCI5308.GroupFormationTool.AccessControl;
+package CSCI5308.GroupFormationTool.PasswordPolicy;
 
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
 import java.sql.ResultSet;

@@ -6,6 +6,9 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import CSCI5308.GroupFormationTool.AccessControl.AccessControlAbstractFactory;
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
 import org.springframework.web.multipart.MultipartFile;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -14,7 +17,7 @@ import CSCI5308.GroupFormationTool.AccessControl.User;
 public class StudentCSVParser implements IStudentCSVParser
 {
 	private MultipartFile uploadedFile;
-	private List<User> studentList = new ArrayList<>(); 
+	private List<IUser> studentList = new ArrayList<>();
 
 	public StudentCSVParser(MultipartFile file) 
 	{
@@ -22,7 +25,7 @@ public class StudentCSVParser implements IStudentCSVParser
 	}
 	
 	@Override
-	public List<User> parseCSVFile(List<String> failureResults) 
+	public List<IUser> parseCSVFile(List<String> failureResults)
 	{
 		try
 		{
@@ -30,7 +33,7 @@ public class StudentCSVParser implements IStudentCSVParser
 			CSVReader csvReader = new CSVReaderBuilder(reader).build();
 			List<String[]> records = csvReader.readAll();
 			Iterator<String[]> iter = records.iterator();
-			User user;
+			IUser user;
 			while (iter.hasNext())
 			{
 				String[] record = iter.next();
@@ -38,7 +41,7 @@ public class StudentCSVParser implements IStudentCSVParser
 				String firstName = record[1];
 				String lastName = record[2];
 				String email = record[3];
-				user = new User();
+				user = AccessControlAbstractFactory.instance().getUser();
 				user.setBannerID(bannerID);
 				user.setFirstName(firstName);
 				user.setLastName(lastName);

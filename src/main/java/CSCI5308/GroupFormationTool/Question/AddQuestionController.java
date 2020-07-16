@@ -1,6 +1,5 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -115,20 +114,20 @@ public class AddQuestionController {
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
-		Question questionObject = new Question();
+		IQuestion questionObject = QuestionAbstractFactory.instance().getQuestion();
 		
 		questionObject.setTitle(title);
 		questionObject.setQuestion(question);
 		questionObject.setType(type);
 		
-		List<Option> optionList = null;
+		List<IOption> optionList = null;
 		if (CollectionUtils.isEmpty(option)==false)
 		{
-			optionList = new ArrayList<Option>();
+			optionList = new ArrayList<IOption>();
 			int index = 0;
 			for(String optionStr : option)
 			{
-				Option optionObject = new Option();
+				IOption optionObject = QuestionAbstractFactory.instance().getOption();
 				optionObject.setText(optionStr);
 				optionObject.setValue(value.get(index));
 				optionList.add(optionObject);
@@ -136,8 +135,8 @@ public class AddQuestionController {
 			}
 		}
 		questionObject.setAnswerOptions(optionList);
-		IQuestionManager questionManager = new QuestionManager();
-		IQuestionPersistence questionPersistence = SystemConfig.instance().getQuestionDB();
+		IQuestionManager questionManager = QuestionAbstractFactory.instance().getQuestionManager();
+		IQuestionPersistence questionPersistence = QuestionAbstractFactory.instance().getQuestionDB();
 		questionManager.saveQuestion(questionObject, questionPersistence, id);
         
 		return "redirect:/" + VIEW_QUES_PAGE + "?id=" + id + "&order";

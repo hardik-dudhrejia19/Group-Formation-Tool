@@ -1,19 +1,16 @@
-package CSCI5308.GroupFormationTool.AccessControl;
-
-import CSCI5308.GroupFormationTool.SystemConfig;
-
+package CSCI5308.GroupFormationTool.PasswordPolicy;
 import java.util.HashMap;
 
-public class MaximumLengthPolicy implements IPasswordPolicyValidation
+public class MinimumSymbolOrSpecialCharacterPolicy implements IPasswordPolicyValidation
 {
-    private static final String POLICY = "max length";
+    private static final String POLICY = "min no of special character";
     private String criteria = null;
     private String validatorCriteria = null;
 
     @Override
     public boolean isPasswordValid(String password)
     {
-        IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
+        IActivePasswordPolicyPersistence activePasswordPolicyDB = PasswordPolicyAbstractFactory.instance().getActivePasswordPolicyDB();
         HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
 
         for (String policy : activePasswordPolicyList.keySet())
@@ -23,7 +20,10 @@ public class MaximumLengthPolicy implements IPasswordPolicyValidation
                 this.criteria = activePasswordPolicyList.get(policy);
                 this.validatorCriteria = POLICY;
 
-                if(password.length() <= Integer.parseInt(this.criteria))
+                String passwordWithoutSpecialCharacters = password.replaceAll("[^a-zA-Z0-9]", "");
+                Integer numberOfSpecialCharacters = password.length() - passwordWithoutSpecialCharacters.length();
+
+                if (numberOfSpecialCharacters >= Integer.parseInt(this.criteria))
                 {
                     return true;
                 }

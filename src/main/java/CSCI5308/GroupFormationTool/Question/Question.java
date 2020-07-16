@@ -1,16 +1,14 @@
 package CSCI5308.GroupFormationTool.Question;
 
-import CSCI5308.GroupFormationTool.Survey.ISurveyPersistence;
-
 import java.util.List;
 
-public class Question 
+public class Question implements IQuestion
 {
 	private long id;
 	private String title;
 	private String question;
 	private String type;
-	private List<Option> answerOptions;
+	private List<IOption> answerOptions;
 	private String dateCreated;
 	
 	public Question()
@@ -67,12 +65,12 @@ public class Question
 		this.type = type;
 	}
 
-	public List<Option> getAnswerOptions()
+	public List<IOption> getAnswerOptions()
 	{
 		return answerOptions;
 	}
 
-	public void setAnswerOptions(List<Option> answerOptions)
+	public void setAnswerOptions(List<IOption> answerOptions)
 	{
 		this.answerOptions = answerOptions;
 	}

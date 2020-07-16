@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
+import CSCI5308.GroupFormationTool.Courses.ICourse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
@@ -28,10 +30,10 @@ class CourseUserRelationshipTest
 	@Test
 	public void userHasRoleInCourse() 
 	{
-		Course course = new Course();
+		ICourse course = CoursesAbstractFactoryMock.instance().getCourse();
 		course.setId(0);
 		CurrentUserMock currentUser = new CurrentUserMock();
-		User user = currentUser.getCurrentAuthenticatedUser();
+		IUser user = currentUser.getCurrentAuthenticatedUser();
 		List<Role> roles = courseUserRelationshipDB.loadUserRolesForCourse(course, user);
 		assertThat(roles).isNotNull();
 		assertThat(roles).isNotEmpty();
@@ -41,10 +43,10 @@ class CourseUserRelationshipTest
 	@Test
 	public void loadAllRoluesForUserInCourse() 
 	{
-		Course course = new Course();
+		ICourse course = CoursesAbstractFactoryMock.instance().getCourse();
 		course.setId(0);
 		CurrentUserMock currentUser = new CurrentUserMock();
-		User user = currentUser.getCurrentAuthenticatedUser();
+		IUser user = currentUser.getCurrentAuthenticatedUser();
 		List<Role> roles = courseUserRelationshipDB.loadUserRolesForCourse(course, user);
 		Assert.isTrue(roles.size() > 0);
 	}
@@ -52,9 +54,9 @@ class CourseUserRelationshipTest
 	@Test
 	public void enrollUserInCourse() 
 	{
-		Course course = new Course();
+		ICourse course = CoursesAbstractFactoryMock.instance().getCourse();
 		CurrentUserMock currentUser = new CurrentUserMock();
-		User user = currentUser.getCurrentAuthenticatedUser();
+		IUser user = currentUser.getCurrentAuthenticatedUser();
 		boolean result = courseUserRelationshipDB.enrollUser(course, user, Role.STUDENT);
 		Assert.isTrue(result);
 	}

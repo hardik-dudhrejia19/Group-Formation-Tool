@@ -2,7 +2,9 @@ package CSCI5308.GroupFormationTool.Survey;
 
 import CSCI5308.GroupFormationTool.AccessControl.UserDB;
 import CSCI5308.GroupFormationTool.Database.CallStoredProcedure;
+import CSCI5308.GroupFormationTool.Question.IQuestion;
 import CSCI5308.GroupFormationTool.Question.Question;
+import CSCI5308.GroupFormationTool.Question.QuestionAbstractFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,9 +18,9 @@ public class SurveyDB implements ISurveyPersistence
     private Logger log = LoggerFactory.getLogger(UserDB.class);
 
     @Override
-    public List<Question> getAlreadyAddedQuestions(Long courseId)
+    public List<IQuestion> getAlreadyAddedQuestions(Long courseId)
     {
-        List<Question> alreadyAddedQuestionList = new ArrayList<>();
+        List<IQuestion> alreadyAddedQuestionList = new ArrayList<>();
         CallStoredProcedure proc = null;
         try
         {
@@ -29,7 +31,7 @@ public class SurveyDB implements ISurveyPersistence
             {
                 while (results.next())
                 {
-                    Question question = new Question();
+                    IQuestion question = QuestionAbstractFactory.instance().getQuestion();
                     Long id = results.getLong("id");
                     String title = results.getString("title");
                     String text = results.getString("text");
@@ -56,9 +58,9 @@ public class SurveyDB implements ISurveyPersistence
     }
 
     @Override
-    public List<Question> getNotAddedQuestions(Long courseId, String bannerId)
+    public List<IQuestion> getNotAddedQuestions(Long courseId, String bannerId)
     {
-        List<Question> notAddedQuestionList = new ArrayList<>();
+        List<IQuestion> notAddedQuestionList = new ArrayList<>();
         CallStoredProcedure proc = null;
         try
         {

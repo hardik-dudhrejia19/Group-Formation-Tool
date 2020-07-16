@@ -1,7 +1,8 @@
-package CSCI5308.GroupFormationTool.AccessControl;
+package CSCI5308.GroupFormationTool.PasswordPolicy;
 
+import CSCI5308.GroupFormationTool.AccessControl.IUser;
 import CSCI5308.GroupFormationTool.Security.IPasswordEncryption;
-import CSCI5308.GroupFormationTool.SystemConfig;
+import CSCI5308.GroupFormationTool.Security.SecurityAbstractFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ public class PasswordHistoryPolicy implements IPasswordPolicyValidation
     private String validatorCriteria = null;
     private String bannerID = null;
 
-    public PasswordHistoryPolicy(User user)
+    public PasswordHistoryPolicy(IUser user)
     {
         this.bannerID = user.getBannerID();
     }
@@ -21,7 +22,7 @@ public class PasswordHistoryPolicy implements IPasswordPolicyValidation
     @Override
     public boolean isPasswordValid(String password)
     {
-        IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
+        IActivePasswordPolicyPersistence activePasswordPolicyDB = PasswordPolicyAbstractFactory.instance().getActivePasswordPolicyDB();
         HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
 
         for (String policy : activePasswordPolicyList.keySet())
@@ -32,7 +33,7 @@ public class PasswordHistoryPolicy implements IPasswordPolicyValidation
                 this.validatorCriteria = POLICY;
 
                 List<String> passwordHistoryList = activePasswordPolicyDB.getPasswords(this.bannerID, Integer.parseInt(criteria));
-                IPasswordEncryption passwordEncryption = SystemConfig.instance().getPasswordEncryption();
+                IPasswordEncryption passwordEncryption = SecurityAbstractFactory.instance().getPasswordEncryption();
 
                 for (int i = 0; i < passwordHistoryList.size(); i++)
                 {

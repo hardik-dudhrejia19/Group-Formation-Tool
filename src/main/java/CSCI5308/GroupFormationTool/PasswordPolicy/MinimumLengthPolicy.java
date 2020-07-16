@@ -1,6 +1,4 @@
-package CSCI5308.GroupFormationTool.AccessControl;
-
-import CSCI5308.GroupFormationTool.SystemConfig;
+package CSCI5308.GroupFormationTool.PasswordPolicy;
 
 import java.util.HashMap;
 
@@ -13,7 +11,7 @@ public class MinimumLengthPolicy implements IPasswordPolicyValidation
     @Override
     public boolean isPasswordValid(String password)
     {
-        IActivePasswordPolicyPersistence activePasswordPolicyDB = SystemConfig.instance().getActivePasswordPolicyDB();
+        IActivePasswordPolicyPersistence activePasswordPolicyDB = PasswordPolicyAbstractFactory.instance().getActivePasswordPolicyDB();
         HashMap<String, String> activePasswordPolicyList = activePasswordPolicyDB.getActivePasswordPolicy();
 
         for (String policy : activePasswordPolicyList.keySet())
