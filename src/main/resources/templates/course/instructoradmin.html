@@ -2,12 +2,15 @@
 <html
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
+		<link type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 		<title>CSCI5308 - Group Formation Tool</title>
 	</head>
 	<body>
+		<div class="container container-fluid">
 	  	<div sec:authorize="isAuthenticated()">
 	       <h4 th:inline="text">BannerID: [[${#httpServletRequest.remoteUser}]]</h4>
 	       <form th:action="@{/logout}" method="post">
@@ -52,13 +55,14 @@
 		<form th:action="@{/course/uploadcsv(id=${course.id})}" method="post" enctype="multipart/form-data">
 			<label>File to upload:</label>
 			<input type="file" name="file">
-			<button type="submit">Upload CSV File</button>
+			<button class="btn btn-outline-primary" type="submit">Upload CSV File</button>
 		</form>
 		<br/>
-		<a th:href="@{/course/enrollta(id=${course.id})}">Enroll TAs</a>
+			<a th:href="@{/course/enrollta(id=${course.id})}"><button class="btn btn-primary">Enroll TAs</button></a><br/>
 		<br/>
-		<a th:href="@{/survey/create(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}">Create Survey</a>
+			<a th:href="@{/survey/create(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}"><button class="btn btn-primary">Create Survey</button></a><br/>
 		<br/>
-		<a th:href="@{/survey/creategroups(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}">Create Groups</a>
+		<a th:href="@{/survey/creategroups(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}"><button class="btn btn-primary">Create Groups</button> </a>
+		</div>
 	</body>
 </html>

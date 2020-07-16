@@ -88,7 +88,9 @@ public class Group implements IGroup{
 		List<Group> grpList = new LinkedList<Group>();
 		for (int i = 0; i < noOfGroups; i++)
 		{
-			grpList.add(new Group());
+			Group group = new Group();
+			group.setCurrentSize(0);
+			grpList.add(group);
 		}
 		
 		Map<String, List<Response>> studentResponses = fetchUserResponseForQuestions(studentBannerIdList, courseId, questionResponseList, surveyDB);
@@ -106,7 +108,9 @@ public class Group implements IGroup{
 				grpList = new LinkedList<Group>();
 				for (int i = 0; i < noOfGroups; i++)
 				{
-					grpList.add(new Group());
+					Group group = new Group();
+					group.setCurrentSize(0);
+					grpList.add(group);
 				}
 			}
 		}
@@ -118,6 +122,7 @@ public class Group implements IGroup{
 	private int createGroupFromUserResponse(Map<String, List<Response>> studentResponses, List<Group> grpList, List<GroupCreationResponse> questionResponseList, Integer groupSize, Integer noOfGroups, Integer initialThreshold)
 	{
 		int studentAddedToGroup = 0;
+		int groupNumber = 1;
 		for (Map.Entry<String, List<Response>> studentResponse : studentResponses.entrySet()) 
 		{
 			for(int i = 0; i < noOfGroups; i++)
@@ -135,6 +140,7 @@ public class Group implements IGroup{
 						
 						currGrp.setUsers(userList);
 						currGrp.setCurrentSize(1);
+						currGrp.setGroupId(groupNumber++);
 						if (currGrp.getUserResponses() == null)
 						{
 							List<List<Response>> responseList = new LinkedList<List<Response>>();
