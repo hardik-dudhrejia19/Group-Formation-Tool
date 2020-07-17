@@ -10,6 +10,7 @@
 		<title>CSCI5308 - Group Formation Tool</title>
 	</head>
 	<body>
+		<div class="container container-fluid">
 	  	<div sec:authorize="isAuthenticated()">
 	       <h4 th:inline="text">BannerID: [[${#httpServletRequest.remoteUser}]]</h4>
 	       <form th:action="@{/logout}" method="post">
@@ -57,10 +58,11 @@
 			<button class="btn btn-outline-primary" type="submit">Upload CSV File</button>
 		</form>
 		<br/>
-		<a th:href="@{/course/enrollta(id=${course.id})}">Enroll TAs</a>
+			<a th:href="@{/course/enrollta(id=${course.id})}"><button class="btn btn-primary">Enroll TAs</button></a><br/>
 		<br/>
-		<a th:href="@{/survey/create(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}">Create Survey</a>
+			<a th:href="@{/survey/create(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}"><button class="btn btn-primary">Create Survey</button></a><br/>
 		<br/>
-		<a th:href="@{/survey/creategroups(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}">Create Groups</a>
+		<a th:href="@{/survey/creategroups(courseId=${course.id},bannerId=${#httpServletRequest.remoteUser})}"><button class="btn btn-primary">Create Groups</button> </a>
+		</div>
 	</body>
 </html>
