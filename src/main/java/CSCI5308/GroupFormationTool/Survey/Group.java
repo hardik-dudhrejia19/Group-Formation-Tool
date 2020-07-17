@@ -148,7 +148,7 @@ public class Group implements IGroup
 							currGrp.setUserResponses(responseList);
 						}
 						studentAddedToGroup++;
-						log.info("New Group created");
+						log.info("User added to new Group");
 						break;
 					} else 
 					{
@@ -174,7 +174,7 @@ public class Group implements IGroup
 							percentageMatched += currUserMatched;
 						}
 						double currUserMatchWithGrp = percentageMatched / currGrp.getCurrentSize();
-						log.info("Value of Current USer similarity " + currUserMatchWithGrp);
+						log.debug("Value of Current USer similarity " + currUserMatchWithGrp);
 						if (currUserMatchWithGrp >= initialThreshold)
 						{
 							IUser user = AccessControlAbstractFactory.instance().getUser();
