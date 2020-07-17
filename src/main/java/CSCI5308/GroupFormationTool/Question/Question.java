@@ -2,13 +2,16 @@ package CSCI5308.GroupFormationTool.Question;
 
 import java.util.List;
 
-public class Question 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+public class Question implements IQuestion
 {
+	private static Logger log = LoggerFactory.getLogger(Question.class);
 	private long id;
 	private String title;
 	private String question;
 	private String type;
-	private List<Option> answerOptions;
+	private List<IOption> answerOptions;
 	private String dateCreated;
 	
 	public Question()
@@ -65,12 +68,12 @@ public class Question
 		this.type = type;
 	}
 
-	public List<Option> getAnswerOptions()
+	public List<IOption> getAnswerOptions()
 	{
 		return answerOptions;
 	}
 
-	public void setAnswerOptions(List<Option> answerOptions)
+	public void setAnswerOptions(List<IOption> answerOptions)
 	{
 		this.answerOptions = answerOptions;
 	}
@@ -84,4 +87,13 @@ public class Question
 	{
 		this.dateCreated = dateCreated;
 	}
+	
+	public void saveQuestion(IQuestionPersistence questionPersistence, String id)
+	{
+		log.debug("Saving question with title " + this.getTitle() + " for instructor with id " + id);
+		boolean questionSaved = false;
+		questionSaved = questionPersistence.saveQuestion(this, id);
+		log.debug("Question saved to database " + questionSaved);
+	}
+
 }

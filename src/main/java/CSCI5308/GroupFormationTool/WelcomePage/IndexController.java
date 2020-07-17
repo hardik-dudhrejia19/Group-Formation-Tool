@@ -7,7 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
 import CSCI5308.GroupFormationTool.Courses.*;
 
 @Controller
@@ -19,8 +18,8 @@ public class IndexController
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.isAuthenticated())
 		{
-			ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-			List<Course> allCourses = courseDB.loadAllCourses();
+			ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+			List<ICourse> allCourses = courseDB.loadAllCourses();
 			model.addAttribute("courses", allCourses);
 		}
 		return "index";

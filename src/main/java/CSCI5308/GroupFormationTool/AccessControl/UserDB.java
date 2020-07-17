@@ -12,8 +12,9 @@ public class UserDB implements IUserPersistence
 {	
 	private Logger log = LoggerFactory.getLogger(UserDB.class);
 	
-	public void loadUserByID(long id, User user)
+	public void loadUserByID(long id, IUser user)
 	{
+		log.info("Loading user from database with id: " + id);
 		CallStoredProcedure proc = null;
 		try
 		{
@@ -41,7 +42,7 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			log.error("Error occured in loading user by id: " + e.getMessage());
+			log.error("Error occured in loading user with id: " + id + " due to: " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -53,8 +54,9 @@ public class UserDB implements IUserPersistence
 		}
 	}
 
-	public void loadUserByBannerID(String bannerID, User user)
+	public void loadUserByBannerID(String bannerID, IUser user)
 	{
+		log.info("Loading user from datbase with bannerId: " + bannerID);
 		CallStoredProcedure proc = null;
 		long userID = -1;
 		try
@@ -72,7 +74,7 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			log.error("Error occured in loading user by bannerId: " + e.getMessage());
+			log.error("Error occured in loading user with bannerId: " + bannerID + " due to" + e.getMessage());
 			e.printStackTrace();
 		}
 		finally
@@ -88,8 +90,9 @@ public class UserDB implements IUserPersistence
 		}
 	}
 	
-	public boolean createUser(User user)
+	public boolean createUser(IUser user)
 	{
+		log.info("Creating user with bannerId: " + user.getBannerID());
 		CallStoredProcedure proc = null;
 		try
 		{
@@ -104,7 +107,7 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			log.error("Error occured in creating user: " + e.getMessage());
+			log.error("Error occured in creating user with bannerID: " + user.getBannerID() + " due to " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -120,6 +123,7 @@ public class UserDB implements IUserPersistence
 	
 	public boolean updatePassword(String bannerID, String password)
 	{
+		log.info("Updating password for  user with bannerId: " + bannerID);
 		boolean passwordupdate = false;
 		CallStoredProcedure proc = null;
 		try
@@ -132,7 +136,7 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			log.error("Error occured in updating password: " + e.getMessage());
+			log.error("Error occured in updating password for user: " + bannerID + " due to" + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -149,6 +153,7 @@ public class UserDB implements IUserPersistence
 	@Override
 	public boolean isAlreadyUser(String bannerID)
 	{
+		log.info("Checking user " + bannerID + " is already registered");
 		CallStoredProcedure proc = null;
 		boolean existingUser = false;
 		try
@@ -167,7 +172,7 @@ public class UserDB implements IUserPersistence
 		}
 		catch (SQLException e)
 		{
-			log.error("Error occured in checking isAlreadyUser: " + e.getMessage());
+			log.error("Error occured in checking isAlreadyUser for user with bannerID " + bannerID + " due to "+ e.getMessage());
 			e.printStackTrace();
 			return false;
 		}

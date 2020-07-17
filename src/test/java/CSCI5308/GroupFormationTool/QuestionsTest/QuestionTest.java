@@ -3,13 +3,11 @@ package CSCI5308.GroupFormationTool.QuestionsTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import CSCI5308.GroupFormationTool.Question.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
-
-import CSCI5308.GroupFormationTool.Question.Option;
-import CSCI5308.GroupFormationTool.Question.Question;
 
 @SpringBootTest
 @SuppressWarnings("deprecation")
@@ -18,7 +16,7 @@ public class QuestionTest {
 	@Test
 	public void ConstructorTests() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		Assert.isTrue(question.getId() == -1);
 		Assert.isTrue(question.getTitle().isEmpty());
 		Assert.isTrue(question.getQuestion().isEmpty());
@@ -29,7 +27,7 @@ public class QuestionTest {
 	@Test
 	public void setIdTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		question.setId(1);
 		Assert.isTrue(question.getId() == 1);
 	}
@@ -37,7 +35,7 @@ public class QuestionTest {
 	@Test
 	public void getIdTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		question.setId(2);
 		Assert.isTrue(question.getId() == 2);
 	}
@@ -45,7 +43,7 @@ public class QuestionTest {
 	@Test
 	public void setTitleTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		String questionTitle = "General Question";
 		
 		question.setTitle(questionTitle);
@@ -55,7 +53,7 @@ public class QuestionTest {
 	@Test
 	public void getTitleTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		String questionTitle = "Java";
 		
 		question.setTitle(questionTitle);
@@ -65,7 +63,7 @@ public class QuestionTest {
 	@Test
 	public void setQuestionTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		String questionText = "How many credits you are taking?";
 		
 		question.setQuestion(questionText);
@@ -75,7 +73,7 @@ public class QuestionTest {
 	@Test
 	public void getQuestionTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		String questionText = "Indication role you want to perform?";
 		
 		question.setQuestion(questionText);
@@ -85,7 +83,7 @@ public class QuestionTest {
 	@Test
 	public void setTypeTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		String questionType = "Numeric";
 		
 		question.setType(questionType);
@@ -95,7 +93,7 @@ public class QuestionTest {
 	@Test
 	public void getTypeTest() 
 	{
-		Question question = new Question();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
 		String questionType = "Free Text";
 		
 		question.setType(questionType);
@@ -105,11 +103,11 @@ public class QuestionTest {
 	@Test
 	public void setAnswerOptionsTest() 
 	{
-		Question question = new Question();
-		Option option = new Option();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
+		IOption option = QuestionAbstractFactoryMock.instance().getOption();
 		option.setText("Java");
 		option.setValue("1");
-		List<Option> optionList = new ArrayList<>();
+		List<IOption> optionList = new ArrayList<>();
 		optionList.add(option);
 		question.setAnswerOptions(optionList);
 		Assert.isTrue(!question.getAnswerOptions().isEmpty());
@@ -118,13 +116,25 @@ public class QuestionTest {
 	@Test
 	public void getAnswerOptionsTest() 
 	{
-		Question question = new Question();
-		Option option = new Option();
+		IQuestion question = QuestionAbstractFactoryMock.instance().getQuestion();
+		IOption option = QuestionAbstractFactoryMock.instance().getOption();
 		option.setText("PHP");
 		option.setValue("2");
-		List<Option> optionList = new ArrayList<>();
+		List<IOption> optionList = new ArrayList<>();
 		optionList.add(option);
 		question.setAnswerOptions(optionList);
 		Assert.isTrue(!question.getAnswerOptions().isEmpty());
+	}
+	
+	@Test
+	public void saveQuestionTest()
+	{
+		IQuestionPersistence questionPersistence = new QuestionDbMock();
+		Question question = new Question();
+		question.setTitle("How many hours of credits required");
+		question.setType("NUMERIC");
+		questionPersistence.saveQuestion(question, "B-000000");
+		Assert.isTrue(question.getType().equals("FREE_TEXT"));
+		Assert.isTrue(question.getTitle().equals("Tell us more"));
 	}
 }

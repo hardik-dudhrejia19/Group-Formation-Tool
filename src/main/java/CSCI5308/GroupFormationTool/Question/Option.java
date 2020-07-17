@@ -1,6 +1,6 @@
 package CSCI5308.GroupFormationTool.Question;
 
-public class Option
+public class Option implements IOption
 {
 	private String text;
 	private String value;

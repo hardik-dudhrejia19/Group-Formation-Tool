@@ -1,8 +1,12 @@
 package CSCI5308.GroupFormationTool.AccessControl;
 
-import CSCI5308.GroupFormationTool.Courses.Course;
+import CSCI5308.GroupFormationTool.Courses.CoursesAbstractFactory;
+import CSCI5308.GroupFormationTool.Courses.ICourse;
 import CSCI5308.GroupFormationTool.Courses.ICoursePersistence;
-import CSCI5308.GroupFormationTool.SystemConfig;
+import CSCI5308.GroupFormationTool.PasswordPolicy.IPasswordPolicyContextListBuilder;
+import CSCI5308.GroupFormationTool.PasswordPolicy.PasswordPolicyAbstractFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +18,8 @@ public class UpdatePasswordController
 {
     private final String USERNAME = "username";
     private final String PASSWORD = "password";
+    
+    private Logger log = LoggerFactory.getLogger(UpdatePasswordController.class);
 
     @PostMapping("/updatepassword")
     public ModelAndView updatePassword
@@ -22,13 +28,14 @@ public class UpdatePasswordController
         @RequestParam(name = PASSWORD) String password
     )
     {
+    	log.info("Received request at updatePassword with bannerId: " + bannerID);
         boolean success = false;
-        IActivePasswordPolicyListBuilder activePasswordPolicyListBuilder = SystemConfig.instance().getActivePasswordPolicyListBuilder();
-        User user = new User();
+        IPasswordPolicyContextListBuilder passwordPolicyContextListBuilder = PasswordPolicyAbstractFactory.instance().getActivePasswordPolicyListBuilder();
+        IUser user = AccessControlAbstractFactory.instance().getUser();
         user.setPassword(password);
         user.setBannerID(bannerID);
-        List<String> failedPasswordValidationList = User.failedPasswordValidationList(user,activePasswordPolicyListBuilder);
-        IUpdatePassword updatePassword = new UpdatePassword();
+        List<String> failedPasswordValidationList = user.failedPasswordValidationList(user,passwordPolicyContextListBuilder);
+        IUpdatePassword updatePassword = AccessControlAbstractFactory.instance().getUpdatePassword();
         success = updatePassword.updatePassword(failedPasswordValidationList,user);
         ModelAndView m;
 
@@ -38,10 +45,11 @@ public class UpdatePasswordController
         }
         else
         {
+        	log.warn("Password updation failed for bannerId: " + bannerID);
             m = new ModelAndView("index");
             m.addObject("passwordPolicyValidation",failedPasswordValidationList);
-            ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-            List<Course> allCourses = courseDB.loadAllCourses();
+            ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+            List<ICourse> allCourses = courseDB.loadAllCourses();
             m.addObject("courses", allCourses);
         }
         return m;

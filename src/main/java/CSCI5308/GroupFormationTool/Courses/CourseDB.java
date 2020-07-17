@@ -14,9 +14,9 @@ public class CourseDB implements ICoursePersistence
 {
 	private Logger log = LoggerFactory.getLogger(CourseDB.class);
 	
-	public List<Course> loadAllCourses()
+	public List<ICourse> loadAllCourses()
 	{
-		List<Course> courses = new ArrayList<Course>();
+		List<ICourse> courses = new ArrayList<>();
 		CallStoredProcedure proc = null;
 		try
 		{
@@ -28,7 +28,7 @@ public class CourseDB implements ICoursePersistence
 				{
 					long id = results.getLong(1);
 					String title = results.getString(2);
-					Course c = new Course();
+					ICourse c = CoursesAbstractFactory.instance().getCourse();
 					c.setId(id);
 					c.setTitle(title);
 					courses.add(c);
@@ -50,7 +50,7 @@ public class CourseDB implements ICoursePersistence
 		return courses;
 	}
 
-	public void loadCourseByID(long id, Course course)
+	public void loadCourseByID(long id, ICourse course)
 	{
 		CallStoredProcedure proc = null;
 		try
@@ -82,7 +82,7 @@ public class CourseDB implements ICoursePersistence
 		}
 	}
 	
-	public boolean createCourse(Course course)
+	public boolean createCourse(ICourse course)
 	{
 		CallStoredProcedure proc = null;
 		try

@@ -1,6 +1,7 @@
 package CSCI5308.GroupFormationTool.Courses;
 
-import CSCI5308.GroupFormationTool.SystemConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,14 @@ public class InstructorAdminController
 	private static final String FAILURES = "failures";
 	private static final String DISPLAY_RESULTS = "displayresults";
 	
+	private Logger log = LoggerFactory.getLogger(InstructorAdminController.class);
+	
 	@GetMapping("/course/instructoradmin")
 	public String instructorAdmin(Model model, @RequestParam(name = ID) long courseID)
 	{
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		log.info("Received request at instructor admin with course id: " + courseID);
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 
 		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR))
@@ -36,6 +40,7 @@ public class InstructorAdminController
 
 		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR) || course.isCurrentUserEnrolledAsRoleInCourse(Role.TA))
 		{
+			log.info("Redirecting to page instructoradmin as user is either instructor or TA");
 			return "course/instructoradmin";
 		}
 		else
@@ -54,8 +59,9 @@ public class InstructorAdminController
 		@RequestParam(name = DISPLAY_RESULTS) boolean displayResults
 	)
 	{
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		log.info("Received request at instructor admin /course/instructoradminresult with course id: " + courseID + " and displayResults " + displayResults);
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 		model.addAttribute("course", course);
 		model.addAttribute("displayresults", false);
@@ -66,6 +72,7 @@ public class InstructorAdminController
 		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR) ||
 			 course.isCurrentUserEnrolledAsRoleInCourse(Role.TA))
 		{
+			log.info("Redirecting to page instructoradmin as user is either instructor or TA");
 			return "course/instructoradmin";
 		}
 		else
@@ -77,13 +84,15 @@ public class InstructorAdminController
 	@GetMapping("/course/enrollta")
 	public String enrollTA(Model model, @RequestParam(name = ID) long courseID)
 	{
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		log.info("Received request to enrollTA for courseID: " + courseID);
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
 		model.addAttribute("course", course);
 		if (course.isCurrentUserEnrolledAsRoleInCourse(Role.INSTRUCTOR) ||
 			 course.isCurrentUserEnrolledAsRoleInCourse(Role.TA))
 		{
+			log.info("Redirecting to page enrollta as user is either instructor or TA");
 			return "course/enrollta";
 		}
 		else
@@ -95,11 +104,12 @@ public class InstructorAdminController
 	@RequestMapping(value = "/course/uploadcsv", consumes = {"multipart/form-data"})
 	public ModelAndView upload(@RequestParam(name = FILE) MultipartFile file, @RequestParam(name = ID) long courseID)
 	{
-		ICoursePersistence courseDB = SystemConfig.instance().getCourseDB();
-		Course course = new Course();
+		log.info("Received request at upload to upload CSV file for courseID: " + courseID);
+		ICoursePersistence courseDB = CoursesAbstractFactory.instance().getCourseDB();
+		ICourse course = CoursesAbstractFactory.instance().getCourse();
 		courseDB.loadCourseByID(courseID, course);
-	   	IStudentCSVParser parser = new StudentCSVParser(file);
-	   	StudentCSVImport importer = new StudentCSVImport(parser, course);
+	   	IStudentCSVParser parser = CoursesAbstractFactory.instance().getCSVParser(file);
+	   	IStudentCSVImport importer = CoursesAbstractFactory.instance().getCSVImport(parser,course);
 
 	   	ModelAndView mav = new ModelAndView("redirect:/course/instructoradminresults?id=" + Long.toString(courseID));
 	   	mav.addObject("successful", importer.getSuccessResults());

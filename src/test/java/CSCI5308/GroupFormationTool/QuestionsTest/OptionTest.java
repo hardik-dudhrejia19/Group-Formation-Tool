@@ -1,5 +1,6 @@
 package CSCI5308.GroupFormationTool.QuestionsTest;
 
+import CSCI5308.GroupFormationTool.Question.IOption;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
@@ -14,7 +15,7 @@ public class OptionTest
 	@Test
 	public void ConstructorTests() 
 	{
-		Option option = new Option();
+		IOption option = QuestionAbstractFactoryMock.instance().getOption();
 		Assert.isTrue(option.getText().isEmpty());
 		Assert.isTrue(option.getValue().isEmpty());		
 	}
@@ -22,7 +23,7 @@ public class OptionTest
 	@Test
 	public void setTextTest() 
 	{
-		Option option = new Option();
+		IOption option = QuestionAbstractFactoryMock.instance().getOption();
 		String optionText = "Java";
 		
 		option.setText(optionText);
@@ -32,7 +33,7 @@ public class OptionTest
 	@Test
 	public void getTextTest() 
 	{
-		Option option = new Option();
+		IOption option = QuestionAbstractFactoryMock.instance().getOption();
 		String optionText = "PHP";
 		
 		option.setText(optionText);
@@ -42,7 +43,7 @@ public class OptionTest
 	@Test
 	public void setValueTest() 
 	{
-		Option option = new Option();
+		IOption option = QuestionAbstractFactoryMock.instance().getOption();
 		String optionValue = "1";
 		
 		option.setValue(optionValue);
@@ -52,7 +53,7 @@ public class OptionTest
 	@Test
 	public void getValuTest() 
 	{
-		Option option = new Option();
+		IOption option = QuestionAbstractFactoryMock.instance().getOption();
 		String optionValue = "3";
 		
 		option.setValue(optionValue);
